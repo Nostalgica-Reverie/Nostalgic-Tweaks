@@ -138,7 +138,7 @@ public class StaminaData
      *
      * @param amountInTicks The "out of" amount in ticks.
      */
-    private void setStaminaLevel(int amountInTicks)
+    public void setStaminaLevel(int amountInTicks)
     {
         this.staminaLevel = (int) Math.ceil(((double) this.tickTimer / amountInTicks) * 20.0D);
     }
@@ -149,7 +149,7 @@ public class StaminaData
      * @param player The {@link Player} instance to check.
      * @return Whether the player is moving.
      */
-    private boolean isMoving(Player player)
+    public boolean isMoving(Player player)
     {
         double dx = player.getX() - player.xo;
         double dz = player.getZ() - player.zo;
@@ -163,7 +163,7 @@ public class StaminaData
      * @param player The {@link Player} instance.
      * @return Whether the tick is not in half.
      */
-    private boolean isNotHalfRate(Player player)
+    public boolean isNotHalfRate(Player player)
     {
         boolean isHalfRate = false;
         boolean hasHunger = false;
@@ -196,7 +196,7 @@ public class StaminaData
      * @param player The {@link Player} instance to check.
      * @return Whether the player can regain stamina.
      */
-    private boolean canRegain(Player player)
+    public boolean canRegain(Player player)
     {
         if (GameplayTweak.STAMINA_REGAIN_WHEN_MOVING.get() != StaminaRegain.NONE)
             return true;
