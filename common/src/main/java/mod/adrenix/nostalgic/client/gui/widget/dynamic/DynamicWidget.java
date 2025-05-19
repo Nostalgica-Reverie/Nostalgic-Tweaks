@@ -11,6 +11,7 @@ import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.RecursionAvoidance;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
+import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -765,6 +766,18 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     public int getTabOrderGroup()
     {
         return this.tabOrderGroup;
+    }
+
+    /**
+     * This is <b>not</b> the same as {@link #getRectangle()} inasmuch that this method returns a position rectangle
+     * that is used by other mod utilities.
+     *
+     * @return A {@link Rectangle} instance with the widget's current position.
+     */
+    @PublicAPI
+    public Rectangle getPositionRectangle()
+    {
+        return new Rectangle(this.x, this.y, this.getEndX(), this.getEndY());
     }
 
     /**
