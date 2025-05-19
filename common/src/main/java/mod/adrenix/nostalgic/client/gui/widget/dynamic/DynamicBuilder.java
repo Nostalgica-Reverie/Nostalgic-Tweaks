@@ -59,7 +59,7 @@ public abstract class DynamicBuilder<Builder extends DynamicBuilder<Builder, Wid
     protected final UniqueArrayList<Object> attachedData = new UniqueArrayList<>();
 
     /**
-     * Add data to this widget.
+     * Add data to this widget. You can check if a widget has the data by using {@link DynamicWidget#has(Object)}.
      *
      * @param data A data {@link Object} to attach to this widget.
      */
