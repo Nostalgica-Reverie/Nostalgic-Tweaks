@@ -215,6 +215,23 @@ public abstract class ClientEventHandler
 
     /**
      * The mod uses a unique {@link DynamicScreen} system that can perform additional logic during screen events. If the
+     * screen does not handle the key release, then the dynamic interface will perform additional logic.
+     *
+     * @param event The {@link ScreenEvent.KeyReleased.Post} event instance.
+     */
+    @SubscribeEvent
+    public static void keyReleased(ScreenEvent.KeyReleased.Post event)
+    {
+        int keyCode = event.getKeyCode();
+        int scanCode = event.getScanCode();
+        int modifiers = event.getModifiers();
+
+        if (event.getScreen() instanceof DynamicScreen<?> dynamic)
+            event.setCanceled(dynamic.isKeyPressed(keyCode, scanCode, modifiers));
+    }
+
+    /**
+     * The mod uses a unique {@link DynamicScreen} system that can perform additional logic during screen events. If the
      * screen does not handle the mouse click, then the dynamic interface will perform additional logic.
      *
      * @param event The {@link ScreenEvent.MouseButtonPressed.Post} event instance.

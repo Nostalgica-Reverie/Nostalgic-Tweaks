@@ -25,6 +25,21 @@ public interface ContainerEventHandlerMixin
     }
 
     /**
+     * If this implements {@link DynamicScreen} then changes the results based on its key release helper.
+     */
+    @ModifyReturnValue(
+        method = "keyReleased",
+        at = @At("RETURN")
+    )
+    private boolean nt_required$onKeyReleased(boolean isKeyReleased, int keyCode, int scanCode, int modifiers)
+    {
+        if (!isKeyReleased && this instanceof DynamicScreen<?> helper)
+            return helper.isKeyReleased(keyCode, scanCode, modifiers);
+
+        return isKeyReleased;
+    }
+
+    /**
      * If this implements {@link DynamicScreen} then changes the results based on its mouse clicked helper.
      */
     @ModifyReturnValue(

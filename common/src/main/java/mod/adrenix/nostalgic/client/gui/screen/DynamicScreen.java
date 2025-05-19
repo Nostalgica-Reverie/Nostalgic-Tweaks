@@ -109,6 +109,19 @@ public interface DynamicScreen<T extends Screen> extends WidgetHolder, ParentHol
     }
 
     /**
+     * Helper handler method for a keyboard key is released.
+     *
+     * @param keyCode   The key code that was pressed.
+     * @param scanCode  A key scan code.
+     * @param modifiers Key code modifiers.
+     * @return Whether this method handled the event.
+     */
+    default boolean isKeyReleased(int keyCode, int scanCode, int modifiers)
+    {
+        return this.getWidgets().stream().anyMatch(widget -> widget.keyReleased(keyCode, scanCode, modifiers));
+    }
+
+    /**
      * Helper handler method for when the mouse is clicked.
      *
      * @param mouseX The x-position of the mouse.
