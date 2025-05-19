@@ -56,6 +56,19 @@ public abstract class ButtonTemplate
     }
 
     /**
+     * This button provides a template for opening a color picker overlay.
+     *
+     * @param color    A {@link Color} the overlay will manage.
+     * @param isOpaque Whether the given {@link Color} is opaque.
+     * @return A {@link ButtonBuilder} instance.
+     */
+    @PublicAPI
+    public static ButtonBuilder colorPicker(Color color, boolean isOpaque)
+    {
+        return colorPicker(() -> color, picker -> { }, isOpaque);
+    }
+
+    /**
      * This button provides a template for a checkbox button.
      *
      * @param title    The {@link Component} title of the button.
