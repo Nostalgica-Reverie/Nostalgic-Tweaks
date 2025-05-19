@@ -36,6 +36,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     protected final CacheValue<Component> cacheTitle;
     protected final IconManager<Button> iconManager;
     protected final Consumer<Button> onPress;
+    protected boolean scrollingText;
     protected boolean shrunk;
     protected boolean holding;
     protected int textX = 0;
@@ -248,6 +249,15 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     }
 
     /**
+     * @return Whether the button text is currently being scrolled due to width overflow.
+     */
+    @PublicAPI
+    public boolean isScrollingText()
+    {
+        return this.scrollingText;
+    }
+
+    /**
      * Manually perform an on-press action.
      */
     @PublicAPI
@@ -393,16 +403,18 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         this.iconManager.pushCache();
 
         boolean isDefaultBackground = this.builder.backgroundRenderer == null;
+
         int margin = isDefaultBackground ? 3 : 0;
         int endX = this.getEndX() - margin;
         int startX = this.iconManager.isEmpty() ? this.getX() + margin : this.textX;
         int textWidth = GuiUtil.font().width(this.getTitle()) + margin;
-        boolean isScrolling = startX + GuiUtil.font().width(this.getTitle()) > endX;
+
+        this.scrollingText = startX + GuiUtil.font().width(this.getTitle()) > endX;
 
         if (this.builder.renderer != null)
-            isScrolling = false;
+            this.scrollingText = false;
 
-        if (isScrolling)
+        if (this.scrollingText)
         {
             startX = isDefaultBackground ? this.x + 2 + margin : this.iconX;
             endX -= isDefaultBackground ? 3 : 0;
@@ -416,7 +428,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
 
         if (this.iconManager.isPresent())
         {
-            if (!isScrolling)
+            if (!this.scrollingText)
                 this.iconManager.get().pos(this.iconX, this.iconY);
 
             this.iconManager.get().render(graphics, mouseX, mouseY, partialTick);
@@ -427,13 +439,13 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         if (this.scrollAnimator.isMoving())
             this.scrollTimer.reset();
 
-        if (isScrolling && this.scrollTimer.hasElapsed() && this.scrollAnimator.isFinished())
+        if (this.scrollingText && this.scrollTimer.hasElapsed() && this.scrollAnimator.isFinished())
         {
             this.scrollAnimator.setDuration(40L * extraWidth, TimeUnit.MILLISECONDS);
             this.scrollAnimator.playOrRewind();
         }
 
-        if (this.iconManager.isEmpty() && !isScrolling)
+        if (this.iconManager.isEmpty() && !this.scrollingText)
         {
             DrawText.begin(graphics, this.getTitle())
                 .pos(this.textX, this.textY)
@@ -443,7 +455,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         }
         else
         {
-            if (isScrolling)
+            if (this.scrollingText)
             {
                 final int scissorX = startX;
                 final int scissorEndX = endX;
