@@ -500,8 +500,8 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      * @param mouseX The current x-coordinate of the mouse.
      * @param mouseY The current y-coordinate of the mouse.
      * @param button The mouse button that was clicked.
-     * @param dragX  The new dragged offset x-coordinate from the mouse.
-     * @param dragY  The new dragged offset y-coordinate from the mouse.
+     * @param dragX  The x-distance of the drag.
+     * @param dragY  The y-distance of the drag.
      * @return Whether this method handled the event.
      */
     @Override
