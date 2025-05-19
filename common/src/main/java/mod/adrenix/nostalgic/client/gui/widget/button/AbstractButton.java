@@ -15,6 +15,7 @@ import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.CacheValue;
+import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import mod.adrenix.nostalgic.util.common.timer.SimpleTimer;
@@ -263,6 +264,36 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     @PublicAPI
     public void onPress()
     {
+        if (this.holding)
+            return;
+
+        if (this.getBuilder().holdTimer != null)
+        {
+            FlagHolder isFocused = new FlagHolder(this.isFocused());
+
+            if (this.canFocus())
+                this.setFocused();
+
+            this.holding = true;
+
+            ClientTimer.getInstance().run(this.getBuilder().holdTimer, () -> {
+                this.holding = false;
+
+                if (this.getBuilder().useClickSound)
+                    GuiUtil.playClick();
+
+                if (this.isFocused() && !isFocused.get())
+                    this.setUnfocused();
+
+                this.onPress.accept(this.self());
+            });
+
+            return;
+        }
+
+        if (this.getBuilder().useClickSound)
+            GuiUtil.playClick();
+
         this.onPress.accept(this.self());
     }
 
@@ -277,22 +308,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
 
         if (this.isValidClick(mouseX, mouseY, button))
         {
-            if (this.getBuilder().holdTimer != null)
-            {
-                ClientTimer.getInstance().run(this.getBuilder().holdTimer, () -> {
-                    if (this.getBuilder().useClickSound)
-                        GuiUtil.playClick();
-
-                    this.onPress.accept(this.self());
-                });
-
-                return true;
-            }
-
-            if (this.getBuilder().useClickSound)
-                GuiUtil.playClick();
-
-            this.onPress.accept(this.self());
+            this.onPress();
 
             return true;
         }
@@ -306,18 +322,16 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button)
     {
-        if (this.isInactive() || this.isInvisible())
+        boolean isValidClick = this.isValidClick(mouseX, mouseY, button);
+
+        if (this.holding || this.isInactive() || this.isInvisible())
         {
+            this.holding = false;
+            
             if (this.getBuilder().holdTimer != null)
                 ClientTimer.getInstance().cancel(this.getBuilder().holdTimer);
 
-            return false;
-        }
-
-        if (this.isValidClick(mouseX, mouseY, button) && this.getBuilder().holdTimer != null)
-        {
-            ClientTimer.getInstance().cancel(this.getBuilder().holdTimer);
-            return true;
+            return isValidClick;
         }
 
         return super.mouseReleased(mouseX, mouseY, button);
@@ -337,24 +351,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
 
         if (KeyboardUtil.isEnterLike(keyCode))
         {
-            if (this.getBuilder().holdTimer != null)
-            {
-                this.holding = true;
-
-                ClientTimer.getInstance().run(this.getBuilder().holdTimer, () -> {
-                    if (this.getBuilder().useClickSound)
-                        GuiUtil.playClick();
-
-                    this.onPress.accept(this.self());
-                });
-
-                return true;
-            }
-
-            if (this.getBuilder().useClickSound)
-                GuiUtil.playClick();
-
-            this.onPress.accept(this.self());
+            this.onPress();
 
             return true;
         }
@@ -368,22 +365,16 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers)
     {
-        if (this.isInactive() || this.isInvisible() || this.isUnfocused())
+        if (this.holding || this.isInactive() || this.isInvisible() || this.isUnfocused())
         {
+            boolean wasHolding = this.holding;
+
             this.holding = false;
 
             if (this.getBuilder().holdTimer != null)
                 ClientTimer.getInstance().cancel(this.getBuilder().holdTimer);
 
-            return false;
-        }
-
-        if (KeyboardUtil.isEnterLike(keyCode) && this.getBuilder().holdTimer != null)
-        {
-            ClientTimer.getInstance().cancel(this.getBuilder().holdTimer);
-
-            this.holding = false;
-            return true;
+            return wasHolding;
         }
 
         return super.keyReleased(keyCode, scanCode, modifiers);
