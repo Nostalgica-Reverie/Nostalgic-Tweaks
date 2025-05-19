@@ -36,8 +36,8 @@ public abstract class ButtonTemplate
             .tooltip(Lang.Picker.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
             .onPress(() -> ColorPicker.create(color.get(), onClose).opaque(isOpaque).open())
             .postRenderer((button, graphics, mouseX, mouseY, partialTick) -> {
-                int iconX = button.getIconX();
-                int iconY = button.getIconY();
+                int iconX = button.getIconManager().get().getX();
+                int iconY = button.getIconManager().get().getY();
                 Color fill = color.get();
 
                 RenderUtil.beginBatching();
