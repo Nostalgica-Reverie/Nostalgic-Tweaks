@@ -192,6 +192,8 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget>
         {
             GuiUtil.playClick();
             this.onPress.run();
+
+            return true;
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
