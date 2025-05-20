@@ -162,7 +162,12 @@ public abstract class EnhancedScreen<T extends EnhancedScreen<T, W>, W extends W
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        return super.mouseClicked(mouseX, mouseY, button);
+        boolean isMouseClicked = super.mouseClicked(mouseX, mouseY, button);
+
+        if (this.getFocused() instanceof DynamicWidget<?, ?> dynamic && !dynamic.canFocusOnClick())
+            dynamic.setFocused(false);
+
+        return isMouseClicked;
     }
 
     /**

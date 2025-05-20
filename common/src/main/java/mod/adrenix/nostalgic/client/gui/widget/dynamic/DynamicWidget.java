@@ -625,8 +625,16 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     @PublicAPI
     public void setClickFocus()
     {
-        if (this.getBuilder().focusOnClick)
-            this.setFocused(true);
+        this.setFocused(this.getBuilder().focusOnClick);
+    }
+
+    /**
+     * @return Whether this widget can be focused due to a mouse click event.
+     */
+    @PublicAPI
+    public boolean canFocusOnClick()
+    {
+        return this.getBuilder().focusOnClick;
     }
 
     /**
