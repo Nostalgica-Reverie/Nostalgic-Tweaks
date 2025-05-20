@@ -37,4 +37,16 @@ public record Rectangle(int startX, int startY, int endX, int endY)
     {
         return MathUtil.isWithinBox(mouseX, mouseY, this.startX, this.startY, this.getWidth(), this.getHeight());
     }
+
+    /**
+     * Check if two rectangles intersect at any point.
+     *
+     * @param rect1 The first {@link Rectangle} to check.
+     * @param rect2 The second {@link Rectangle} to check.
+     * @return Whether the two given rectangles intersect anywhere.
+     */
+    public static boolean intersect(Rectangle rect1, Rectangle rect2)
+    {
+        return rect1.endX >= rect2.startX && rect2.endX >= rect1.startX && rect1.endY >= rect2.startY && rect2.endY >= rect1.startY;
+    }
 }
