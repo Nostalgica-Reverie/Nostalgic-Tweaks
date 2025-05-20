@@ -7,6 +7,7 @@ import mod.adrenix.nostalgic.client.gui.tooltip.Tooltip;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.renderer.RenderPass;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
+import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.RecursionAvoidance;
@@ -26,7 +27,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widget>, Widget extends DynamicWidget<Builder, Widget>>
     implements Renderable, GuiEventListener, LayoutElement
@@ -1146,6 +1149,19 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     }
 
     /**
+     * Render instructions for the widget.
+     *
+     * @param graphics    The {@link GuiGraphics} object used for rendering.
+     * @param mouseX      The x-coordinate of the mouse cursor.
+     * @param mouseY      The y-coordinate of the mouse cursor.
+     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     */
+    @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
+    {
+    }
+
+    /**
      * Check if this widget has the given data.
      *
      * @param data A data {@link Object} instance.
@@ -1158,16 +1174,30 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     }
 
     /**
-     * Render instructions for the widget.
+     * Check if this widget has the given data, and if so, is yielded back in an {@link Optional}.
      *
-     * @param graphics    The {@link GuiGraphics} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param data A data {@link Object} instance.
+     * @param <T>  The class type of the data.
+     * @return An {@link Optional} containing the passed data argument if it was attached to this widget.
      */
-    @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
+    @PublicAPI
+    @SuppressWarnings("unchecked") // Object#equals is used, and therefore, types must be equivalent
+    public <T> Optional<T> maybeHas(T data)
     {
+        return (Optional<T>) this.builder.attachedData.stream().filter(obj -> obj.equals(data)).findFirst();
+    }
+
+    /**
+     * Find data attachments that match the given class type.
+     *
+     * @param data A data {@link Class} type.
+     * @param <T>  The class type of the data to search for.
+     * @return A {@link Stream} of objects that are instances of the given data class type.
+     */
+    @PublicAPI
+    public <T> Stream<T> find(Class<T> data)
+    {
+        return CollectionUtil.fromCast(this.builder.attachedData, data);
     }
 
     /**
