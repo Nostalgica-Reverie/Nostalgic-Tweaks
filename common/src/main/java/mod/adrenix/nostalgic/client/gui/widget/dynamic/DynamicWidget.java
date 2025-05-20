@@ -117,6 +117,7 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     protected boolean active = true;
     protected boolean visible = true;
     protected boolean focused = false;
+    protected boolean overrideFocus = false;
     protected final Builder builder;
     protected final RenderPass renderPass;
     @Nullable protected Screen screen;
@@ -605,6 +606,25 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     }
 
     /**
+     * Manually override any builder context options that prevent a widget from being focused. Use with caution as this
+     * may cause unexpected side effects.
+     *
+     * @param focused Whether this widget should absolutely be focused.
+     */
+    @PublicAPI
+    public void setOverrideFocused(boolean focused)
+    {
+        this.focused = focused;
+        this.overrideFocus = focused;
+
+        if (this.builder.whenFocused != null && focused)
+            this.builder.whenFocused.accept(this.builder.widget.get());
+
+        if (this.getScreen() != null)
+            this.getScreen().setFocused(this);
+    }
+
+    /**
      * Set this widget as focused.
      */
     @PublicAPI
@@ -646,6 +666,9 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     @PublicAPI
     public boolean canFocus()
     {
+        if (this.overrideFocus)
+            return true;
+
         return this.getBuilder().canFocus.getAsBoolean();
     }
 
