@@ -64,9 +64,6 @@ public class GridBuilder extends DynamicBuilder<GridBuilder, Grid>
 
         cell.getBuilder().grid = this.widget;
 
-        if (this.useWidgetHeight)
-            cell.getBuilder().useWidgetHeight();
-
         if (this.widget.isPresent())
             this.widget.getOrThrow().alignCells();
 
@@ -88,6 +85,22 @@ public class GridBuilder extends DynamicBuilder<GridBuilder, Grid>
     }
 
     /**
+     * Begin the process of making a new cell.
+     *
+     * @param widget The {@link DynamicWidget} this cell will maintain.
+     * @return A new {@link CellBuilder} instance.
+     */
+    private CellBuilder makeCell(DynamicWidget<?, ?> widget)
+    {
+        CellBuilder builder = Cell.create(widget);
+
+        if (this.useWidgetHeight)
+            builder.height(() -> widget.getHeight() + builder.paddingTop + builder.paddingBottom);
+
+        return builder;
+    }
+
+    /**
      * Add a widget to the grid. The padding within the cell will use the properties set by {@link #cellPadding(int)}.
      *
      * @param widget A {@link DynamicWidget} instance.
@@ -95,7 +108,7 @@ public class GridBuilder extends DynamicBuilder<GridBuilder, Grid>
     @PublicAPI
     public GridBuilder addCell(DynamicWidget<?, ?> widget)
     {
-        return this.addCell(Cell.create(widget).padding(this.cellPadding).build());
+        return this.addCell(this.makeCell(widget).padding(this.cellPadding).build());
     }
 
     /**
@@ -107,7 +120,7 @@ public class GridBuilder extends DynamicBuilder<GridBuilder, Grid>
     @PublicAPI
     public GridBuilder addCell(DynamicWidget<?, ?> widget, int padding)
     {
-        return this.addCell(Cell.create(widget).padding(padding).build());
+        return this.addCell(this.makeCell(widget).padding(padding).build());
     }
 
     /**
@@ -122,7 +135,9 @@ public class GridBuilder extends DynamicBuilder<GridBuilder, Grid>
     @PublicAPI
     public GridBuilder addCell(DynamicWidget<?, ?> widget, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom)
     {
-        return this.addCell(Cell.create(widget).padding(paddingLeft, paddingTop, paddingRight, paddingBottom).build());
+        return this.addCell(this.makeCell(widget)
+            .padding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+            .build());
     }
 
     /**

@@ -2,7 +2,6 @@ package mod.adrenix.nostalgic.client.gui.widget.grid;
 
 import mod.adrenix.nostalgic.client.gui.PaddingManager;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.*;
-import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.function.BooleanSupplier;
 
@@ -33,20 +32,6 @@ public class CellBuilder extends DynamicBuilder<CellBuilder, Cell>
     }
 
     /* Methods */
-
-    /**
-     * Use the widget's height for the cell.
-     */
-    @PublicAPI
-    public CellBuilder useWidgetHeight()
-    {
-        this.useWidgetHeight = true;
-
-        this.resetHeight();
-        this.height(() -> this.widget.getHeight() + this.paddingTop + this.paddingBottom);
-
-        return this;
-    }
 
     /**
      * Set the padding between the widget and the top of this cell.
