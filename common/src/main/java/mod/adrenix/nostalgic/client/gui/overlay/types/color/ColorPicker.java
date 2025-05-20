@@ -141,6 +141,17 @@ public class ColorPicker
         return new Builder(color, onClose);
     }
 
+    /**
+     * Start the process of building a new {@link ColorPicker} overlay.
+     *
+     * @param color The {@link Color} instance this overlay will manage.
+     * @return A new {@link ColorPicker.Builder} instance.
+     */
+    public static Builder create(Color color)
+    {
+        return new Builder(color, picker -> { });
+    }
+
     public static class Builder
     {
         private final Color color;
