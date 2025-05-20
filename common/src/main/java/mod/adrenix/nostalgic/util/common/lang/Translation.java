@@ -34,6 +34,17 @@ public record Translation(String langKey)
     }
 
     /**
+     * Get the translation component for this lang key that is void of any formatting.
+     *
+     * @param args Any additional arguments that need passed to the translatable language file definition.
+     * @return A {@link MutableComponent} translation.
+     */
+    public MutableComponent plainCopy(Object... args)
+    {
+        return Component.literal(this.get(args).getString().replaceAll("§[a-f0-9k-or]", ""));
+    }
+
+    /**
      * Get the translation string for this lang key.
      *
      * @param args Any additional arguments that need passed to the translatable language file definition.
