@@ -63,6 +63,7 @@ public class Grid extends DynamicWidget<GridBuilder, Grid>
 
     private final UniqueArrayList<Cell> cells;
 
+    protected boolean isAlignmentPaused = false;
     protected boolean isRealignNeeded = false;
     protected int cellsPerRow = 0;
 
@@ -154,6 +155,36 @@ public class Grid extends DynamicWidget<GridBuilder, Grid>
     }
 
     /**
+     * Pause cell alignment. This is useful in situations where a lot of cells are being added at a time. For example,
+     * run this method add a lot of cells, then {@link #resumeAlignment()}.
+     */
+    @PublicAPI
+    public void pauseAlignment()
+    {
+        this.isAlignmentPaused = true;
+    }
+
+    /**
+     * Resume cell alignment.
+     *
+     * @see #pauseAlignment()
+     */
+    @PublicAPI
+    public void resumeAlignment()
+    {
+        this.isAlignmentPaused = false;
+    }
+
+    /**
+     * @return The number of cells subscribed to this grid widget.
+     */
+    @PublicAPI
+    public int size()
+    {
+        return this.cells.size();
+    }
+
+    /**
      * Get a stream of widgets from a row.
      *
      * @param row A {@link List} of {@link Cell}.
@@ -181,9 +212,12 @@ public class Grid extends DynamicWidget<GridBuilder, Grid>
      */
     void alignCells()
     {
+        if (this.isAlignmentPaused)
+            return;
+
         this.cells.stream().map(Cell::getBuilder).forEach(CellBuilder::resetLayout);
 
-        final int cellsPerRow = this.builder.cellsPerRow.applyAsInt(this);
+        final int cellsPerRow = Math.max(this.builder.cellsPerRow.applyAsInt(this), 1);
         final int rowSpacing = this.builder.rowSpacing.applyAsInt(this);
         final int columnSpacing = this.builder.columnSpacing.applyAsInt(this);
         final int rowWidth = this.getWidth() - (columnSpacing * (cellsPerRow - 1));
