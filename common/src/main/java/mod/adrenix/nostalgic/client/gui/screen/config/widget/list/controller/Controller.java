@@ -65,6 +65,10 @@ public class Controller
      */
     public DynamicWidget<?, ?> create()
     {
+        // Custom
+        if (this.tweak instanceof TweakCustom custom)
+            return new CustomController(this, custom).getWidget();
+
         // Boolean
         if (this.tweak instanceof TweakFlag flag)
             return new BooleanController(this, flag).getWidget();
