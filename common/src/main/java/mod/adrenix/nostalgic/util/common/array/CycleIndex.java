@@ -9,6 +9,7 @@ public class CycleIndex
 
     private final int minIndex;
     private final int maxIndex;
+    private int startIndex;
     private int lastIndex;
     private int currentIndex;
     private boolean movingForward;
@@ -28,7 +29,8 @@ public class CycleIndex
     {
         this.minIndex = minIndex;
         this.maxIndex = maxIndex;
-        this.currentIndex = Mth.clamp(startIndex, minIndex, maxIndex);
+        this.startIndex = Mth.clamp(startIndex, minIndex, maxIndex);
+        this.currentIndex = this.startIndex;
         this.lastIndex = this.currentIndex;
         this.resetAtEnd = resetAtEnd;
         this.movingForward = true;
@@ -171,5 +173,26 @@ public class CycleIndex
     public void setResetAtEnd(boolean state)
     {
         this.resetAtEnd = state;
+    }
+
+    /**
+     * Change the starting index for the cycle. The index will be clamped between the minimum and maximum index.
+     *
+     * @param index The new starting index.
+     */
+    @PublicAPI
+    public void setStartIndex(int index)
+    {
+        this.startIndex = Mth.clamp(index, this.minIndex, this.maxIndex);
+    }
+
+    /**
+     * Reset the cycle back to the original starting index.
+     */
+    @PublicAPI
+    public void restart()
+    {
+        this.currentIndex = this.startIndex;
+        this.lastIndex = this.currentIndex;
     }
 }
