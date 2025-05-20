@@ -11,6 +11,18 @@ package mod.adrenix.nostalgic.util.common.math;
 public record Rectangle(int startX, int startY, int endX, int endY)
 {
     /**
+     * Create a new instance using a given point instead of bounds.
+     *
+     * @param pointX The x-coordinate.
+     * @param pointY The y-coordinate.
+     * @return A point {@link Rectangle} instance.
+     */
+    public static Rectangle fromPoint(int pointX, int pointY)
+    {
+        return new Rectangle(pointX, pointY, pointX, pointY);
+    }
+
+    /**
      * @return The absolute width of this rectangle.
      */
     public int getWidth()
