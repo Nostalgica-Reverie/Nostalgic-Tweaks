@@ -137,6 +137,7 @@ public abstract class TweakPool
     {
         return TweakPool.filter(predicates)
             .filter(tweak -> ClassUtil.isNotInstanceOf(tweak, TweakBinding.class))
+            .filter(tweak -> ClassUtil.isNotInstanceOf(tweak, TweakCustom.class))
             .filter(tweak -> tweak.getCategory() != Category.ROOT)
             .filter(tweak -> tweak.getCategory() != Category.MOD)
             .filter(Tweak::isNotIgnored)

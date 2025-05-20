@@ -17,6 +17,7 @@ import mod.adrenix.nostalgic.tweak.TweakContext;
 import mod.adrenix.nostalgic.tweak.factory.Tweak;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
+import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
 import mod.adrenix.nostalgic.util.common.data.IntegerHolder;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
@@ -115,6 +116,22 @@ public class TweakRowLayout
             .enableIf(CollectionUtil.areAllTrue(this.tweak::isCurrentCacheSavable, this.tweak::isNetworkUnlocked))
             .build(this.row::addWidget);
 
+        // This is defined here, so it can be referenced by controller rows later
+        this.status = ButtonWidget.create()
+            .onPress(() -> new StatusOverlay(this.tweak).open())
+            .icon(() -> TweakContext.from(this.tweak).getIcon(this.isFlashing()))
+            .tooltip(Lang.Button.STATUS, 700L, TimeUnit.MILLISECONDS)
+            .infoTooltip(Lang.TweakRow.STATUS, 40)
+            .build();
+
+        // This is defined here, so it can be referenced by controller rows later
+        this.favorite = ButtonWidget.create()
+            .onPress(() -> FavoriteTweak.toggle(this.tweak))
+            .icon(() -> FavoriteTweak.isPresent(this.tweak) ? Icons.STAR_ON : Icons.STAR_OFF)
+            .tooltip(Lang.Button.FAVORITE, 700L, TimeUnit.MILLISECONDS)
+            .infoTooltip(Lang.supply(() -> FavoriteTweak.isAbsent(this.tweak), Lang.TweakRow.STAR, Lang.TweakRow.STAR_OFF), 40)
+            .build();
+
         // This field needs updated if the first widget to the right of tweak controller changes
         this.startOfRightSide = this.save;
 
@@ -139,22 +156,11 @@ public class TweakRowLayout
             .leftOf(this.picker.orElse(controller), 1)
             .build(this.row::addWidget);
 
-        this.status = ButtonWidget.create()
-            .onPress(() -> new StatusOverlay(this.tweak).open())
-            .icon(() -> TweakContext.from(this.tweak).getIcon(this.isFlashing()))
-            .tooltip(Lang.Button.STATUS, 700L, TimeUnit.MILLISECONDS)
-            .infoTooltip(Lang.TweakRow.STATUS, 40)
-            .leftOf(this.cache, 1)
-            .build(this.row::addWidget);
+        this.status.getBuilder().leftOf(this.cache, 1);
+        this.favorite.getBuilder().leftOf(this.status, 1);
 
-        this.favorite = ButtonWidget.create()
-            .onPress(() -> FavoriteTweak.toggle(this.tweak))
-            .icon(() -> FavoriteTweak.isPresent(this.tweak) ? Icons.STAR_ON : Icons.STAR_OFF)
-            .tooltip(Lang.Button.FAVORITE, 700L, TimeUnit.MILLISECONDS)
-            .infoTooltip(Lang.supply(() -> FavoriteTweak.isAbsent(this.tweak), Lang.TweakRow.STAR, Lang.TweakRow.STAR_OFF), 40)
-            .leftOf(this.status, 1)
-            .build(this.row::addWidget);
-
+        this.row.addWidget(this.status);
+        this.row.addWidget(this.favorite);
         this.title.getBuilder().extendWidthTo(this.favorite, 3);
 
         this.setTabOrder();
@@ -190,8 +196,27 @@ public class TweakRowLayout
     }
 
     /**
+     * @return The favorite {@link ButtonWidget}.
+     */
+    @PublicAPI
+    public ButtonWidget getFavorite()
+    {
+        return this.favorite;
+    }
+
+    /**
+     * @return The status {@link ButtonWidget}.
+     */
+    @PublicAPI
+    public ButtonWidget getStatus()
+    {
+        return this.status;
+    }
+
+    /**
      * @return The save {@link ButtonWidget}.
      */
+    @PublicAPI
     public ButtonWidget getSave()
     {
         return this.save;
@@ -200,6 +225,7 @@ public class TweakRowLayout
     /**
      * @return The undo {@link ButtonWidget}.
      */
+    @PublicAPI
     public ButtonWidget getUndo()
     {
         return this.undo;
@@ -208,6 +234,7 @@ public class TweakRowLayout
     /**
      * @return The reset {@link ButtonWidget}.
      */
+    @PublicAPI
     public ButtonWidget getReset()
     {
         return this.reset;
@@ -216,6 +243,7 @@ public class TweakRowLayout
     /**
      * @return The modern {@link ButtonWidget}.
      */
+    @PublicAPI
     public ButtonWidget getModern()
     {
         return this.modern;
