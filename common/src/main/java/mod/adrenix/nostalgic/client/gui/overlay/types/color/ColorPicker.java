@@ -55,7 +55,7 @@ public class ColorPicker
         this.overlay = Overlay.create(Lang.Picker.TITLE)
             .resizeForWidgets()
             .infoMessage(Lang.Picker.HINT)
-            .icon(Icons.COLOR_WHEEL)
+            .icon(Icons.SMALL_COLOR_WHEEL)
             .padding(PADDING)
             .onClose(() -> this.onClose.accept(this))
             .build();

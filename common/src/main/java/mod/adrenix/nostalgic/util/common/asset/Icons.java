@@ -7,6 +7,7 @@ public interface Icons
     TextureIcon BUG_COLOR = TextureIcon.fromSprite("bug_color", 12);
     TextureIcon BUG_EXTRA = TextureIcon.fromSprite("bug_extra", 12);
     TextureIcon DEBUG_CHART = TextureIcon.fromSprite("debug_chart", 12);
+    TextureIcon COLOR_WHEEL = TextureIcon.fromSprite("color_wheel", 12);
     TextureIcon UNDO = TextureIcon.fromSprite("undo", 12);
     TextureIcon UNDO_HOVER = TextureIcon.fromSprite("undo_hover", 12);
     TextureIcon REDO_HOVER = TextureIcon.fromSprite("redo_hover", 12);
@@ -119,7 +120,7 @@ public interface Icons
     TextureIcon THREE_DOTS = TextureIcon.fromSprite("three_dots", 9);
     TextureIcon THREE_DOTS_HOVER = TextureIcon.fromSprite("three_dots_hover", 9);
     TextureIcon THREE_DOTS_OFF = TextureIcon.fromSprite("three_dots_off", 9);
-    TextureIcon COLOR_WHEEL = TextureIcon.fromSprite("color_wheel", 9);
+    TextureIcon SMALL_COLOR_WHEEL = TextureIcon.fromSprite("small_color_wheel", 9);
     TextureIcon SMALL_RED_WARNING = TextureIcon.fromSprite("small_red_warning", 9);
     TextureIcon SMALL_WARNING = TextureIcon.fromSprite("small_warning", 9);
     TextureIcon SMALL_SEARCH = TextureIcon.fromSprite("small_search", 9);
