@@ -9,6 +9,7 @@ import mod.adrenix.nostalgic.util.client.renderer.RenderPass;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
+import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.RecursionAvoidance;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
@@ -1207,6 +1208,17 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     public <T> Optional<T> maybeHas(T data)
     {
         return (Optional<T>) this.builder.attachedData.stream().filter(obj -> obj.equals(data)).findFirst();
+    }
+
+    /**
+     * Get the attached data associated with this widget.
+     *
+     * @return A {@link UniqueArrayList} of all attached {@link Object} data.
+     */
+    @PublicAPI
+    public UniqueArrayList<Object> getAttachments()
+    {
+        return this.builder.attachedData;
     }
 
     /**
