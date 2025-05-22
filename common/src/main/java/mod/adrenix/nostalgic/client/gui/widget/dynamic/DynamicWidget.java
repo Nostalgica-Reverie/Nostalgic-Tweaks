@@ -1199,13 +1199,13 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     /**
      * Check if this widget has the given data, and if so, is yielded back in an {@link Optional}.
      *
-     * @param data A data {@link Object} instance.
+     * @param data A data {@link Object} instance, or {@code null}.
      * @param <T>  The class type of the data.
      * @return An {@link Optional} containing the passed data argument if it was attached to this widget.
      */
     @PublicAPI
     @SuppressWarnings("unchecked") // Object#equals is used, and therefore, types must be equivalent
-    public <T> Optional<T> maybeHas(T data)
+    public <T> Optional<T> maybeHas(@Nullable T data)
     {
         return (Optional<T>) this.builder.attachedData.stream().filter(obj -> obj.equals(data)).findFirst();
     }
