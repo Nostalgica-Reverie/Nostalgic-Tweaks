@@ -40,6 +40,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Overlay extends Screen implements RelativeLayout, WidgetHolder, ParentHolder, TooltipManager, GuiOffset
@@ -53,7 +54,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     public static OverlayBuilder create()
     {
-        return new OverlayBuilder(Lang.EMPTY.get());
+        return new OverlayBuilder(Lang.EMPTY::get);
     }
 
     /**
@@ -64,7 +65,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     public static OverlayBuilder create(Component title)
     {
-        return new OverlayBuilder(title);
+        return new OverlayBuilder(() -> title);
     }
 
     /**
@@ -75,7 +76,18 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     public static OverlayBuilder create(Translation langKey)
     {
-        return new OverlayBuilder(langKey.get());
+        return new OverlayBuilder(langKey::get);
+    }
+
+    /**
+     * Start the creation of a new overlay instance.
+     *
+     * @param title The {@link Supplier} that provides the {@link Component} to show on overlay header.
+     * @return A new {@link OverlayBuilder} instance.
+     */
+    public static OverlayBuilder create(Supplier<Component> title)
+    {
+        return new OverlayBuilder(title);
     }
 
     /* Fields */
@@ -102,7 +114,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
 
     Overlay(OverlayBuilder builder)
     {
-        super(builder.title);
+        super(builder.title.get());
 
         this.builder = builder;
         this.widgets = builder.widgets;

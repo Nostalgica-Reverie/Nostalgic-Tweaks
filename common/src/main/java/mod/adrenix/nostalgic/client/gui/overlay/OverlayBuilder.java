@@ -18,17 +18,14 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashSet;
-import java.util.function.Consumer;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-import java.util.function.ToIntFunction;
+import java.util.function.*;
 
 public class OverlayBuilder
 {
     /* Fields */
 
     @Nullable final Screen parent;
-    final Component title;
+    final Supplier<Component> title;
     final OverlayWidgets widgets;
     final LinkedHashSet<Consumer<Overlay>> closingInstructions;
     final LinkedHashSet<Consumer<Overlay>> onTickInstructions;
@@ -72,7 +69,7 @@ public class OverlayBuilder
 
     /* Constructor */
 
-    OverlayBuilder(Component title)
+    OverlayBuilder(Supplier<Component> title)
     {
         this.widgets = new OverlayWidgets();
         this.closingInstructions = new LinkedHashSet<>();
