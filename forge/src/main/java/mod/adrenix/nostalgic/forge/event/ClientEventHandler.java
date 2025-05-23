@@ -227,7 +227,7 @@ public abstract class ClientEventHandler
         int modifiers = event.getModifiers();
 
         if (event.getScreen() instanceof DynamicScreen<?> dynamic)
-            event.setCanceled(dynamic.isKeyPressed(keyCode, scanCode, modifiers));
+            event.setCanceled(dynamic.isKeyReleased(keyCode, scanCode, modifiers));
     }
 
     /**
