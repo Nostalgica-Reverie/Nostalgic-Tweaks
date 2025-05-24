@@ -441,6 +441,8 @@ public class ClientConfig implements ConfigMeta
         // Title Screen Logo
 
         public boolean oldAlphaLogo = CandyTweak.OLD_ALPHA_LOGO.register("oldAlphaLogo");
+        public boolean useCustomFallingLogo = CandyTweak.USE_CUSTOM_FALLING_LOGO.register("useCustomFallingLogo");
+        public Object fallingLogoEditor = CandyTweak.FALLING_LOGO_EDITOR.register("fallingLogoEditor");
 
         // Title Screen Buttons
 

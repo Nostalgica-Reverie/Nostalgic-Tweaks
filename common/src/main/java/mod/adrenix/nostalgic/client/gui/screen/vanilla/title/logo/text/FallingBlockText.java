@@ -1,4 +1,4 @@
-package mod.adrenix.nostalgic.client.gui.screen.vanilla.title;
+package mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.text;
 
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.asset.ModAsset;
@@ -15,25 +15,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NostalgicLogoText extends SimplePreparableReloadListener<List<String>>
+public class FallingBlockText extends SimplePreparableReloadListener<List<String>>
 {
     /* Fields */
 
     public static final FlagHolder LOGO_CHANGED = FlagHolder.off();
     private static final ResourceLocation LOGO_LOCATION = ModAsset.get("texts/logo.txt");
-    private static final NostalgicLogoText SINGLETON = new NostalgicLogoText();
+    private static final FallingBlockText SINGLETON = new FallingBlockText();
     private final List<String> lines = new ArrayList<>();
 
     /* Singleton */
 
-    public static NostalgicLogoText getInstance()
+    public static FallingBlockText getInstance()
     {
         return SINGLETON;
     }
 
     /* Constructor */
 
-    private NostalgicLogoText()
+    private FallingBlockText()
     {
     }
 

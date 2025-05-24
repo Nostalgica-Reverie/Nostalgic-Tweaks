@@ -3,6 +3,7 @@ package mod.adrenix.nostalgic.util.common.lang;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import net.minecraft.network.chat.Component;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public interface Lang
@@ -354,6 +355,7 @@ public interface Lang
         Translation DOWNLOAD = from("download");
         Translation RECONNECT = from("reconnect");
         Translation SUGGESTIONS = from("suggestions");
+        Translation OPEN_EDITOR = from("open_editor");
         Translation MENU_OPTIONS = from("menu_options");
         Translation IMPORT_AND_EXPORT = from("import_and_export");
         Translation SERVER_OPERATIONS = from("server_operations");
@@ -470,6 +472,122 @@ public interface Lang
         private static Translation from(String name)
         {
             return new Translation("gui.nostalgic_tweaks.tooltip." + name);
+        }
+    }
+
+    /**
+     * Lang keys that are used by the falling block logo editor.
+     */
+    interface Logo
+    {
+        Translation READ_ERROR = logo("read_error");
+        Translation READ_ERROR_INFO = logo("read_error_info");
+        Translation RESET_CONFIG = logo("reset_config");
+        Translation QUIT_DISCARD = logo("quit_discard");
+        Translation UP = logo("up");
+        Translation UP_TOOLTIP = logo("up.tooltip");
+        Translation DOWN = logo("down");
+        Translation DOWN_TOOLTIP = logo("down.tooltip");
+        Translation PLAY = logo("play");
+        Translation PLAY_TOOLTIP = logo("play.tooltip");
+        Translation UNDO = logo("undo");
+        Translation UNDO_TOOLTIP = logo("undo.tooltip");
+        Translation REDO = logo("redo");
+        Translation REDO_TOOLTIP = logo("redo.tooltip");
+        Translation HELP = logo("help");
+        Translation HELP_TOOLTIP = logo("help.tooltip");
+        Translation HELP_UNDERLINE = logo("help.underline");
+        Translation SELECT_BLOCK = logo("select_block");
+        Translation BLOCK = logo("block");
+        Translation BLOCK_TOOLTIP = logo("block.tooltip");
+        Translation BLOCK_UNDERLINE = logo("block.underline");
+        Translation SHADOW = logo("shadow");
+        Translation SOUND_ON = logo("sound.on");
+        Translation SOUND_OFF = logo("sound.off");
+        Translation SOUND_ON_UNDERLINE = logo("sound.on.underline");
+        Translation SOUND_OFF_UNDERLINE = logo("sound.off.underline");
+        Translation SOUND_TOOLTIP = logo("sound.tooltip");
+        Translation DRAW_TOOL = logo("draw_tool");
+        Translation DRAW_TOOL_UNDERLINE = logo("draw_tool.underline");
+        Translation DRAW_TOOL_TOOLTIP = logo("draw_tool.tooltip");
+        Translation PICK_TOOL = logo("pick_tool");
+        Translation PICK_TOOL_UNDERLINE = logo("pick_tool.underline");
+        Translation PICK_TOOL_TOOLTIP = logo("pick_tool.tooltip");
+        Translation SELECT_TOOL = logo("select_tool");
+        Translation SELECT_TOOL_UNDERLINE = logo("select_tool.underline");
+        Translation SELECT_TOOL_TOOLTIP = logo("select_tool.tooltip");
+        Translation MOVEIT_TOOL = logo("moveit_tool");
+        Translation MOVEIT_TOOL_UNDERLINE = logo("moveit_tool.underline");
+        Translation MOVEIT_TOOL_TOOLTIP = logo("moveit_tool.tooltip");
+        Translation ERASER_TOOL = logo("eraser_tool");
+        Translation ERASER_TOOL_UNDERLINE = logo("eraser_tool.underline");
+        Translation ERASER_TOOL_TOOLTIP = logo("eraser_tool.tooltip");
+        Translation FILTER_SELECTION = logo("filter_selection");
+        Translation FILTER_SELECTION_UNDERLINE = logo("filter_selection.underline");
+        Translation FILTER_SELECTION_TOOLTIP = logo("filter_selection.tooltip");
+        Translation APPLY_SELECTION = logo("apply_selection");
+        Translation APPLY_SELECTION_UNDERLINE = logo("apply_selection.underline");
+        Translation APPLY_SELECTION_TOOLTIP = logo("apply_selection.tooltip");
+        Translation CLEAR_CANVAS = logo("clear_canvas");
+        Translation CLEAR_CANVAS_UNDERLINE = logo("clear_canvas.underline");
+        Translation CLEAR_CANVAS_TOOLTIP = logo("clear_canvas.tooltip");
+        Translation OPEN_FOLDER = logo("open_folder");
+        Translation OPEN_FOLDER_TOOLTIP = logo("open_folder.tooltip");
+        Translation COPY_CANVAS = logo("copy_canvas");
+        Translation COPY_CANVAS_TOOLTIP = logo("copy_canvas.tooltip");
+        Translation UPLOAD_CONFIG = logo("upload_config");
+        Translation UPLOAD_CONFIG_TOOLTIP = logo("upload_config.tooltip");
+
+        private static Translation logo(String name)
+        {
+            return new Translation("gui.nostalgic_tweaks.logo_editor." + name);
+        }
+
+        private static Translation help(String name)
+        {
+            return new Translation("gui.nostalgic_tweaks.logo_editor.help_overlay." + name);
+        }
+
+        interface Help
+        {
+            Translation TITLE = help("title");
+
+            /**
+             * Make a list of translatable paragraphs for the falling logo blocks editor help overlay.
+             *
+             * @param jsonIdentifier  The base JSON identifier string that precedes the .p%d appendix.
+             * @param numOfParagraphs The number of paragraphs this section will have.
+             * @return An {@link ArrayList} of {@link Translation} paragraphs.
+             */
+            private static ArrayList<Translation> makeInfo(String jsonIdentifier, int numOfParagraphs)
+            {
+                ArrayList<Translation> paragraphs = new ArrayList<>();
+
+                for (int i = 1; i <= numOfParagraphs; i++)
+                    paragraphs.add(help(String.format("%s.p%d", jsonIdentifier, i)));
+
+                return paragraphs;
+            }
+
+            Translation TERMINOLOGY = help("terminology");
+            Translation TIPS_AND_HINTS = help("tips_and_hints");
+            Translation KEY_SHORTCUTS = help("key_shortcuts");
+            Translation CANVAS_TOOLS = help("canvas_tools");
+            Translation PIXEL_SETTINGS = help("pixel_settings");
+            Translation BATCH_EDITING = help("batch_editing");
+            Translation FILE_OPTIONS = help("file_options");
+            Translation MOVE_TOOLBAR = help("move_toolbar");
+            Translation ACTION_HISTORY = help("action_history");
+
+            Supplier<ArrayList<Translation>> TERMINOLOGY_INFO = () -> makeInfo("terminology", 7);
+            Supplier<ArrayList<Translation>> TIPS_AND_HINTS_INFO = () -> makeInfo("tips_and_hints", 3);
+            Supplier<ArrayList<Translation>> KEY_SHORTCUTS_INFO = () -> makeInfo("key_shortcuts", 24);
+            Supplier<ArrayList<Translation>> CANVAS_TOOLS_INFO = () -> makeInfo("canvas_tools", 5);
+            Supplier<ArrayList<Translation>> PIXEL_SETTINGS_INFO = () -> makeInfo("pixel_settings", 3);
+            Supplier<ArrayList<Translation>> BATCH_EDITING_INFO = () -> makeInfo("batch_editing", 3);
+            Supplier<ArrayList<Translation>> FILE_OPTIONS_INFO = () -> makeInfo("file_options", 3);
+            Supplier<ArrayList<Translation>> MOVE_TOOLBAR_INFO = () -> makeInfo("move_toolbar", 2);
+            Supplier<ArrayList<Translation>> ACTION_HISTORY_INFO = () -> makeInfo("action_history", 3);
         }
     }
 
@@ -812,6 +930,7 @@ public interface Lang
         Translation WINDOW_TITLE_DISABLED = from("window_title_disabled");
         Translation ROW_HIGHLIGHT_DISABLED = from("row_highlight_disabled");
         Translation CUSTOM_GUI_GRADIENT = from("custom_gui_gradient");
+        Translation CUSTOM_FALLING_LOGO_DISABLED = from("custom_falling_logo_disabled");
 
         private static Translation from(String name)
         {
