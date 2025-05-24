@@ -11,9 +11,9 @@ v2.0.0
 ### Related Development Branches
 
 - [Home](https://github.com/Adrenix/Nostalgic-Tweaks)
-- [1.20.4 (Beta 9)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.4)
-- [1.20.6 (Beta 9)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.6)
-- [1.21 (Beta 9](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.21)
+- [~~1.20.4 (Beta 9)~~](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.4) **Discontinued**
+- [~~1.20.6 (Beta 9)~~](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.6) **Discontinued**
+- [1.21 (Beta 9)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.21)
 
 ## Nostalgic Tweaks API For Developers
 
