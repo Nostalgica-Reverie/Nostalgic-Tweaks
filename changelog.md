@@ -1,13 +1,22 @@
 # Nostalgic Tweaks 1.20.1 (Fabric/Forge/NeoForge) Changelog
 
-## 2.0.0-beta911 (in-dev)
+## 2.0.0-beta920 (in-dev)
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements.
 
 - Fixed crash with Create 0.6+ and Flywheel 1.0+
     - Create 0.5.x and Flywheel 0.6.x still work with this version of the mod.
+- Fixed the `Old World Fog` tweak not applying its disabled value when disabled.
+- Fixed the `Stamina Bar` on the HUD not working with mods like Raised on Forge/NeoForge.
+- Potentially fixed a crash with Immersive Portals mod in during a singleplayer local server session.
+- Made `StaminaData` methods public so other mods can change player stamina.
+- Updated tweak category icons to better match the mod's icon theming.
+- Added `Custom Falling Logo Animation` editor and tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
 
 ## 2.0.0-beta910
+
+<details>
+<summary>Click to see changes</summary>
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements. The most notable new tweaks
 are the stamina based sprinting system. Starting with all releases after beta.904, Nostalgic Tweaks now uses the LGPLv3
@@ -68,7 +77,12 @@ license. If you are interested in joining the mod's development team, then pleas
 - Added `Disable Skeleton Strafing` gameplay tweak (off by default) (not available for Forge 1.20.1)
 - Added `Disable Bubble Column Ambience` sound tweak
 
+</details>
+
 ## 2.0.0-beta903
+
+<details>
+<summary>Click to see changes</summary>
 
 - Added a new first-time config setup overlay to the mod's home screen
 - Added panorama cycle buttons to the mod's home screen
@@ -77,6 +91,13 @@ license. If you are interested in joining the mod's development team, then pleas
 - Fixed the `Remove Mipmaps` tweak always overriding vanilla settings
 - Fixed 2D item rendering when an item is in a fixated display context
 
+</details>
+
 ## 2.0.0-beta902
 
+<details>
+<summary>Click to see changes</summary>
+
 - Initial release for 1.20.1
+
+</details>
