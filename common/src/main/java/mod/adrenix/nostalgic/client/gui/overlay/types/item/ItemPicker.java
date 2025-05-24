@@ -310,7 +310,7 @@ public class ItemPicker
         else if (this.rules.contains(ItemRule.ONLY_CHESTS))
             this.items.addAll(items.filter(ItemFilter::isChestLike).map(Item::getDefaultInstance).toList());
         else if (this.rules.contains(ItemRule.ONLY_EDIBLES))
-            this.items.addAll(items.filter(Item::isEdible).map(Item::getDefaultInstance).toList());
+            this.items.addAll(items.filter(ItemUtil::isEdible).map(Item::getDefaultInstance).toList());
         else
         {
             items.forEach(item -> {
@@ -319,7 +319,7 @@ public class ItemPicker
                 boolean areToolsFiltered = ItemFilter.isToolLike(item) && this.rules.contains(ItemRule.NO_TOOLS);
                 boolean areItemsFiltered = ItemFilter.isItemLike(item) && this.rules.contains(ItemRule.NO_ITEMS);
                 boolean areBlocksFiltered = ItemFilter.isBlockLike(item) && this.rules.contains(ItemRule.NO_BLOCKS);
-                boolean areEdiblesFiltered = item.isEdible() && this.rules.contains(ItemRule.NO_EDIBLES);
+                boolean areEdiblesFiltered = ItemUtil.isEdible(item) && this.rules.contains(ItemRule.NO_EDIBLES);
                 boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered;
 
                 if (!isFiltered)
