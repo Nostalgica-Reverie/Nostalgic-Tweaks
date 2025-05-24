@@ -435,17 +435,48 @@ public abstract class CollectionUtil
     }
 
     /**
+     * An intermediate stream operation that filters out elements that matches the given class type. The resulting
+     * stream will only consist of elements that do <b>not</b> match the given class type.
+     *
+     * @param stream    A {@link Stream} to process.
+     * @param classType The {@link Class} type to filter out.
+     * @param <T>       The class type of the stream.
+     * @return A stream of elements that were removed if they matched the given class type.
+     * @see CollectionUtil#filterOutByClass(Collection, Class)
+     */
+    @PublicAPI
+    public static <T> Stream<T> filterOutByClass(Stream<T> stream, Class<?> classType)
+    {
+        return filterOut(stream, obj -> ClassUtil.isInstanceOf(obj, classType));
+    }
+
+    /**
+     * An override method for {@link CollectionUtil#filterOutByClass(Stream, Class)}. The given {@link Collection} will
+     * be converted into a {@link Stream}. The resulting stream will only consist of elements that do <b>not</b> match
+     * the given class type.
+     *
+     * @param collection A {@link Collection} of elements to process.
+     * @param classType  The {@link Class} type to filter out.
+     * @param <T>        The class type of the collection.
+     * @return A stream of elements that were removed if they matched the given class type.
+     * @see CollectionUtil#filterOutByClass(Stream, Class)
+     */
+    @PublicAPI
+    public static <T> Stream<T> filterOutByClass(Collection<T> collection, Class<?> classType)
+    {
+        return filterOutByClass(collection.stream(), classType);
+    }
+
+    /**
      * Loop through <i>every</i> element in the given collection and test it against the given predicate. If any element
      * in the collection passed through the predicate returns {@code true}, then when all elements are processed, this
      * method will return {@code true} regardless of whether a different element later on causes the predicate to return
      * {@code false}.
-     *
-     * <br><br>
+     * <p>
      * This utility provides simple protection against concurrent modification exceptions by caching the call to each
      * predicate test within a supplier array list. This is <b>not</b> a performant alternative to the stream
      * interface's built-in {@code anyMatch} method.
-     *
-     * <br><br>
+     * <p>
      * If a stream is given in the overload method, then this will be a terminal operation for the stream.
      *
      * @param collection A collection of elements to loop through.
