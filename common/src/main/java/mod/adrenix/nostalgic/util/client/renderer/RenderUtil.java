@@ -18,22 +18,15 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-import org.lwjgl.system.MemoryStack;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1343,43 +1336,6 @@ public abstract class RenderUtil
         draw(builder);
 
         RenderSystem.disableBlend();
-    }
-
-    /**
-     * Create a quad with alpha transparency.
-     *
-     * @param pose           The {@link PoseStack.Pose} instance.
-     * @param vertexConsumer The {@link VertexConsumer} instance.
-     * @param quad           The {@link BakedQuad} instance.
-     * @param brightness     The quad brightness.
-     * @param alpha          The quad alpha transparency.
-     */
-    @PublicAPI
-    public static void putTransparentBulkData(PoseStack.Pose pose, VertexConsumer vertexConsumer, BakedQuad quad, float brightness, float alpha)
-    {
-        int light = new Color(brightness, brightness, brightness, alpha).get();
-        int[] vertices = quad.getVertices();
-        Vec3i dirNormal = quad.getDirection().getNormal();
-        Matrix4f posMatrix = pose.pose();
-        Vector3f normal = pose.normal().transform(new Vector3f(dirNormal.getX(), dirNormal.getY(), dirNormal.getZ()));
-
-        try (MemoryStack memoryStack = MemoryStack.stackPush())
-        {
-            ByteBuffer byteBuffer = memoryStack.malloc(DefaultVertexFormat.BLOCK.getVertexSize());
-            IntBuffer intBuffer = byteBuffer.asIntBuffer();
-
-            for (int i = 0; i < vertices.length / 8; i++)
-            {
-                intBuffer.clear();
-                intBuffer.put(vertices, i * 8, 8);
-                float x = byteBuffer.getFloat(0);
-                float y = byteBuffer.getFloat(4);
-                float z = byteBuffer.getFloat(8);
-
-                Vector4f pos = posMatrix.transform(new Vector4f(x, y, z, 1.0F));
-                vertexConsumer.vertex(pos.x(), pos.y(), pos.z(), 1.0F, 1.0F, 1.0F, alpha, byteBuffer.getFloat(16), byteBuffer.getFloat(20), OverlayTexture.NO_OVERLAY, light, normal.x(), normal.y(), normal.z());
-            }
-        }
     }
 
     /**
