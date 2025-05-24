@@ -354,6 +354,7 @@
   "gui.nostalgic_tweaks.overlay.info.sent_preset.title": "Sent Preset",
   "gui.nostalgic_tweaks.overlay.info.sent_preset.message": "The selected preset was§a successfully§r sent to the server.",
   "gui.nostalgic_tweaks.overlay.info.filter_by_category": "Filter the search results by choosing which categories to consider.",
+  "gui.nostalgic_tweaks.overlay.picker.item": "Item Picker",
   "gui.nostalgic_tweaks.overlay.picker.title": "Color Picker",
   "gui.nostalgic_tweaks.overlay.picker.open": "Open a §cc§eo§al§3o§dr§r picker screen and choose a new color.",
   "gui.nostalgic_tweaks.overlay.picker.hint": "You can§e move§r each slider by§a one§r digit by scrolling up or down.\n\nYou can also use the§e vanilla§r keyboard shortcuts to select a slider. Once§3 selected§r, use the§d A/D§r keys to move the slider value by§a one§r digit.",

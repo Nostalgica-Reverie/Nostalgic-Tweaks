@@ -657,6 +657,7 @@ public interface Lang
      */
     interface Picker
     {
+        Translation ITEM = from("item");
         Translation TITLE = from("title");
         Translation OPEN = from("open");
         Translation SAMPLE = from("sample");
