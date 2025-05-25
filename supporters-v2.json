@@ -43,6 +43,16 @@
       "twitch": null,
       "links": []
     },
+    "Zephyr": {
+      "member": true,
+      "uuid": null,
+      "color": "#C04A39",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
     "Dahomey": {
       "member": false,
       "uuid": "7deb4e29e30e4b6081b673ca3bd921e2",
@@ -77,6 +87,46 @@
       "member": true,
       "uuid": null,
       "color": "#00FF48",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
+    "kohara": {
+      "member": false,
+      "uuid": null,
+      "color": "#9B59AA",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
+    "MCDarkVeil": {
+      "member": false,
+      "uuid": null,
+      "color": "#FFB5EC",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
+    "JavaMR": {
+      "member": false,
+      "uuid": null,
+      "color": "#9B59AA",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
+    "Frakkment": {
+      "member": false,
+      "uuid": null,
+      "color": "#9B59AA",
       "description": null,
       "twitter": null,
       "youtube": null,
