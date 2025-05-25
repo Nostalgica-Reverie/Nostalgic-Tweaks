@@ -35,14 +35,14 @@ class PickerGroup
         this.alpha = Group.create(picker.overlay)
             .below(this.hsb, ColorPicker.PADDING)
             .size(ColorPicker.GROUP_WIDTH)
-            .title(Lang.Picker.OPACITY)
+            .title(Lang.Colorize.OPACITY)
             .border(picker.color)
             .build();
 
         this.sample = Group.create(picker.overlay)
             .rightOf(this.alpha, ColorPicker.PADDING)
             .size(ColorPicker.GROUP_WIDTH)
-            .title(Lang.Picker.SAMPLE)
+            .title(Lang.Colorize.SAMPLE)
             .border(picker.color)
             .build();
 
@@ -57,7 +57,7 @@ class PickerGroup
             .posX(this.hex::getX)
             .below(this.hex, ColorPicker.PADDING)
             .size(ColorPicker.GROUP_WIDTH, ColorPicker.GROUP_HEIGHT)
-            .title(Lang.Picker.PALETTE)
+            .title(Lang.Colorize.PALETTE)
             .border(picker.color)
             .bottomOffset(-1)
             .build();
@@ -66,7 +66,7 @@ class PickerGroup
             .extendHeightTo(picker.done, ColorPicker.PADDING)
             .rightOf(this.sample, ColorPicker.PADDING)
             .size(ColorPicker.GROUP_WIDTH, 12)
-            .title(Lang.Picker.RECENT)
+            .title(Lang.Colorize.RECENT)
             .border(picker.color)
             .bottomOffset(-2)
             .build();
@@ -76,7 +76,7 @@ class PickerGroup
             .rightOf(this.sample, ColorPicker.PADDING)
             .below(this.palette, ColorPicker.PADDING)
             .size(ColorPicker.GROUP_WIDTH)
-            .title(Lang.Picker.RANDOM)
+            .title(Lang.Colorize.RANDOM)
             .border(picker.color)
             .build();
 

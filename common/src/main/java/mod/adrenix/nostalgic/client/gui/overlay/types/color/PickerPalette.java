@@ -144,7 +144,7 @@ class PickerPalette
                 for (int i = 0; i < SIZE; i++)
                     RANDOM.get(i).set(Color.getRandomColor());
             })
-            .tooltip(Lang.Picker.RANDOMIZE, 500L, TimeUnit.MILLISECONDS)
+            .tooltip(Lang.Colorize.RANDOMIZE, 500L, TimeUnit.MILLISECONDS)
             .hideTooltipAfter(3L, TimeUnit.SECONDS)
             .alignVerticalTo(CollectionUtil.last(random).orElse(null), 1)
             .rightOf(CollectionUtil.last(random).orElse(null), ColorPicker.PADDING)
@@ -171,7 +171,7 @@ class PickerPalette
                 for (int i = 0; i < SIZE; i++)
                     RECENT.forEach(color -> color.set(Color.TRANSPARENT));
             })
-            .tooltip(Lang.Picker.CLEAR, 500L, TimeUnit.MILLISECONDS)
+            .tooltip(Lang.Colorize.CLEAR, 500L, TimeUnit.MILLISECONDS)
             .hideTooltipAfter(4L, TimeUnit.SECONDS)
             .alignVerticalTo(CollectionUtil.last(recent).orElse(null), 1)
             .rightOf(CollectionUtil.last(recent).orElse(null), ColorPicker.PADDING)
