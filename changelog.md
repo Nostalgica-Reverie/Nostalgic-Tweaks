@@ -12,6 +12,7 @@ This update fixes reported issues, adds new tweaks, and includes general mod imp
 - Made `StaminaData` methods public so other mods can change player stamina.
 - Updated tweak category icons to better match the mod's icon theming.
 - Added `Custom Falling Logo Animation` editor and tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
+- Added `Splash Text Horizontal & Vertical Offset` slider tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
 
 ## 2.0.0-beta910
 
