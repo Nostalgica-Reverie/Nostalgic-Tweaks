@@ -129,7 +129,7 @@ public class ItemPicker
             .onPress(this.overlay::close)
             .build(this.overlay::addWidget);
 
-        this.title = TextWidget.create(builder.title != null ? builder.title : Lang.Picker.ITEM::get)
+        this.title = TextWidget.create(builder.title != null ? builder.title : Lang.Itemize.TITLE::get)
             .tooltip(Lang.Overlay.DRAG_TIP, 36, 1L, TimeUnit.SECONDS)
             .onPress(this.overlay::move, Color.LEMON_YELLOW)
             .intersection(this.close)

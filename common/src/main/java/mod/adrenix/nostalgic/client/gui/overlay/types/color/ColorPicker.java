@@ -52,9 +52,9 @@ public class ColorPicker
         this.transparent = transparent;
         this.resetColor = new Color(color.get(), color.getFloatAlpha());
 
-        this.overlay = Overlay.create(Lang.Picker.TITLE)
+        this.overlay = Overlay.create(Lang.Colorize.TITLE)
             .resizeForWidgets()
-            .infoMessage(Lang.Picker.HINT)
+            .infoMessage(Lang.Colorize.HINT)
             .icon(Icons.SMALL_COLOR_WHEEL)
             .padding(PADDING)
             .onClose(() -> this.onClose.accept(this))

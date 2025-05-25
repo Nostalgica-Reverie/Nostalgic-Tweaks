@@ -1,6 +1,8 @@
 package mod.adrenix.nostalgic.client.gui.widget.button;
 
 import mod.adrenix.nostalgic.client.gui.overlay.types.color.ColorPicker;
+import mod.adrenix.nostalgic.client.gui.overlay.types.item.ItemPicker;
+import mod.adrenix.nostalgic.tweak.listing.ItemRule;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
@@ -12,6 +14,7 @@ import mod.adrenix.nostalgic.util.common.lang.Lang;
 import mod.adrenix.nostalgic.util.common.lang.Translation;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +36,7 @@ public abstract class ButtonTemplate
     {
         return ButtonWidget.create()
             .icon(Icons.COLOR_PICKER)
-            .tooltip(Lang.Picker.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
+            .tooltip(Lang.Colorize.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
             .onPress(() -> ColorPicker.create(color.get(), onClose).opaque(isOpaque).open())
             .postRenderer((button, graphics, mouseX, mouseY, partialTick) -> {
                 int iconX = button.getIconManager().get().getX();
@@ -66,6 +69,39 @@ public abstract class ButtonTemplate
     public static ButtonBuilder colorPicker(Color color, boolean isOpaque)
     {
         return colorPicker(() -> color, picker -> { }, isOpaque);
+    }
+
+    /**
+     * This button provides a template for opening an item picker overlay.
+     *
+     * @param onItemAdd  A {@link Consumer} that accepts an {@link ItemStack} if one was chosen.
+     * @param onEmptyAdd A {@link Runnable} that will run if no {@link ItemStack} is chosen.
+     * @param rules      A varargs list of {@link ItemRule}.
+     * @return A {@link ButtonBuilder} instance.
+     * @see #itemPicker(Consumer, ItemRule...)
+     */
+    @PublicAPI
+    public static ButtonBuilder itemPicker(Consumer<ItemStack> onItemAdd, Runnable onEmptyAdd, ItemRule... rules)
+    {
+        return ButtonWidget.create()
+            .tooltip(Lang.Itemize.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
+            .onPress(() -> ItemPicker.create(onItemAdd, onEmptyAdd, rules).open());
+    }
+
+    /**
+     * This button provides a template for opening an item picker overlay.
+     *
+     * @param onItemAdd A {@link Consumer} that accepts an {@link ItemStack} if one was chosen.
+     * @param rules     A varargs list of {@link ItemRule}.
+     * @return A {@link ButtonBuilder} instance.
+     * @see #itemPicker(Consumer, Runnable, ItemRule...)
+     */
+    @PublicAPI
+    public static ButtonBuilder itemPicker(Consumer<ItemStack> onItemAdd, ItemRule... rules)
+    {
+        return ButtonWidget.create()
+            .tooltip(Lang.Itemize.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
+            .onPress(() -> ItemPicker.create(onItemAdd, rules).open());
     }
 
     /**

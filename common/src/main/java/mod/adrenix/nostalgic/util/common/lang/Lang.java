@@ -771,11 +771,10 @@ public interface Lang
     }
 
     /**
-     * Lang keys that are used by the color overlay screen.
+     * Lang keys that are used by the color picker overlay.
      */
-    interface Picker
+    interface Colorize
     {
-        Translation ITEM = from("item");
         Translation TITLE = from("title");
         Translation OPEN = from("open");
         Translation SAMPLE = from("sample");
@@ -789,7 +788,21 @@ public interface Lang
 
         private static Translation from(String name)
         {
-            return new Translation("gui.nostalgic_tweaks.overlay.picker." + name);
+            return new Translation("gui.nostalgic_tweaks.overlay.colorize." + name);
+        }
+    }
+
+    /**
+     * Lang keys that are used by the item picker overlay.
+     */
+    interface Itemize
+    {
+        Translation TITLE = from("title");
+        Translation OPEN = from("open");
+
+        private static Translation from(String name)
+        {
+            return new Translation("gui.nostalgic_tweaks.overlay.itemize." + name);
         }
     }
 

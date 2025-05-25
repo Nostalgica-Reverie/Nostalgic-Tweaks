@@ -262,8 +262,8 @@ public class EditorWidgets implements WidgetManager
             .skipFocusOnClick()
             .tabOrderGroup(tabOrder.get())
             .icon(Icons.COLOR_WHEEL)
-            .tooltip(Lang.Picker.TITLE, 500L, TimeUnit.MILLISECONDS)
-            .infoTooltip(Lang.Picker.OPEN, 45)
+            .tooltip(Lang.Colorize.TITLE, 500L, TimeUnit.MILLISECONDS)
+            .infoTooltip(Lang.Colorize.OPEN, 45)
             .onPress(() -> ColorPicker.create(this.shadow).open())
             .backgroundRenderer(this::shadowToolBackground)
             .build(this.pixelSettings::addCell);

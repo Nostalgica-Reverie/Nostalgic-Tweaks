@@ -125,7 +125,7 @@ class PickerText
 
     private Component getOpacity()
     {
-        String alpha = Lang.Picker.OPACITY.getString() + ": %s%%";
+        String alpha = Lang.Colorize.OPACITY.getString() + ": %s%%";
 
         return Component.literal(String.format(alpha, Math.round(this.color.getFloatAlpha() * 100.0F)));
     }
