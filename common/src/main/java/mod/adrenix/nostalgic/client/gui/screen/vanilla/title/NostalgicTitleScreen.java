@@ -211,7 +211,14 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             this.imageLogo.renderLogo(graphics, this.width, 1.0F);
 
         if (this.titleAccess.nt$getSplash() != null)
+        {
+            graphics.pose().pushPose();
+            graphics.pose().translate(CandyTweak.SPLASH_OFFSET_X.get(), CandyTweak.SPLASH_OFFSET_Y.get(), 0.0F);
+
             this.titleAccess.nt$getSplash().render(graphics, this.width, this.font, 0xFFFF00);
+
+            graphics.pose().popPose();
+        }
 
         Component copyright = switch (this.getLayout())
         {
