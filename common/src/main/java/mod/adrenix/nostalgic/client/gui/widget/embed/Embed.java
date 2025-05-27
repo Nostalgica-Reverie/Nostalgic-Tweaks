@@ -1080,12 +1080,13 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
      *
      * @param mouseX The current x-coordinate of the mouse.
      * @param mouseY The current y-coordinate of the mouse.
+     * @param deltaX The change in scroll in the x-direction.
      * @param deltaY The change in scroll in the y-direction. A delta of -1.0D (scroll down) moves rows up while a delta
      *               of 1.0D (scroll up) moves rows back down.
      * @return Whether this method handled the event.
      */
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double deltaY)
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
         if (this.isInvisible())
             return false;
@@ -1095,15 +1096,15 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
 
         boolean isWidgetScrolled = this.getWidgetAtPoint(mouseX, mouseY)
             .stream()
-            .anyMatch(widget -> widget.mouseScrolled(mouseX, mouseY, deltaY));
+            .anyMatch(widget -> widget.mouseScrolled(mouseX, mouseY, deltaX, deltaY));
 
         if (isWidgetScrolled)
             return true;
 
-        if (this.isEventListened(widget -> widget.mouseScrolled(mouseX, mouseY, deltaY)))
+        if (this.isEventListened(widget -> widget.mouseScrolled(mouseX, mouseY, deltaX, deltaY)))
             return true;
 
-        return super.mouseScrolled(mouseX, mouseY, deltaY);
+        return super.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
     }
 
     /**
