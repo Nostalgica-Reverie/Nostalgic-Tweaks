@@ -356,7 +356,20 @@ public class FallingBlockRenderer
     private static void renderQuads(PoseStack.Pose pose, VertexConsumer consumer, float red, float green, float blue, List<BakedQuad> quads)
     {
         for (BakedQuad quad : quads)
-            consumer.putBulkData(pose, quad, red, green, blue, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        {
+            float r = 1.0F;
+            float g = 1.0F;
+            float b = 1.0F;
+
+            if (quad.isTinted())
+            {
+                r = Mth.clamp(red, 0.0F, 1.0F);
+                g = Mth.clamp(green, 0.0F, 1.0F);
+                b = Mth.clamp(blue, 0.0F, 1.0F);
+            }
+
+            consumer.putBulkData(pose, quad, r, g, b, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        }
     }
 
     /**
