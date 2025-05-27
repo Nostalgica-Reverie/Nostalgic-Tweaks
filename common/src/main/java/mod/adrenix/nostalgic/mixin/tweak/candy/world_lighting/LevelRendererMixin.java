@@ -5,7 +5,6 @@ import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import mod.adrenix.nostalgic.util.ModTracker;
-import mod.adrenix.nostalgic.util.common.data.NullableAction;
 import mod.adrenix.nostalgic.util.common.data.Pair;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
@@ -16,10 +15,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.ViewArea;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.chunk.LevelChunk;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,16 +32,11 @@ public abstract class LevelRendererMixin
     @Shadow @Nullable private ClientLevel level;
     @Shadow @Nullable private ViewArea viewArea;
 
-    @Shadow
-    public abstract boolean isSectionCompiled(BlockPos pos);
-
-    @Shadow
-    protected abstract void setSectionDirty(int sectionX, int sectionY, int sectionZ, boolean reRenderOnMainThread);
-
     /* Injections */
 
     /**
-     * Relighting queues are slowly emptied at the start of each render pass of the level.
+     * Relighting queues are slowly emptied at the start of each render pass of the level. This is done here rather than
+     * on each tick to prevent visual issues when relighting.
      */
     @Inject(
         method = "renderLevel",
@@ -53,44 +44,8 @@ public abstract class LevelRendererMixin
     )
     private void nt_world_lighting$onRenderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo callback)
     {
-        if (!ModTweak.ENABLED.get() || this.level == null)
-            return;
-
-        if (!LightingHelper.PACKED_RELIGHT_QUEUE.isEmpty())
-        {
-            Pair<Long, Byte> packedRelight = LightingHelper.PACKED_RELIGHT_QUEUE.pop();
-            ChunkPos chunkPos = new ChunkPos(packedRelight.left());
-            LevelChunk chunk = this.level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
-
-            if (chunk != null)
-                LightingHelper.relightChunk(chunk, packedRelight.right());
-            else if (this.isSectionCompiled(chunkPos.getWorldPosition()))
-                LightingHelper.PACKED_RELIGHT_QUEUE.add(packedRelight);
-        }
-
-        for (int i = 0; i < 4096; i++)
-        {
-            if (LightingHelper.PACKED_CHUNK_BLOCK_QUEUE.isEmpty())
-                break;
-
-            Pair<Long, Long> packedQueue = LightingHelper.PACKED_CHUNK_BLOCK_QUEUE.pop();
-            ChunkPos chunkPos = new ChunkPos(packedQueue.left());
-            LevelChunk chunk = this.level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
-
-            if (chunk != null)
-            {
-                BlockPos blockPos = BlockPos.of(packedQueue.right());
-                int x = blockPos.getX() & 15;
-                int y = blockPos.getY() & 15;
-                int z = blockPos.getZ() & 15;
-
-                NullableAction.attempt(chunk.getSkyLightSources(), skyLightSources -> skyLightSources.update(chunk, x, y, z));
-
-                chunk.getLevel().getLightEngine().checkBlock(blockPos);
-            }
-            else if (this.isSectionCompiled(chunkPos.getWorldPosition()))
-                LightingHelper.PACKED_CHUNK_BLOCK_QUEUE.add(packedQueue);
-        }
+        if (ModTweak.ENABLED.get())
+            LightingHelper.checkRelightQueues();
     }
 
     /**
@@ -111,6 +66,7 @@ public abstract class LevelRendererMixin
                 continue;
 
             long packedPos = SectionPos.of(renderSection.getOrigin()).chunk().toLong();
+
             LightingHelper.PACKED_RELIGHT_QUEUE.add(new Pair<>(packedPos, (byte) 1));
         }
 
@@ -128,13 +84,20 @@ public abstract class LevelRendererMixin
     {
         boolean isRelightNeeded = CandyTweak.ROUND_ROBIN_RELIGHT.get() && LightingHelper.isRelightCheckEnqueued();
 
-        if (!isRelightNeeded || this.viewArea == null || ModTracker.SODIUM.isInstalled())
+        if (!isRelightNeeded || this.viewArea == null || this.level == null || ModTracker.SODIUM.isInstalled())
             return;
+
+        LightingHelper.CHUNK_RELIGHT_QUEUE.clear();
 
         for (SectionRenderDispatcher.RenderSection renderSection : this.viewArea.sections)
         {
+            if (renderSection == null || renderSection.getCompiled().hasNoRenderableLayers())
+                continue;
+
             SectionPos sectionPos = SectionPos.of(renderSection.getOrigin());
-            this.setSectionDirty(sectionPos.x(), sectionPos.y(), sectionPos.z(), true);
+
+            if (this.level.getLightEngine().lightOnInSection(sectionPos))
+                LightingHelper.CHUNK_RELIGHT_QUEUE.add(sectionPos.asLong());
         }
     }
 
