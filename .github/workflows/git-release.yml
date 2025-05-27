@@ -36,4 +36,4 @@ jobs:
           changelog-file: changelog.*
           files: |
             fabric/build/libs/!(*-sources|*-dev-shadow).jar
-            forge/build/libs/!(*-sources|*-dev-shadow).jar
+            neoforge/build/libs/!(*-sources|*-dev-shadow).jar
