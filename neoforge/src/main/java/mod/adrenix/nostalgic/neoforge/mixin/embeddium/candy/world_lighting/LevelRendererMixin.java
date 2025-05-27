@@ -5,6 +5,7 @@ import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.util.common.data.Pair;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.core.SectionPos;
 import org.embeddedt.embeddium.impl.render.EmbeddiumWorldRenderer;
 import org.embeddedt.embeddium.impl.render.chunk.map.ChunkTracker;
 import org.embeddedt.embeddium.impl.render.chunk.map.ChunkTrackerHolder;
@@ -14,6 +15,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Iterator;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin
@@ -33,16 +36,38 @@ public abstract class LevelRendererMixin
     )
     private void nt_embeddium_world_lighting$onRenderLevel(CallbackInfo callback)
     {
+        EmbeddiumWorldRenderer worldRenderer = EmbeddiumWorldRenderer.instanceNullable();
+
+        if (this.level == null || worldRenderer == null)
+            return;
+
+        for (Iterator<Long> iterator = LightingHelper.SODIUM_REBUILD_QUEUE.iterator(); iterator.hasNext(); )
+        {
+            SectionPos section = SectionPos.of(iterator.next());
+            int x = section.x();
+            int y = section.y();
+            int z = section.z();
+
+            if (worldRenderer.isSectionReady(x, y, z))
+            {
+                worldRenderer.scheduleRebuildForChunk(x, y, z, false);
+                iterator.remove();
+            }
+        }
+
+        if (worldRenderer.isTerrainRenderComplete())
+            LightingHelper.SODIUM_REBUILD_QUEUE.clear();
+
         if (CandyTweak.ROUND_ROBIN_RELIGHT.get() && LightingHelper.isRelightCheckEnqueued())
         {
-            EmbeddiumWorldRenderer worldRenderer = EmbeddiumWorldRenderer.instanceNullable();
-
-            if (worldRenderer == null || this.level == null)
-                return;
-
             ChunkTracker.forEachChunk(ChunkTrackerHolder.get(this.level).getReadyChunks(), (x, z) -> {
                 for (int y = this.level.getMinSection(); y < this.level.getMaxSection(); y++)
-                    worldRenderer.scheduleRebuildForChunk(x, y, z, false);
+                {
+                    if (worldRenderer.isSectionReady(x, y, z))
+                        worldRenderer.scheduleRebuildForChunk(x, y, z, false);
+                    else
+                        LightingHelper.SODIUM_REBUILD_QUEUE.add(SectionPos.asLong(x, y, z));
+                }
             });
         }
 
