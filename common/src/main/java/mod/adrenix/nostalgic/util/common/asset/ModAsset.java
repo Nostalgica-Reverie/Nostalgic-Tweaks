@@ -59,18 +59,6 @@ public abstract class ModAsset
     }
 
     /**
-     * Get a new resource location from the mod's twemoji directory.
-     *
-     * @param path A path in the mod's {@code twemoji} directory.
-     * @return A new {@link ResourceLocation} instance where the full-path appears as
-     * {@code modId:textures/icon/twemoji/$path} where {@code $path} is the given {@code path} argument.
-     */
-    public static ResourceLocation twemoji(String path)
-    {
-        return get("textures/icon/twemoji/" + path);
-    }
-
-    /**
      * Get a new resource location that references a supporter face icon.
      *
      * @param username The username to lookup.

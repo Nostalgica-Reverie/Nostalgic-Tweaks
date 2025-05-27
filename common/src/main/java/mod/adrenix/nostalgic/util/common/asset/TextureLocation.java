@@ -22,10 +22,10 @@ public class TextureLocation
 
     public static final TextureLocation NT_LOGO_64 = new TextureLocation(ModAsset.icon("nt_logo_64.png"), 64);
     public static final TextureLocation NT_SUPPORTER_64 = new TextureLocation(ModAsset.icon("nt_supporter_64.png"), 64);
-    public static final TextureLocation SOUND_256 = new TextureLocation(ModAsset.twemoji("sound_256.png"), 256);
-    public static final TextureLocation CANDY_256 = new TextureLocation(ModAsset.twemoji("candy_256.png"), 256);
-    public static final TextureLocation JUGGLER_256 = new TextureLocation(ModAsset.twemoji("juggler_256.png"), 256);
-    public static final TextureLocation CONTROLLER_256 = new TextureLocation(ModAsset.twemoji("controller_256.png"), 256);
+    public static final TextureLocation SOUND_16 = new TextureLocation(ModAsset.icon("sound_16.png"), 16);
+    public static final TextureLocation CANDY_16 = new TextureLocation(ModAsset.icon("candy_16.png"), 16);
+    public static final TextureLocation ANIMATION_16 = new TextureLocation(ModAsset.icon("animation_16.png"), 16);
+    public static final TextureLocation GAMEPLAY_16 = new TextureLocation(ModAsset.icon("gameplay_16.png"), 16);
     public static final TextureLocation NOSTALGIC_TWEAKS = new TextureLocation("nostalgic_tweaks.png", 1920, 182);
 
     /* Missing Textures */
