@@ -9,7 +9,6 @@ public class TextureLocation
     /* Locations */
 
     public static final ResourceLocation DEV_MODE = ModAsset.texture("gui/nt_dev.png");
-    public static final ResourceLocation BLOCK_SHADOW = ModAsset.texture("block_shadow.png");
     public static final ResourceLocation INVENTORY = ModAsset.texture("gui/inventory.png");
     public static final ResourceLocation MOJANG_ALPHA = ModAsset.texture("gui/mojang_alpha.png");
     public static final ResourceLocation MOJANG_BETA = ModAsset.texture("gui/mojang_beta.png");
