@@ -105,6 +105,7 @@
     "candy.world_lighting.BlockStateBaseMixin",
     "candy.world_lighting.ClientChunkCacheMixin",
     "candy.world_lighting.ClientLevelMixin",
+    "candy.world_lighting.LayerLightSectionStorageMixin",
     "candy.world_lighting.LevelRendererMixin",
     "candy.world_lighting.LightEngineMixin",
     "candy.world_lighting.LightingMixin",

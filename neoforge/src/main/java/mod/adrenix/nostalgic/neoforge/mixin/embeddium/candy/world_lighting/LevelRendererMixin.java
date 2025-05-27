@@ -2,6 +2,7 @@ package mod.adrenix.nostalgic.neoforge.mixin.embeddium.candy.world_lighting;
 
 import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.common.data.Pair;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -67,6 +68,9 @@ public abstract class LevelRendererMixin
                         worldRenderer.scheduleRebuildForChunk(x, y, z, false);
                     else
                         LightingHelper.SODIUM_REBUILD_QUEUE.add(SectionPos.asLong(x, y, z));
+
+                    if (ModTracker.FLYWHEEL.isInstalled())
+                        LightingHelper.CHUNK_RELIGHT_QUEUE.add(SectionPos.asLong(x, y, z));
                 }
             });
         }
