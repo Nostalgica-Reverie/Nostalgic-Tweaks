@@ -4,6 +4,16 @@
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements.
 
+- Added tweak support for Create 0.6+ and Flywheel 1.0+.
+    - Added tweak support when Create/Flywheel is installed with Sodium.
+- Fixed the `Old World Fog` tweak not applying its disabled value when disabled.
+- Fixed the `Stamina Bar` on the HUD not working with mods like Raised on Forge/NeoForge.
+- Potentially fixed a crash with Immersive Portals mod in during a singleplayer local server session.
+- Made `StaminaData` methods public so other mods can change player stamina.
+- Updated tweak category icons to better match the mod's icon theming.
+- Added `Custom Falling Logo Animation` editor and tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
+- Added `Splash Text Horizontal & Vertical Offset` slider tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
+
 ## 2.0.0-beta910
 
 <details>
