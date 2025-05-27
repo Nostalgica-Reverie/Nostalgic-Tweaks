@@ -6,10 +6,11 @@ import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.asset.TextureIcon;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.world.ItemUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -82,7 +83,7 @@ class ItemSquare
     {
         try
         {
-            return this.getItemStack().getTooltipLines(null, TooltipFlag.Default.NORMAL);
+            return Screen.getTooltipFromItem(Minecraft.getInstance(), this.getItemStack());
         }
         catch (Throwable throwable)
         {
