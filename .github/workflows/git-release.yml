@@ -1,0 +1,39 @@
+name: git-release
+on: [ workflow_dispatch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: setup jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: build
+        run: ./gradlew build
+
+      - name: upload assets to github
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-prerelease: true
+          github-commitish: 1.21.1
+          changelog-file: changelog.*
+          files: |
+            fabric/build/libs/!(*-sources|*-dev-shadow).jar
+            forge/build/libs/!(*-sources|*-dev-shadow).jar
