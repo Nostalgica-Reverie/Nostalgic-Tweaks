@@ -7,6 +7,7 @@ import mod.adrenix.nostalgic.tweak.TweakIssue;
 import mod.adrenix.nostalgic.tweak.container.group.CandyGroup;
 import mod.adrenix.nostalgic.tweak.enums.*;
 import mod.adrenix.nostalgic.tweak.factory.*;
+import mod.adrenix.nostalgic.tweak.gui.ControllerId;
 import mod.adrenix.nostalgic.tweak.gui.KeybindingId;
 import mod.adrenix.nostalgic.tweak.gui.SliderType;
 import mod.adrenix.nostalgic.tweak.listing.*;
@@ -284,6 +285,8 @@ public interface CandyTweak
     // Title Screen Logo
 
     TweakFlag OLD_ALPHA_LOGO = TweakFlag.client(true, CandyGroup.INTERFACE_TITLE_LOGO).build();
+    TweakFlag USE_CUSTOM_FALLING_LOGO = TweakFlag.client(false, CandyGroup.INTERFACE_TITLE_LOGO).build();
+    TweakCustom FALLING_LOGO_EDITOR = TweakCustom.client(ControllerId.FALLING_LOGO, CandyGroup.INTERFACE_TITLE_LOGO).alert(TweakAlert.CUSTOM_FALLING_LOGO_DISABLED).build();
 
     // Title Screen Buttons
 

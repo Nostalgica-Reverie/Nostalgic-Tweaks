@@ -485,4 +485,13 @@ public abstract class PathUtil
     {
         return getOrCreatePath(NostalgicTweaks.MOD_ID + "/presets");
     }
+
+    /**
+     * @return The mod's falling block logo config directory.
+     */
+    @PublicAPI
+    public static Path getLogoPath()
+    {
+        return getOrCreatePath(NostalgicTweaks.MOD_ID + "/logo");
+    }
 }

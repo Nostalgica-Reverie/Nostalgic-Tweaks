@@ -37,7 +37,8 @@ public enum TweakAlert
     FOOD_HEALTH_CONFLICT(TweakAlert::isCustomFoodHealthConflict, Lang.Alert.FOOD_HEALTH),
     FOOD_STACKING_CONFLICT(TweakAlert::isCustomFoodStackingConflict, Lang.Alert.FOOD_STACKING),
     ARM_SWAY_CONFLICT(TweakAlert::isArmSwayConflict, Lang.Alert.ARM_SWAY),
-    STAMINA_SPRINTING_CONFLICT(TweakAlert::isStaminaSprintingConflict, Lang.Alert.STAMINA_SPRINTING);
+    STAMINA_SPRINTING_CONFLICT(TweakAlert::isStaminaSprintingConflict, Lang.Alert.STAMINA_SPRINTING),
+    CUSTOM_FALLING_LOGO_DISABLED(TweakAlert::isCustomFallingLogoDisabled, Lang.Alert.CUSTOM_FALLING_LOGO_DISABLED);
 
     /* Fields */
 
@@ -84,6 +85,18 @@ public enum TweakAlert
     private static boolean none()
     {
         return false;
+    }
+
+    /**
+     * Checks if the custom falling logo off, or if the old alpha logo is off. If either is, then the custom falling
+     * block logo will not be shown on the title screen.
+     */
+    private static boolean isCustomFallingLogoDisabled()
+    {
+        boolean isCustomFallingLogoOff = !CandyTweak.USE_CUSTOM_FALLING_LOGO.fromCache();
+        boolean isOldAlphaLogoOff = !CandyTweak.OLD_ALPHA_LOGO.fromCache();
+
+        return isCustomFallingLogoOff || isOldAlphaLogoOff;
     }
 
     /**

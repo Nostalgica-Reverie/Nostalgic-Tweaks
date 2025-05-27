@@ -2,7 +2,11 @@ package mod.adrenix.nostalgic.client.gui.screen.vanilla.title;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.screen.DynamicScreen;
+import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.FallingBlockRenderer;
+import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.config.FallingBlockConfig;
+import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.text.FallingBlockText;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
 import mod.adrenix.nostalgic.mixin.access.TitleScreenAccess;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
@@ -31,7 +35,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
 {
     /* Fields */
 
-    private NostalgicLogoRenderer blockLogo;
+    private FallingBlockRenderer blockLogo;
     private final LogoRenderer imageLogo;
     private final UniqueArrayList<DynamicWidget<?, ?>> widgets;
     private final TitleWidgets titleWidgets;
@@ -47,9 +51,25 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
     {
         this.widgets = new UniqueArrayList<>();
         this.titleWidgets = new TitleWidgets(this);
-        this.blockLogo = new NostalgicLogoRenderer();
+        this.blockLogo = new FallingBlockRenderer();
         this.imageLogo = new LogoRenderer(false);
         this.titleAccess = (TitleScreenAccess) this;
+
+        if (CandyTweak.USE_CUSTOM_FALLING_LOGO.get())
+        {
+            if (FallingBlockConfig.read())
+                NostalgicTweaks.LOGGER.debug("[Falling Blocks] Successfully read config into title screen");
+            else
+                NostalgicTweaks.LOGGER.warn("[Falling Blocks] The falling blocks config is corrupt!");
+
+            if (FallingBlockConfig.hasNoBlocks())
+            {
+                FallingBlockConfig.setBlockDataToDefault();
+                NostalgicTweaks.LOGGER.warn("[Falling Blocks] The falling blocks config is empty! Showing default logo.");
+            }
+
+            this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getBlockData());
+        }
     }
 
     /* Methods */
@@ -172,8 +192,18 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
         if (this.minecraft == null || this.minecraft.getOverlay() != null)
             return;
 
-        if (NostalgicLogoText.LOGO_CHANGED.ifEnabledThenDisable())
-            this.blockLogo = new NostalgicLogoRenderer();
+        if (FallingBlockConfig.LOGO_CHANGED.ifEnabledThenDisable() || FallingBlockText.LOGO_CHANGED.ifEnabledThenDisable())
+        {
+            if (CandyTweak.USE_CUSTOM_FALLING_LOGO.get())
+            {
+                if (FallingBlockConfig.hasNoBlocks())
+                    FallingBlockConfig.setBlockDataToDefault();
+
+                this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getBlockData());
+            }
+            else
+                this.blockLogo = new FallingBlockRenderer();
+        }
 
         if (CandyTweak.OLD_ALPHA_LOGO.get())
             this.blockLogo.render();

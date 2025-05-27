@@ -9,7 +9,8 @@ import mod.adrenix.nostalgic.client.ClientKeyMapping;
 import mod.adrenix.nostalgic.client.ClientSound;
 import mod.adrenix.nostalgic.client.gui.screen.home.HomeSplash;
 import mod.adrenix.nostalgic.client.gui.screen.home.Panorama;
-import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.NostalgicLogoText;
+import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.config.FallingBlockConfig;
+import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.text.FallingBlockText;
 import mod.adrenix.nostalgic.helper.candy.block.ChestHelper;
 import mod.adrenix.nostalgic.helper.candy.hud.HudHelper;
 import mod.adrenix.nostalgic.helper.candy.level.fog.OverworldFogRenderer;
@@ -55,7 +56,7 @@ abstract class ClientInitializer
         TooltipListener.register();
 
         ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, HomeSplash.getInstance());
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, NostalgicLogoText.getInstance());
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, FallingBlockText.getInstance());
 
         for (Panorama panorama : Panorama.values())
             ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, panorama);
@@ -68,6 +69,7 @@ abstract class ClientInitializer
 
         ChestHelper.init();
         LightingHelper.init();
+        FallingBlockConfig.init();
     }
 
     /**
