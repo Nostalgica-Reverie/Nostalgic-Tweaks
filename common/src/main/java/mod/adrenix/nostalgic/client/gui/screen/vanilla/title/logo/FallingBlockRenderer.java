@@ -254,8 +254,9 @@ public class FallingBlockRenderer
                 RenderSystem.clear(256, Minecraft.ON_OSX);
             }
 
-            modelViewStack.scale(1.0F, 1.0F, 1.0F);
-            modelViewStack.mulPose(Axis.XP.rotationDegrees(-15.0F));
+            modelViewStack.scale(-1.0F, 1.0F, -1.0F);
+            modelViewStack.mulPose(Axis.XP.rotationDegrees(15.0F));
+            modelViewStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
             modelViewStack.scale(0.89F, 1.0F, 0.4F);
             modelViewStack.translate((float) (-this.width) * 0.5F, (float) (this.height) * 0.5F, 0.0F);
@@ -282,8 +283,8 @@ public class FallingBlockRenderer
                         z = 0.0F;
                     }
 
-                    modelViewStack.translate(x, -y - 1, z);
-                    modelViewStack.scale(scale, scale, scale);
+                    modelViewStack.translate(x + 1, -y - 1, z + 1);
+                    modelViewStack.scale(-scale, scale, -scale);
 
                     this.renderBlock(effect, builder, modelViewStack, pass, alpha);
 
