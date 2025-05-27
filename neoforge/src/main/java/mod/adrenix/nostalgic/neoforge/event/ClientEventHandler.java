@@ -5,7 +5,6 @@ import mod.adrenix.nostalgic.helper.candy.level.fog.OverworldFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.VoidFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.WaterFogRenderer;
 import mod.adrenix.nostalgic.helper.gameplay.InteractionHelper;
-import mod.adrenix.nostalgic.helper.gameplay.stamina.StaminaRenderer;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
@@ -40,7 +39,6 @@ public abstract class ClientEventHandler
 
     private static final FlagHolder ARMOR_LEVEL_PUSHED = FlagHolder.off();
     private static final FlagHolder AIR_LEVEL_PUSHED = FlagHolder.off();
-    private static final FlagHolder FOOD_DISABLED = FlagHolder.off();
 
     /**
      * Prevents various gui overlays from rendering depending on tweak context.
@@ -89,7 +87,6 @@ public abstract class ClientEventHandler
             graphics.pose().translate((float) (GuiUtil.getGuiWidth() / 2 + 90), 0.0F, 0.0F);
 
             ARMOR_LEVEL_PUSHED.enable();
-            FOOD_DISABLED.enable();
         }
 
         if (overlay == VanillaGuiLayers.AIR_LEVEL && isFoodOff)
@@ -99,9 +96,6 @@ public abstract class ClientEventHandler
 
             AIR_LEVEL_PUSHED.enable();
         }
-
-        if (overlay == VanillaGuiLayers.FOOD_LEVEL && event.isCanceled())
-            FOOD_DISABLED.enable();
     }
 
     /**
@@ -112,28 +106,13 @@ public abstract class ClientEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void setupGuiOverlayPost(RenderGuiLayerEvent.Post event)
     {
-        Gui gui = Minecraft.getInstance().gui;
         GuiGraphics graphics = event.getGuiGraphics();
-        ResourceLocation overlay = event.getName();
 
         if (ARMOR_LEVEL_PUSHED.ifEnabledThenDisable())
             graphics.pose().popPose();
 
         if (AIR_LEVEL_PUSHED.ifEnabledThenDisable())
             graphics.pose().popPose();
-
-        boolean useArmor = overlay == VanillaGuiLayers.ARMOR_LEVEL && FOOD_DISABLED.get();
-        boolean useFood = overlay == VanillaGuiLayers.FOOD_LEVEL && !FOOD_DISABLED.get();
-
-        if (useArmor || useFood)
-        {
-            StaminaRenderer.render(graphics, gui.rightHeight);
-
-            if (StaminaRenderer.isVisible())
-                gui.rightHeight += 10;
-        }
-
-        FOOD_DISABLED.disable();
     }
 
     /**
