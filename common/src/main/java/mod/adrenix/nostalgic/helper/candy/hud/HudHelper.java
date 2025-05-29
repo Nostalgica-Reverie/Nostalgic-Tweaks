@@ -216,7 +216,7 @@ public abstract class HudHelper
                 graphics.pose().pushPose();
                 graphics.pose().translate((float) (GuiUtil.getGuiWidth() / 2 + 90), 0.0F, 0.0F);
 
-                renderArmor(graphics, 39);
+                renderArmor(graphics, 39, 0);
             }
             case AIR ->
             {
@@ -227,7 +227,7 @@ public abstract class HudHelper
                     graphics.pose().pushPose();
                     graphics.pose().translate((float) (GuiUtil.getGuiWidth() / 2 - 100), 0.0F, 0.0F);
 
-                    renderAir(graphics, getHeightOffsetFromHearts());
+                    renderAir(graphics, getHeightOffsetFromHearts(), 0);
                 }
                 else if (StaminaRenderer.isVisible())
                 {
@@ -276,23 +276,24 @@ public abstract class HudHelper
      *
      * @param graphics     The {@link GuiGraphics} instance.
      * @param offsetHeight The offset height that will be subtracted from the bottom of the scaled window height.
+     * @param offsetRight  The offset from the right side of the screen.
      */
-    public static void renderArmor(GuiGraphics graphics, int offsetHeight)
+    public static void renderArmor(GuiGraphics graphics, int offsetHeight, int offsetRight)
     {
+        int right = offsetRight;
         int armor = NullableResult.getOrElse(getPlayer(), 0, Player::getArmorValue);
         int top = GuiUtil.getGuiHeight() - offsetHeight;
-        int left = 0;
 
         for (int i = 1; armor > 0 && i < 20; i += 2)
         {
-            left -= 8;
+            right -= 8;
 
             if (i == armor)
-                renderInverseHalfArmor(graphics, left, top);
+                renderInverseHalfArmor(graphics, right, top);
             else if (i < armor)
-                graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), left, top, 34, 9, 9, 9);
+                graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), right, top, 34, 9, 9, 9);
             else
-                graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), left, top, 16, 9, 9, 9);
+                graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), right, top, 16, 9, 9, 9);
         }
     }
 
@@ -301,17 +302,17 @@ public abstract class HudHelper
      *
      * @param graphics     The {@link GuiGraphics} instance.
      * @param offsetHeight The offset height that will be subtracted from the bottom of the scaled window height.
+     * @param offsetLeft   The offset from the left side of the screen.
      */
-    public static void renderAir(GuiGraphics graphics, int offsetHeight)
+    public static void renderAir(GuiGraphics graphics, int offsetHeight, int offsetLeft)
     {
         int air = NullableResult.getOrElse(getPlayer(), 0, Player::getAirSupply);
         int top = GuiUtil.getGuiHeight() - offsetHeight;
-        int left = 0;
 
         int full = Mth.ceil((double) (air - 2) * 10.0D / 300.0D);
         int partial = Mth.ceil((double) air * 10.0D / 300.0D) - full;
 
         for (int i = 0; i < full + partial; ++i)
-            graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), left + i * 8 + 9, top, (i < full ? 16 : 25), 18, 9, 9);
+            graphics.blit(GuiAccess.NT$GUI_ICONS_LOCATION(), offsetLeft + i * 8 + 9, top, (i < full ? 16 : 25), 18, 9, 9);
     }
 }

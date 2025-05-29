@@ -10,8 +10,6 @@ import mod.adrenix.nostalgic.helper.gameplay.InteractionHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import mod.adrenix.nostalgic.tweak.enums.Generic;
-import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
-import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.data.NullableResult;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,11 +38,6 @@ import net.minecraftforge.fml.common.Mod;
 )
 public abstract class ClientEventHandler
 {
-    /* State Holders */
-
-    private static final FlagHolder ARMOR_LEVEL_PUSHED = FlagHolder.off();
-    private static final FlagHolder AIR_LEVEL_PUSHED = FlagHolder.off();
-
     /**
      * Prevents various gui overlays from rendering depending on tweak context.
      *
@@ -96,37 +89,10 @@ public abstract class ClientEventHandler
             event.setCanceled(true);
 
         if (overlay.id() == VanillaGuiOverlay.ARMOR_LEVEL.id() && isFoodOff)
-        {
-            graphics.pose().pushPose();
-            graphics.pose().translate((float) (GuiUtil.getGuiWidth() / 2 + 90), 0.0F, 0.0F);
-
-            ARMOR_LEVEL_PUSHED.enable();
-        }
+            event.setCanceled(true);
 
         if (overlay.id() == VanillaGuiOverlay.AIR_LEVEL.id() && isFoodOff)
-        {
-            graphics.pose().pushPose();
-            graphics.pose().translate((float) (GuiUtil.getGuiWidth() / 2 - 100), 0.0F, 0.0F);
-
-            AIR_LEVEL_PUSHED.enable();
-        }
-    }
-
-    /**
-     * Handles the tear-down of previous graphics changes during the overlay pre-phase.
-     *
-     * @param event The {@link RenderGuiOverlayEvent.Post} event instance.
-     */
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void setupGuiOverlayPost(RenderGuiOverlayEvent.Post event)
-    {
-        GuiGraphics graphics = event.getGuiGraphics();
-
-        if (ARMOR_LEVEL_PUSHED.ifEnabledThenDisable())
-            graphics.pose().popPose();
-
-        if (AIR_LEVEL_PUSHED.ifEnabledThenDisable())
-            graphics.pose().popPose();
+            event.setCanceled(true);
     }
 
     /**

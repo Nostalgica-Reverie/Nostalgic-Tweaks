@@ -55,7 +55,7 @@ public abstract class ClientSetup
     }
 
     /**
-     * Register this mod's custom gui overlays. Use {@link NostalgicGuiOverlay#key()} to get this mod's overlay id as a
+     * Register this mod's custom gui overlays. Use {@link NostalgicGuiOverlay#id()} to get this mod's overlay id as a
      * resource location.
      *
      * @param event The {@link RegisterGuiOverlaysEvent} event instance.
@@ -64,6 +64,6 @@ public abstract class ClientSetup
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event)
     {
         for (NostalgicGuiOverlay overlay : NostalgicGuiOverlay.values())
-            event.registerAbove(overlay.above(), overlay.id(), overlay.renderer());
+            event.registerAbove(overlay.above(), overlay.overlayName(), overlay.renderer());
     }
 }
