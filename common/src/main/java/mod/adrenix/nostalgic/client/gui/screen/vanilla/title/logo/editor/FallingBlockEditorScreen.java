@@ -28,6 +28,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
     private boolean hasErrorOccurred = false;
     private boolean areBlocksChanged = false;
     private boolean isInitialAnimationFinished = false;
+    private final EditorHistory history = new EditorHistory(this);
 
     /* Constructor */
 
@@ -134,6 +135,25 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
     }
 
     /**
+     * @return The {@link EditorHistory} instance for this screen.
+     */
+    public EditorHistory getHistory()
+    {
+        return this.history;
+    }
+
+    /**
+     * Change the data this screen is managing. The given data will be copied, so there is no need to do that
+     * beforehand.
+     *
+     * @param data The {@link FallingBlockData} to copy from and to set as this screen's managed data.
+     */
+    public void setManagedData(FallingBlockData data)
+    {
+        this.managed = data.copy();
+    }
+
+    /**
      * @return The falling block data that this screen is managing.
      */
     public FallingBlockData getManagedData()
@@ -147,33 +167,6 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
     public ArrayList<FallingBlockData.Block> getManagedBlocks()
     {
         return this.managed.blocks;
-    }
-
-    /**
-     * Make a new copy of unique falling block data from the given data.
-     *
-     * @param from The {@link FallingBlockData} instance to make a copy of.
-     * @return A new copy {@link FallingBlockData} that is not linked original.
-     */
-    public FallingBlockData makeCopyOfData(FallingBlockData from)
-    {
-        return from.copy();
-    }
-
-    /**
-     * Make a new copy of unique falling block data from the given block data list.
-     *
-     * @param from A {@link ArrayList} of {@link FallingBlockData.Block}.
-     * @return A new {@link ArrayList} of copied {@link FallingBlockData.Block}.
-     */
-    public ArrayList<FallingBlockData.Block> makeCopyOfBlocks(ArrayList<FallingBlockData.Block> from)
-    {
-        ArrayList<FallingBlockData.Block> copy = new ArrayList<>();
-
-        for (FallingBlockData.Block block : from)
-            copy.add(block.copy());
-
-        return copy;
     }
 
     /**
@@ -217,10 +210,11 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
                 FallingBlockConfig.save();
             }
 
-            this.initial = FallingBlockConfig.BLOCK_DATA.orElse(null);
-            this.managed = this.makeCopyOfData(this.initial);
-
+            this.initial = FallingBlockConfig.getData();
+            this.managed = this.initial.copy();
             this.blockLogo = new FallingBlockRenderer(this.managed);
+
+            this.history.setFirstPointOnTimeline(this.initial);
         }
     }
 
@@ -247,7 +241,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         FallingBlockConfig.save();
 
         this.initial = FallingBlockConfig.BLOCK_DATA.orElse(null);
-        this.managed = this.makeCopyOfData(this.initial);
+        this.managed = this.initial.copy();
     }
 
     /**

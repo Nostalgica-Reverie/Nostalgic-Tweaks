@@ -50,7 +50,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import java.nio.file.Path;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -62,15 +61,13 @@ public class EditorWidgets implements WidgetManager
 {
     /* Fields */
 
-    private static final int ACTION_CAPTURE_MAX = 50;
-
     private final FallingBlockEditorScreen editorScreen;
-    private final Supplier<FallingBlockData> data;
     private final Supplier<ArrayList<FallingBlockData.Block>> blocks;
-    private final ArrayDeque<ArrayList<FallingBlockData.Block>> history;
-    private final ArrayDeque<ArrayList<FallingBlockData.Block>> redo;
+    private final Supplier<FallingBlockData> data;
+    private final NullableHolder<Float> scaling;
     private final ArrayList<Pixel> pixels;
     private final ArrayList<Pixel> moving;
+    private final EditorHistory history;
 
     private final Color shadow;
     private final FlagHolder sound;
@@ -99,13 +96,13 @@ public class EditorWidgets implements WidgetManager
         this.editorScreen = editorScreen;
         this.data = editorScreen::getManagedData;
         this.blocks = editorScreen::getManagedBlocks;
+        this.history = editorScreen.getHistory();
         this.shadow = new Color(Color.BLACK);
         this.pixels = new ArrayList<>();
         this.moving = new ArrayList<>();
-        this.history = new ArrayDeque<>();
-        this.redo = new ArrayDeque<>();
         this.sound = FlagHolder.off();
         this.block = Blocks.STONE.asItem();
+        this.scaling = NullableHolder.empty();
 
         ToolDrawer.reset();
     }
@@ -193,6 +190,7 @@ public class EditorWidgets implements WidgetManager
             .above(this.topOfEditor, -1)
             .backgroundRenderer(this::sliderBackground)
             .handleRenderer(this::sliderHandle)
+            .onChange(this::onScaleChange)
             .build(this.editorScreen::addWidget);
 
         /* Pixel Canvas */
@@ -406,8 +404,8 @@ public class EditorWidgets implements WidgetManager
             .tooltip(Lang.Logo.UNDO, 500L, TimeUnit.MILLISECONDS)
             .infoTooltip(Lang.Logo.UNDO_TOOLTIP, 45)
             .skipFocusOnClick()
+            .disableIf(this.history::isNothingToUndo)
             .onPress(this::undoLastAction)
-            .disableIf(this::isUndoEmpty)
             .build(cache::addWidget);
 
         IconTemplate.button(Icons.SMALL_REDO, Icons.SMALL_REDO_HOVER, Icons.SMALL_REDO_OFF)
@@ -415,8 +413,8 @@ public class EditorWidgets implements WidgetManager
             .infoTooltip(Lang.Logo.REDO_TOOLTIP, 45)
             .skipFocusOnClick()
             .rightOf(undo, 1)
+            .disableIf(this.history::isNothingToRedo)
             .onPress(this::redoLastAction)
-            .disableIf(this::isRedoEmpty)
             .build(cache::addWidget);
 
         /* Bottom Zone */
@@ -518,6 +516,27 @@ public class EditorWidgets implements WidgetManager
         this.canvas.setResizerToResume();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void tick()
+    {
+        if (this.scaling.isEmpty() || this.scaleSlider.isDragging())
+            return;
+
+        if (this.scaling.getOrThrow().equals(this.history.peekLastOrFirst().scale))
+            this.scaling.clear();
+        else
+        {
+            this.data.get().setScale(this.history.peekLastOrFirst().scale);
+            this.makeHistory();
+
+            this.data.get().setScale(this.scaling.getOrThrow());
+            this.scaling.clear();
+        }
+    }
+
     /* Widget Helpers */
 
     /**
@@ -608,14 +627,8 @@ public class EditorWidgets implements WidgetManager
      */
     private void makeHistory()
     {
-        if (this.history.isEmpty() || FallingBlockConfig.isBlockDataChanged(this.history.peekLast(), this.blocks.get()))
-        {
-            this.redo.clear();
-            this.history.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
-
-            if (this.history.size() > ACTION_CAPTURE_MAX)
-                this.history.pop();
-        }
+        if (this.history.isChangeInTimeline())
+            this.history.capture();
     }
 
     /**
@@ -633,7 +646,7 @@ public class EditorWidgets implements WidgetManager
      */
     private void copyCanvasToFile()
     {
-        final FallingBlockData data = this.editorScreen.getManagedData().copy();
+        final FallingBlockData data = this.data.get().copy();
 
         CompletableFuture.runAsync(() -> {
             Path defaultFile = PathUtil.getLogoPath().resolve(FallingBlockConfig.COPY_NAME);
@@ -730,22 +743,8 @@ public class EditorWidgets implements WidgetManager
      */
     private void undoLastAction()
     {
-        if (this.history.isEmpty())
-            return;
-
-        this.redo.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
-
-        if (this.redo.size() > ACTION_CAPTURE_MAX)
-            this.redo.pop();
-
-        ArrayList<FallingBlockData.Block> last = this.history.pollLast();
-
-        if (last != null)
-        {
-            this.blocks.get().clear();
-            this.blocks.get().addAll(this.editorScreen.makeCopyOfBlocks(last));
-            this.editorScreen.replayAnimation(true);
-        }
+        this.history.goBack();
+        this.scaleSlider.setValue(this.data.get().scale);
     }
 
     /**
@@ -753,38 +752,8 @@ public class EditorWidgets implements WidgetManager
      */
     private void redoLastAction()
     {
-        if (this.redo.isEmpty())
-            return;
-
-        this.history.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
-
-        if (this.history.size() > ACTION_CAPTURE_MAX)
-            this.history.pop();
-
-        ArrayList<FallingBlockData.Block> last = this.redo.pollLast();
-
-        if (last != null)
-        {
-            this.blocks.get().clear();
-            this.blocks.get().addAll(this.editorScreen.makeCopyOfBlocks(last));
-            this.editorScreen.replayAnimation(true);
-        }
-    }
-
-    /**
-     * @return Whether there is nothing to undo.
-     */
-    private boolean isUndoEmpty()
-    {
-        return this.history.isEmpty();
-    }
-
-    /**
-     * @return Whether there is nothing to redo.
-     */
-    private boolean isRedoEmpty()
-    {
-        return this.redo.isEmpty();
+        this.history.goForward();
+        this.scaleSlider.setValue(this.data.get().scale);
     }
 
     /**
@@ -804,6 +773,16 @@ public class EditorWidgets implements WidgetManager
     private float getScalingFactor()
     {
         return this.data.get().scale;
+    }
+
+    /**
+     * Instructions to perform when the slider changes the logo scale.
+     *
+     * @param slider The {@link SliderWidget} instance.
+     */
+    private void onScaleChange(SliderWidget slider)
+    {
+        this.scaling.set((float) slider.getValue());
     }
 
     /* Pixel Canvas Events */
@@ -956,7 +935,7 @@ public class EditorWidgets implements WidgetManager
             {
                 if (Screen.hasControlDown())
                 {
-                    this.undoLastAction();
+                    this.history.goBack();
                     yield true;
                 }
 
@@ -966,7 +945,7 @@ public class EditorWidgets implements WidgetManager
             {
                 if (Screen.hasControlDown())
                 {
-                    this.redoLastAction();
+                    this.history.goForward();
                     yield true;
                 }
 
