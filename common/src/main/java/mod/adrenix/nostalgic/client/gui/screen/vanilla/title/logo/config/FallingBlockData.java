@@ -4,11 +4,41 @@ import java.util.ArrayList;
 
 public class FallingBlockData
 {
+    public float scale = 1.0F;
     public final ArrayList<Block> blocks;
 
     public FallingBlockData()
     {
         this.blocks = new ArrayList<>();
+    }
+
+    public float getScale()
+    {
+        return this.scale;
+    }
+
+    public void setScale(float scale)
+    {
+        this.scale = scale;
+    }
+
+    public void copyTo(FallingBlockData other)
+    {
+        other.scale = this.scale;
+        other.blocks.clear();
+
+        this.blocks.forEach(block -> other.blocks.add(block.copy()));
+    }
+
+    public FallingBlockData copy()
+    {
+        FallingBlockData data = new FallingBlockData();
+
+        data.scale = this.scale;
+
+        this.blocks.forEach(block -> data.blocks.add(block.copy()));
+
+        return data;
     }
 
     public static class Block
@@ -105,7 +135,7 @@ public class FallingBlockData
         @Override
         public boolean equals(Object object)
         {
-            if (object == null)
+            if (!(object instanceof Block))
                 return false;
 
             boolean sameX = ((Block) object).getX() == this.x;
@@ -114,7 +144,7 @@ public class FallingBlockData
             boolean sameColor = ((Block) object).getShadowColor().equals(this.shadowColor);
             boolean sameBlock = ((Block) object).getBlockId().equals(this.blockId);
 
-            return object instanceof Block && sameX && sameY && sameSound && sameColor && sameBlock;
+            return sameX && sameY && sameSound && sameColor && sameBlock;
         }
     }
 }

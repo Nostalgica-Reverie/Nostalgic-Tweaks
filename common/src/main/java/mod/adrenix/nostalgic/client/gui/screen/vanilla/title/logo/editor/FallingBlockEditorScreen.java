@@ -21,8 +21,8 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
 {
     /* Fields */
 
-    private ArrayList<FallingBlockData.Block> initialBlocks = new ArrayList<>();
-    private ArrayList<FallingBlockData.Block> managedBlocks = new ArrayList<>();
+    private FallingBlockData initial;
+    private FallingBlockData managed;
     private EditorWidgets editorWidgets;
     private FallingBlockRenderer blockLogo;
     private boolean hasErrorOccurred = false;
@@ -62,7 +62,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         if (this.blockLogo.isFinished() && !this.isInitialAnimationFinished)
             this.isInitialAnimationFinished = true;
 
-        this.areBlocksChanged = FallingBlockConfig.isDataChanged(this.initialBlocks, this.managedBlocks);
+        this.areBlocksChanged = FallingBlockConfig.isDataChanged(this.initial, this.managed);
 
         super.tick();
     }
@@ -140,11 +140,30 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
     }
 
     /**
+     * @return The falling block data that this screen is managing.
+     */
+    public FallingBlockData getManagedData()
+    {
+        return this.managed;
+    }
+
+    /**
      * @return The falling data blocks that this screen is managing.
      */
-    public ArrayList<FallingBlockData.Block> getData()
+    public ArrayList<FallingBlockData.Block> getManagedBlocks()
     {
-        return this.managedBlocks;
+        return this.managed.blocks;
+    }
+
+    /**
+     * Make a new copy of unique falling block data from the given data.
+     *
+     * @param from The {@link FallingBlockData} instance to make a copy of.
+     * @return A new copy {@link FallingBlockData} that is not linked original.
+     */
+    public FallingBlockData makeCopyOfData(FallingBlockData from)
+    {
+        return from.copy();
     }
 
     /**
@@ -153,7 +172,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
      * @param from A {@link ArrayList} of {@link FallingBlockData.Block}.
      * @return A new {@link ArrayList} of copied {@link FallingBlockData.Block}.
      */
-    public ArrayList<FallingBlockData.Block> makeCopy(ArrayList<FallingBlockData.Block> from)
+    public ArrayList<FallingBlockData.Block> makeCopyOfBlocks(ArrayList<FallingBlockData.Block> from)
     {
         ArrayList<FallingBlockData.Block> copy = new ArrayList<>();
 
@@ -173,7 +192,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         if (!this.isInitialAnimationFinished)
             return;
 
-        this.blockLogo = new FallingBlockRenderer(this.managedBlocks, immediate);
+        this.blockLogo = new FallingBlockRenderer(this.managed, immediate);
     }
 
     /**
@@ -194,7 +213,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         if (FallingBlockConfig.isNotAvailable())
         {
             NostalgicTweaks.LOGGER.error("[Falling Blocks] The config isn't ready, this shouldn't happen!");
-            this.blockLogo = new FallingBlockRenderer(new ArrayList<>());
+            this.blockLogo = new FallingBlockRenderer(new FallingBlockData());
         }
         else
         {
@@ -204,10 +223,10 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
                 FallingBlockConfig.save();
             }
 
-            this.initialBlocks = new ArrayList<>(FallingBlockConfig.getBlockData());
-            this.managedBlocks = this.makeCopy(this.initialBlocks);
+            this.initial = FallingBlockConfig.BLOCK_DATA.orElse(null);
+            this.managed = this.makeCopyOfData(this.initial);
 
-            this.blockLogo = new FallingBlockRenderer(this.managedBlocks);
+            this.blockLogo = new FallingBlockRenderer(this.managed);
         }
     }
 
@@ -230,12 +249,11 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
             return;
         }
 
-        FallingBlockConfig.BLOCK_DATA.getOrThrow().blocks.clear();
-        FallingBlockConfig.BLOCK_DATA.getOrThrow().blocks.addAll(this.managedBlocks);
+        FallingBlockConfig.apply(this.managed);
         FallingBlockConfig.save();
 
-        this.initialBlocks = new ArrayList<>(FallingBlockConfig.getBlockData());
-        this.managedBlocks = new ArrayList<>(FallingBlockConfig.getBlockData());
+        this.initial = FallingBlockConfig.BLOCK_DATA.orElse(null);
+        this.managed = this.makeCopyOfData(this.initial);
     }
 
     /**

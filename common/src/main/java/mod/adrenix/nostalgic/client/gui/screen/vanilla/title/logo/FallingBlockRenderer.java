@@ -64,6 +64,11 @@ public class FallingBlockRenderer
     private final int width;
 
     /**
+     * The scaling factor to apply the logo.
+     */
+    private final float scaling;
+
+    /**
      * Whether the animation should be skipped.
      */
     private final boolean immediate;
@@ -79,6 +84,7 @@ public class FallingBlockRenderer
         this.logo = FallingBlockText.getInstance().logo();
         this.width = FallingBlockText.getInstance().longestLine();
         this.height = FallingBlockText.getInstance().size();
+        this.scaling = 1.0F;
         this.immediate = false;
 
         this.logoEffects = new FallingEffect[this.width][this.height];
@@ -94,22 +100,23 @@ public class FallingBlockRenderer
      * Create a new {@link FallingBlockRenderer} instance using custom falling block data. The data for this form of the
      * renderer uses the {@code config/logo/falling_blocks.json} config file to determine logo visuals.
      *
-     * @param blocks    The {@link ArrayList} of {@link FallingBlockData.Block} instances.
+     * @param data      The {@link FallingBlockData} instances.
      * @param immediate Whether the animation should be skipped entirely.
      */
-    public FallingBlockRenderer(ArrayList<FallingBlockData.Block> blocks, boolean immediate)
+    public FallingBlockRenderer(FallingBlockData data, boolean immediate)
     {
         this.logo = new ArrayList<>();
+        this.scaling = data.scale;
         this.immediate = immediate;
 
-        final Rectangle border = Rectangle.fromCollection(blocks, FallingBlockData.Block::getX, FallingBlockData.Block::getY);
+        final Rectangle border = Rectangle.fromCollection(data.blocks, FallingBlockData.Block::getX, FallingBlockData.Block::getY);
 
         this.width = border.getWidth() + 1;
         this.height = border.getHeight() + 1;
 
         ArrayList<FallingBlockData.Block> trimmed = new ArrayList<>();
 
-        blocks.forEach(block -> {
+        data.blocks.forEach(block -> {
             FallingBlockData.Block copy = block.copy();
 
             copy.trimX(border.startX());
@@ -163,11 +170,11 @@ public class FallingBlockRenderer
      * Create a new {@link FallingBlockRenderer} instance using custom falling block data. The data for this form of the
      * renderer uses the {@code config/logo/falling_blocks.json} config file to determine logo visuals.
      *
-     * @param blocks The {@link ArrayList} of {@link FallingBlockData.Block} instances.
+     * @param data The {@link FallingBlockData} instances.
      */
-    public FallingBlockRenderer(ArrayList<FallingBlockData.Block> blocks)
+    public FallingBlockRenderer(FallingBlockData data)
     {
-        this(blocks, false);
+        this(data, false);
     }
 
     /* Methods */
@@ -217,7 +224,7 @@ public class FallingBlockRenderer
         float zOffset = MatrixUtil.getZ(modelViewStack);
 
         modelViewStack.translate(-0.05F, 0.78F, (-1.0F * zOffset) - 10.0F);
-        modelViewStack.scale(1.32F, 1.32F, 1.32F);
+        modelViewStack.scale(1.32F * this.scaling, 1.32F * this.scaling, 1.32F * this.scaling);
 
         RenderSystem.applyModelViewMatrix();
         RenderSystem.enableDepthTest();

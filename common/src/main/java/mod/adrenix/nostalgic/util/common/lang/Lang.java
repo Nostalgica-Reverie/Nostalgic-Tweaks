@@ -321,6 +321,7 @@ public interface Lang
     interface Slider
     {
         Translation CAP = from("cap");
+        Translation SCALE = from("scale");
         Translation STACK = from("stack");
         Translation LIMIT = from("limit");
         Translation FILES = from("files");
@@ -580,8 +581,8 @@ public interface Lang
             Translation ACTION_HISTORY = help("action_history");
 
             Supplier<ArrayList<Translation>> TERMINOLOGY_INFO = () -> makeInfo("terminology", 7);
-            Supplier<ArrayList<Translation>> TIPS_AND_HINTS_INFO = () -> makeInfo("tips_and_hints", 3);
-            Supplier<ArrayList<Translation>> KEY_SHORTCUTS_INFO = () -> makeInfo("key_shortcuts", 24);
+            Supplier<ArrayList<Translation>> TIPS_AND_HINTS_INFO = () -> makeInfo("tips_and_hints", 4);
+            Supplier<ArrayList<Translation>> KEY_SHORTCUTS_INFO = () -> makeInfo("key_shortcuts", 26);
             Supplier<ArrayList<Translation>> CANVAS_TOOLS_INFO = () -> makeInfo("canvas_tools", 5);
             Supplier<ArrayList<Translation>> PIXEL_SETTINGS_INFO = () -> makeInfo("pixel_settings", 3);
             Supplier<ArrayList<Translation>> BATCH_EDITING_INFO = () -> makeInfo("batch_editing", 3);

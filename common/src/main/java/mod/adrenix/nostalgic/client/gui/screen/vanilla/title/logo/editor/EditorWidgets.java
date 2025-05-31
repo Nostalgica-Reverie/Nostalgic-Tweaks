@@ -16,9 +16,11 @@ import mod.adrenix.nostalgic.client.gui.widget.grid.Grid;
 import mod.adrenix.nostalgic.client.gui.widget.icon.IconTemplate;
 import mod.adrenix.nostalgic.client.gui.widget.icon.IconWidget;
 import mod.adrenix.nostalgic.client.gui.widget.separator.SeparatorWidget;
+import mod.adrenix.nostalgic.client.gui.widget.slider.SliderWidget;
 import mod.adrenix.nostalgic.tweak.listing.ItemRule;
 import mod.adrenix.nostalgic.util.client.dialog.DialogType;
 import mod.adrenix.nostalgic.util.client.dialog.FileDialog;
+import mod.adrenix.nostalgic.util.client.gui.DrawText;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
@@ -42,6 +44,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -62,6 +65,7 @@ public class EditorWidgets implements WidgetManager
     private static final int ACTION_CAPTURE_MAX = 50;
 
     private final FallingBlockEditorScreen editorScreen;
+    private final Supplier<FallingBlockData> data;
     private final Supplier<ArrayList<FallingBlockData.Block>> blocks;
     private final ArrayDeque<ArrayList<FallingBlockData.Block>> history;
     private final ArrayDeque<ArrayList<FallingBlockData.Block>> redo;
@@ -78,6 +82,7 @@ public class EditorWidgets implements WidgetManager
     private Grid pixelSettings;
     private SeparatorWidget topOfEditor;
     private SeparatorWidget bottomOfEditor;
+    private SliderWidget scaleSlider;
     private ButtonWidget colorPicker;
     private ButtonWidget blockPicker;
     private ButtonWidget soundToggle;
@@ -92,7 +97,8 @@ public class EditorWidgets implements WidgetManager
     EditorWidgets(FallingBlockEditorScreen editorScreen)
     {
         this.editorScreen = editorScreen;
-        this.blocks = editorScreen::getData;
+        this.data = editorScreen::getManagedData;
+        this.blocks = editorScreen::getManagedBlocks;
         this.shadow = new Color(Color.BLACK);
         this.pixels = new ArrayList<>();
         this.moving = new ArrayList<>();
@@ -137,6 +143,8 @@ public class EditorWidgets implements WidgetManager
     {
         IntegerHolder tabOrder = IntegerHolder.create(1);
 
+        /* Top Zone */
+
         BlankWidget topZone = BlankWidget.create()
             .heightOfScreen(0.3F)
             .extendWidthToScreenEnd(0)
@@ -173,6 +181,21 @@ public class EditorWidgets implements WidgetManager
             .skipFocusOnClick()
             .onPress(this.editorScreen::replayAnimation)
             .build(player::addWidget);
+
+        this.scaleSlider = SliderWidget.create(0.1F, 2.0F, this::setScalingFactor, this::getScalingFactor)
+            .tabOrderGroup(tabOrder.getAndIncrement())
+            .height(10)
+            .interval(0.1F)
+            .handleWidth(1)
+            .fromScreenEndX(5)
+            .widthOfScreen(0.15F)
+            .scrollWithoutFocus()
+            .above(this.topOfEditor, -1)
+            .backgroundRenderer(this::sliderBackground)
+            .handleRenderer(this::sliderHandle)
+            .build(this.editorScreen::addWidget);
+
+        /* Pixel Canvas */
 
         this.canvas = Embed.create()
             .padding(0)
@@ -585,10 +608,10 @@ public class EditorWidgets implements WidgetManager
      */
     private void makeHistory()
     {
-        if (this.history.isEmpty() || FallingBlockConfig.isDataChanged(this.history.peekLast(), this.blocks.get()))
+        if (this.history.isEmpty() || FallingBlockConfig.isBlockDataChanged(this.history.peekLast(), this.blocks.get()))
         {
             this.redo.clear();
-            this.history.add(this.editorScreen.makeCopy(this.blocks.get()));
+            this.history.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
 
             if (this.history.size() > ACTION_CAPTURE_MAX)
                 this.history.pop();
@@ -610,8 +633,7 @@ public class EditorWidgets implements WidgetManager
      */
     private void copyCanvasToFile()
     {
-        final FallingBlockData data = new FallingBlockData();
-        data.blocks.addAll(this.blocks.get());
+        final FallingBlockData data = this.editorScreen.getManagedData().copy();
 
         CompletableFuture.runAsync(() -> {
             Path defaultFile = PathUtil.getLogoPath().resolve(FallingBlockConfig.COPY_NAME);
@@ -631,26 +653,27 @@ public class EditorWidgets implements WidgetManager
     private void uploadFileToCanvas()
     {
         CompletableFuture.supplyAsync(() -> {
-            ArrayList<FallingBlockData.Block> blocks = new ArrayList<>();
+            FallingBlockData data = new FallingBlockData();
 
             Path defaultFile = PathUtil.getLogoPath().resolve(" ");
             String readLocation = FileDialog.getJsonLocation("Upload Falling Block Config", defaultFile, DialogType.OPEN_FILE);
 
             if (readLocation != null)
-                FallingBlockConfig.upload(Path.of(readLocation).toFile(), blocks);
+                FallingBlockConfig.upload(Path.of(readLocation).toFile(), data);
 
-            return blocks;
-        }).whenCompleteAsync((blocks, throwable) -> Minecraft.getInstance().execute(() -> {
+            return data;
+        }).whenCompleteAsync((data, throwable) -> Minecraft.getInstance().execute(() -> {
             if (throwable != null)
             {
                 EditorOverlay.couldNotReadConfig();
                 NostalgicTweaks.LOGGER.error("[Falling Blocks] An error occurred when trying to read uploaded file\n%s", throwable);
             }
-            else if (blocks != null && !blocks.isEmpty())
+            else if (data != null && !data.blocks.isEmpty())
             {
                 this.makeHistory();
                 this.blocks.get().clear();
-                this.blocks.get().addAll(blocks);
+                this.blocks.get().addAll(data.blocks);
+                this.scaleSlider.setValue(data.scale);
                 this.editorScreen.replayAnimation();
             }
         }));
@@ -710,7 +733,7 @@ public class EditorWidgets implements WidgetManager
         if (this.history.isEmpty())
             return;
 
-        this.redo.add(this.editorScreen.makeCopy(this.blocks.get()));
+        this.redo.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
 
         if (this.redo.size() > ACTION_CAPTURE_MAX)
             this.redo.pop();
@@ -720,7 +743,7 @@ public class EditorWidgets implements WidgetManager
         if (last != null)
         {
             this.blocks.get().clear();
-            this.blocks.get().addAll(this.editorScreen.makeCopy(last));
+            this.blocks.get().addAll(this.editorScreen.makeCopyOfBlocks(last));
             this.editorScreen.replayAnimation(true);
         }
     }
@@ -733,7 +756,7 @@ public class EditorWidgets implements WidgetManager
         if (this.redo.isEmpty())
             return;
 
-        this.history.add(this.editorScreen.makeCopy(this.blocks.get()));
+        this.history.add(this.editorScreen.makeCopyOfBlocks(this.blocks.get()));
 
         if (this.history.size() > ACTION_CAPTURE_MAX)
             this.history.pop();
@@ -743,7 +766,7 @@ public class EditorWidgets implements WidgetManager
         if (last != null)
         {
             this.blocks.get().clear();
-            this.blocks.get().addAll(this.editorScreen.makeCopy(last));
+            this.blocks.get().addAll(this.editorScreen.makeCopyOfBlocks(last));
             this.editorScreen.replayAnimation(true);
         }
     }
@@ -762,6 +785,25 @@ public class EditorWidgets implements WidgetManager
     private boolean isRedoEmpty()
     {
         return this.redo.isEmpty();
+    }
+
+    /**
+     * Set the scaling factor for the falling block logo.
+     *
+     * @param number The new logo scale.
+     */
+    private void setScalingFactor(Number number)
+    {
+        this.data.get().setScale(MathUtil.roundTo(number.floatValue(), 1));
+        this.editorScreen.replayAnimation(true);
+    }
+
+    /**
+     * @return The current scaling factor for the falling block logo.
+     */
+    private float getScalingFactor()
+    {
+        return this.data.get().scale;
     }
 
     /* Pixel Canvas Events */
@@ -964,7 +1006,7 @@ public class EditorWidgets implements WidgetManager
             }
             case InputConstants.KEY_B ->
             {
-                this.blockPicker.onPress();
+                this.blockPicker.runIfPossible(false);
                 yield true;
             }
             case InputConstants.KEY_O ->
@@ -982,7 +1024,7 @@ public class EditorWidgets implements WidgetManager
                 if (Screen.hasControlDown())
                     this.uploadFileToCanvas();
                 else
-                    this.soundToggle.onPress();
+                    this.soundToggle.runIfPossible(true);
 
                 yield true;
             }
@@ -991,34 +1033,54 @@ public class EditorWidgets implements WidgetManager
                 if (Screen.hasControlDown())
                     this.copyCanvasToFile();
                 else
-                    this.colorPicker.onPress();
+                    this.colorPicker.runIfPossible(false);
 
                 yield true;
             }
             case InputConstants.KEY_F ->
             {
-                this.filterSelection.onPress();
+                this.filterSelection.runIfPossible(false);
                 yield true;
             }
             case InputConstants.KEY_A ->
             {
-                this.applySelection.onPress();
+                this.applySelection.runIfPossible(true);
                 yield true;
             }
             case InputConstants.KEY_R ->
             {
-                this.clearCanvas.onPress();
+                this.clearCanvas.runIfPossible(true);
                 yield true;
             }
             case InputConstants.KEY_H ->
             {
-                this.helpManual.onPress();
+                this.helpManual.runIfPossible(false);
                 yield true;
             }
             case InputConstants.KEY_P ->
             {
                 this.editorScreen.replayAnimation();
                 yield true;
+            }
+            case InputConstants.KEY_EQUALS, InputConstants.KEY_ADD ->
+            {
+                if (Screen.hasControlDown())
+                {
+                    this.scaleSlider.incrementIfPossible();
+                    yield true;
+                }
+
+                yield false;
+            }
+            case InputConstants.KEY_MINUS ->
+            {
+                if (Screen.hasControlDown())
+                {
+                    this.scaleSlider.decrementIfPossible();
+                    yield true;
+                }
+
+                yield false;
             }
             case InputConstants.KEY_PAGEDOWN ->
             {
@@ -1137,6 +1199,42 @@ public class EditorWidgets implements WidgetManager
         RenderUtil.vLine(graphics, embed.getX() - 1, embed.getY(), embed.getEndY() + 1, Color.SILVER_CHALICE);
         RenderUtil.vLine(graphics, embed.getEndX(), embed.getY(), embed.getEndY() + 1, Color.SILVER_CHALICE);
         RenderUtil.hLine(graphics, embed.getX(), embed.getEndY(), embed.getEndX(), Color.SILVER_CHALICE);
+    }
+
+    /**
+     * Scaling slider background rendering.
+     */
+    private void sliderBackground(SliderWidget slider, GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
+    {
+        RenderUtil.fill(graphics, slider.getX(), slider.getY(), slider.getEndX(), slider.getEndY(), Color.OLIVE_BLACK);
+        RenderUtil.fill(graphics, slider.getX() + 2, slider.getY() + 4.5F, slider.getEndX() - 2, slider.getY() + 5.0F, Color.SILVER_CHALICE);
+        RenderUtil.vLine(graphics, slider.getX() - 1, slider.getY() - 1, slider.getEndY(), Color.SILVER_CHALICE);
+        RenderUtil.vLine(graphics, slider.getEndX(), slider.getY() - 1, slider.getEndY(), Color.SILVER_CHALICE);
+        RenderUtil.hLine(graphics, slider.getX(), slider.getY() - 1, slider.getEndX(), Color.SILVER_CHALICE);
+    }
+
+    /**
+     * Scaling slider handle rendering.
+     */
+    private void sliderHandle(SliderWidget slider, GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
+    {
+        Color color = slider.isHoveredOrFocused() ? Color.MAYA_BLUE : Color.WHITE;
+
+        int handleWidth = slider.getHandleWidth();
+        int x0 = Mth.clamp(slider.getHandleX(), slider.getX() + 2, slider.getEndX() - 2 - handleWidth);
+        int x1 = Mth.clamp(slider.getHandleX() + handleWidth, slider.getX() + 2 + handleWidth, slider.getEndX() - 2);
+        int y0 = slider.getY() + 1;
+        int y1 = slider.getEndY() - 1;
+
+        RenderUtil.fill(graphics, x0, y0, x1, y1, color);
+
+        if (slider.isHoveredOrFocused())
+        {
+            DrawText.begin(graphics, Lang.Slider.SCALE.get(String.format("%.0f%%", slider.getValue() * 100.0D)))
+                .pos(slider.getX() + slider.getWidth() / 2, slider.getY() - GuiUtil.textHeight() - 1)
+                .center()
+                .draw();
+        }
     }
 
     /* Selection Helpers */
