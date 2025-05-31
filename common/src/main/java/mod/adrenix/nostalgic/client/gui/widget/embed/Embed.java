@@ -1088,7 +1088,7 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
-        if (this.isInvisible())
+        if (this.isInvisible() || !this.isMouseInsideWindow(mouseX, mouseY))
             return false;
 
         if (this.builder.mouseScrolled != null && this.builder.mouseScrolled.accept(mouseX, mouseY, deltaY))
