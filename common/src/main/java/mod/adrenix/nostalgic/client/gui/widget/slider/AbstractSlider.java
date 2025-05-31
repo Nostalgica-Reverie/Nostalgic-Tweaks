@@ -32,7 +32,6 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     protected double value;
     protected Component title;
     protected boolean dragging;
-    protected int handleWidth = 8;
     protected final SimpleTimer scrollTimer;
     protected final Animation scrollAnimator;
 
@@ -121,7 +120,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      */
     protected void setFromMouse(double mouseX)
     {
-        this.setNormalizedValue((mouseX - (this.getX() + this.handleWidth / 2.0D)) / (double) (this.width - this.handleWidth));
+        this.setNormalizedValue((mouseX - (this.getX() + this.builder.handleWidth / 2.0D)) / (double) (this.width - this.builder.handleWidth));
     }
 
     /**
@@ -191,7 +190,16 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     @PublicAPI
     public int getHandleX()
     {
-        return this.x + (int) (this.value * (double) (this.width - this.handleWidth));
+        return this.x + (int) (this.value * (double) (this.width - this.builder.handleWidth));
+    }
+
+    /**
+     * @return Get the slider's handle width.
+     */
+    @PublicAPI
+    public int getHandleWidth()
+    {
+        return this.builder.handleWidth;
     }
 
     /**

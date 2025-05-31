@@ -27,6 +27,7 @@ public abstract class AbstractSliderMaker<Builder extends AbstractSliderMaker<Bu
     @Nullable protected SliderRenderer<Builder, Slider> handleRenderer = null;
     @Nullable protected Supplier<Number> interval = null;
     protected int roundTo = 2;
+    protected int handleWidth = 8;
     protected boolean useRounding = false;
     protected boolean scrollRequiresFocus = true;
     protected boolean clickSoundOnRelease = true;
@@ -244,6 +245,19 @@ public abstract class AbstractSliderMaker<Builder extends AbstractSliderMaker<Bu
     {
         this.useRounding = true;
         this.roundTo = place;
+
+        return this.self();
+    }
+
+    /**
+     * Set a custom handle width for this slider.
+     *
+     * @param width A custom slider handle width. The default handle width is {@code 8}.
+     */
+    @PublicAPI
+    public Builder handleWidth(int width)
+    {
+        this.handleWidth = width;
 
         return this.self();
     }
