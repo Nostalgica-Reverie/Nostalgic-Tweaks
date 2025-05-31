@@ -93,6 +93,15 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     }
 
     /**
+     * @return Whether the slider is currently being dragged.
+     */
+    @PublicAPI
+    public boolean isDragging()
+    {
+        return this.dragging;
+    }
+
+    /**
      * Set the value of the slider. The given value will be clamped if it is out-of-bounds.
      *
      * @param value The new normalized value [0.0-1.0] of the slider.
