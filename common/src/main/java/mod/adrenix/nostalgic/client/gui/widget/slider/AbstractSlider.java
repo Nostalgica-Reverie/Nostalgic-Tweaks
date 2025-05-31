@@ -264,7 +264,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button)
     {
-        if (this.dragging && this.isValidClick(mouseX, mouseY, button))
+        if (this.dragging)
         {
             this.dragging = false;
 
@@ -273,8 +273,6 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
 
             return true;
         }
-        else
-            this.dragging = false;
 
         return false;
     }
