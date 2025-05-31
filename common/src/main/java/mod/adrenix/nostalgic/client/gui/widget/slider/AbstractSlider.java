@@ -319,10 +319,70 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
 
         return switch (keyCode)
         {
-            case InputConstants.KEY_D -> this.mouseScrolled(this.x, this.y, 1.0D);
-            case InputConstants.KEY_A -> this.mouseScrolled(this.x, this.y, -1.0D);
+            case InputConstants.KEY_D -> this.incrementIfPossible();
+            case InputConstants.KEY_A -> this.decrementIfPossible();
             default -> false;
         };
+    }
+
+    /**
+     * Increment the slider up by one interval if an interval is defined. This does <b color=red>not</b> check if the
+     * slider is invisible or inactive, {@link #incrementIfPossible()}.
+     */
+    @PublicAPI
+    public void increment()
+    {
+        if (this.builder.interval != null)
+            this.setValue(this.getValue() + (this.builder.interval.get().doubleValue()));
+    }
+
+    /**
+     * Decrement the slider down by one interval if an interval is defined. This does <b color=red>not</b> check if the
+     * slider is invisible or inactive, {@link #decrementIfPossible()}.
+     */
+    @PublicAPI
+    public void decrement()
+    {
+        if (this.builder.interval != null)
+            this.setValue(this.getValue() + (-1.0D * this.builder.interval.get().doubleValue()));
+    }
+
+    /**
+     * Increment the slider up by one interval if an interval is defined, the widget is visible, and the widget is
+     * active. This does not check if the widget is focused. This must be checked beforehand if this behavior is
+     * desired.
+     *
+     * @return Whether the slider was incremented by one interval.
+     * @see #increment()
+     */
+    @PublicAPI
+    public boolean incrementIfPossible()
+    {
+        if (this.isInvisible() || this.isInactive())
+            return false;
+
+        this.increment();
+
+        return true;
+    }
+
+    /**
+     * Decrement the slider down by one interval if an interval is defined, the widget is visible, and the widget is
+     * active. This does not check if the widget is focused. This must be checked beforehand if this behavior is
+     * desired.
+     *
+     * @return Whether the slider was decremented by one interval.
+     * @see #decrement()
+     */
+    @PublicAPI
+    public boolean decrementIfPossible()
+    {
+        if (this.isInvisible() || this.isInactive())
+            return false;
+
+        this.decrement();
+
+        return true;
     }
 
     /**
