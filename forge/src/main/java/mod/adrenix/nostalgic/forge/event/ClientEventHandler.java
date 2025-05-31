@@ -256,4 +256,21 @@ public abstract class ClientEventHandler
             dynamic.isMouseDragged(mouseX, mouseY, button, dragX, dragY);
         }
     }
+
+    /**
+     * The mod uses a unique {@link DynamicScreen} system that can perform additional logic during screen events. The
+     * screen's unique widgets are checked before handing off the event to the vanilla screen handler.
+     *
+     * @param event The {@link ScreenEvent.MouseScrolled.Pre} event instance.
+     */
+    @SubscribeEvent
+    public static void mouseScrolled(ScreenEvent.MouseScrolled.Pre event)
+    {
+        double mouseX = event.getMouseX();
+        double mouseY = event.getMouseY();
+        double deltaY = event.getScrollDelta();
+
+        if (event.getScreen() instanceof DynamicScreen<?> dynamic)
+            event.setCanceled(dynamic.isMouseScrolled(mouseX, mouseY, deltaY));
+    }
 }
