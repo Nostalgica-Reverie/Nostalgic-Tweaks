@@ -30,6 +30,36 @@ public abstract class MathUtil
     }
 
     /**
+     * Round the given {@code double} decimal to the given decimal place.
+     *
+     * @param value The value to round.
+     * @param place The decimal place to round to.
+     * @return A rounded {@code double} value.
+     */
+    @PublicAPI
+    public static double roundTo(double value, int place)
+    {
+        int scale = (int) Math.pow(10, place);
+
+        return (double) Math.round(value * scale) / scale;
+    }
+
+    /**
+     * Round the given {@code float} decimal to the given decimal place.
+     *
+     * @param value The value to round.
+     * @param place The decimal place to round to.
+     * @return A rounded {@code float} value.
+     */
+    @PublicAPI
+    public static float roundTo(float value, int place)
+    {
+        int scale = (int) Math.pow(10, place);
+
+        return (float) Math.round(value * scale) / scale;
+    }
+
+    /**
      * Get a centered position within the defined enclosure.
      *
      * @param startPos A starting position that is offset from the origin.
