@@ -298,6 +298,34 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
     }
 
     /**
+     * Run the button's {@code onPress} instructions if the button is active and visible.
+     *
+     * @param withSound Whether to play the click sound before the action is performed.
+     */
+    @PublicAPI
+    public void runIfPossible(boolean withSound)
+    {
+        if (this.isInactive() || this.isInvisible())
+            return;
+
+        boolean useClickSound = this.getBuilder().useClickSound;
+        this.getBuilder().useClickSound = withSound;
+
+        this.onPress();
+
+        this.getBuilder().useClickSound = useClickSound;
+    }
+
+    /**
+     * Run the button's {@code onPress} instructions if the button is active and visible.
+     */
+    @PublicAPI
+    public void runIfPossible()
+    {
+        this.runIfPossible(this.getBuilder().useClickSound);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -327,7 +355,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         if (this.holding || this.isInactive() || this.isInvisible())
         {
             this.holding = false;
-            
+
             if (this.getBuilder().holdTimer != null)
                 ClientTimer.getInstance().cancel(this.getBuilder().holdTimer);
 
