@@ -9,7 +9,6 @@ import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.io.PathUtil;
-import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -57,7 +56,7 @@ public abstract class FallingBlockConfig
      * A {@link NullableHolder} that may, or may not contain, a properly read {@link FallingBlockData} instance from
      * disk. If this is empty, then this means the mod was unable to create and read a data file.
      */
-    public static final NullableHolder<FallingBlockData> BLOCK_DATA = NullableHolder.empty();
+    public static final NullableHolder<FallingBlockData> INSTANCE = NullableHolder.empty();
 
     /* Methods */
 
@@ -139,17 +138,17 @@ public abstract class FallingBlockConfig
 
             try (FileReader reader = new FileReader(config))
             {
-                BLOCK_DATA.set(new Gson().fromJson(reader, FallingBlockData.class));
+                INSTANCE.set(new Gson().fromJson(reader, FallingBlockData.class));
 
-                if (BLOCK_DATA.isPresent())
-                    BLOCK_DATA.getOrThrow().blocks.removeIf(FallingBlockConfig::isBlockOutOfBounds);
+                if (INSTANCE.isPresent())
+                    INSTANCE.getOrThrow().blocks.removeIf(FallingBlockConfig::isBlockOutOfBounds);
                 else
-                    BLOCK_DATA.set(new FallingBlockData());
+                    INSTANCE.set(new FallingBlockData());
             }
             catch (IOException | JsonIOException | JsonSyntaxException exception)
             {
-                if (BLOCK_DATA.isEmpty())
-                    BLOCK_DATA.set(new FallingBlockData());
+                if (INSTANCE.isEmpty())
+                    INSTANCE.set(new FallingBlockData());
 
                 hasException = true;
 
@@ -199,7 +198,7 @@ public abstract class FallingBlockConfig
      */
     public static void apply(FallingBlockData data)
     {
-        BLOCK_DATA.ifPresent(cache -> {
+        INSTANCE.ifPresent(cache -> {
             cache.scale = data.scale;
 
             cache.blocks.clear();
@@ -212,7 +211,7 @@ public abstract class FallingBlockConfig
      */
     public static void save()
     {
-        if (BLOCK_DATA.isEmpty())
+        if (INSTANCE.isEmpty())
         {
             NostalgicTweaks.LOGGER.warn("[Falling Blocks] Tried writing empty block data to disk. This shouldn't happen!");
             return;
@@ -220,7 +219,7 @@ public abstract class FallingBlockConfig
 
         try
         {
-            write(BLOCK_DATA.getOrThrow(), PathUtil.getLogoPath().resolve(FILENAME).toFile());
+            write(INSTANCE.getOrThrow(), PathUtil.getLogoPath().resolve(FILENAME).toFile());
 
             LOGO_CHANGED.enable();
         }
@@ -300,7 +299,7 @@ public abstract class FallingBlockConfig
                 data.blocks.add(new FallingBlockData.Block(x, y, "minecraft:stone", "#000000FF", false));
         }
 
-        BLOCK_DATA.set(data);
+        INSTANCE.set(data);
     }
 
     /**
@@ -311,14 +310,14 @@ public abstract class FallingBlockConfig
     {
         if (isNotAvailable())
         {
-            if (read() && BLOCK_DATA.isPresent())
-                return BLOCK_DATA.getOrThrow();
+            if (read() && INSTANCE.isPresent())
+                return INSTANCE.getOrThrow();
 
             return new FallingBlockData();
         }
         else
         {
-            return BLOCK_DATA.getOrThrow();
+            return INSTANCE.getOrThrow();
         }
     }
 
@@ -331,55 +330,7 @@ public abstract class FallingBlockConfig
      */
     public static boolean isDataChanged(FallingBlockData initial, FallingBlockData maybeChanged)
     {
-        if (!((Float) initial.scale).equals(maybeChanged.scale))
-            return true;
-
-        return isBlockDataChanged(initial.blocks, maybeChanged.blocks);
-    }
-
-    /**
-     * Check if two falling block data sets are different.
-     *
-     * @param initial      The initial {@link ArrayList} of {@link FallingBlockData.Block}.
-     * @param maybeChanged The possibly modified {@link ArrayList} of {@link FallingBlockData.Block}.
-     * @return Whether the two array lists are the same size and contain equal elements.
-     */
-    public static boolean isBlockDataChanged(ArrayList<FallingBlockData.Block> initial, ArrayList<FallingBlockData.Block> maybeChanged)
-    {
-        if (initial.isEmpty() && maybeChanged.isEmpty())
-            return false;
-
-        if (initial.size() != maybeChanged.size())
-            return true;
-
-        Rectangle border = Rectangle.fromCollection(initial, FallingBlockData.Block::getX, FallingBlockData.Block::getY);
-
-        for (int x = border.startX(); x <= border.endX(); x++)
-        {
-            for (int y = border.startY(); y <= border.endY(); y++)
-            {
-                final int pX = x;
-                final int pY = y;
-
-                FallingBlockData.Block first = initial.stream()
-                    .filter(block -> block.at(pX, pY))
-                    .findFirst()
-                    .orElse(FallingBlockData.Block.EMPTY);
-
-                FallingBlockData.Block second = maybeChanged.stream()
-                    .filter(block -> block.at(pX, pY))
-                    .findFirst()
-                    .orElse(FallingBlockData.Block.EMPTY);
-
-                if (first == FallingBlockData.Block.EMPTY && second == FallingBlockData.Block.EMPTY)
-                    continue;
-
-                if (!first.equals(second))
-                    return true;
-            }
-        }
-
-        return false;
+        return !initial.equals(maybeChanged);
     }
 
     /**
@@ -387,7 +338,7 @@ public abstract class FallingBlockConfig
      */
     public static boolean isNotAvailable()
     {
-        return BLOCK_DATA.isEmpty();
+        return INSTANCE.isEmpty();
     }
 
     /**
@@ -395,9 +346,9 @@ public abstract class FallingBlockConfig
      */
     public static boolean hasNoBlocks()
     {
-        if (BLOCK_DATA.isEmpty())
+        if (INSTANCE.isEmpty())
             return true;
 
-        return BLOCK_DATA.getOrThrow().blocks.isEmpty();
+        return INSTANCE.getOrThrow().blocks.isEmpty();
     }
 }
