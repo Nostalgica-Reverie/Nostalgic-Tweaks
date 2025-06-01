@@ -1,5 +1,8 @@
 package mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.config;
 
+import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
+import mod.adrenix.nostalgic.util.common.math.Rectangle;
+
 import java.util.ArrayList;
 
 /**
@@ -69,6 +72,51 @@ public class FallingBlockData
     }
 
     /**
+     * Check if two falling block data sets are different.
+     *
+     * @param other The other {@link FallingBlockData} instance to check against.
+     * @return Whether the two falling block array lists are the same size and contain equivalent elements.
+     */
+    @PublicAPI
+    public boolean areBlocksDifferent(FallingBlockData other)
+    {
+        if (this.blocks.isEmpty() && other.blocks.isEmpty())
+            return false;
+
+        if (this.blocks.size() != other.blocks.size())
+            return true;
+
+        Rectangle border = Rectangle.fromCollection(this.blocks, Block::getX, Block::getY);
+
+        for (int x = border.startX(); x < border.endX(); x++)
+        {
+            for (int y = border.startY(); y < border.endY(); y++)
+            {
+                final int relX = x;
+                final int relY = y;
+
+                Block first = this.blocks.stream()
+                    .filter(block -> block.at(relX, relY))
+                    .findFirst()
+                    .orElse(Block.EMPTY);
+
+                Block second = other.blocks.stream()
+                    .filter(block -> block.at(relX, relY))
+                    .findFirst()
+                    .orElse(Block.EMPTY);
+
+                if (first == Block.EMPTY && second == Block.EMPTY)
+                    continue;
+
+                if (!first.equals(second))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -76,10 +124,10 @@ public class FallingBlockData
     {
         if (object instanceof FallingBlockData data)
         {
+            boolean sameBlocks = !this.areBlocksDifferent(data);
             boolean sameScale = ((Float) this.scale).equals(data.scale);
-            boolean sameBlocks = !FallingBlockConfig.isBlockDataChanged(this.blocks, data.blocks);
 
-            return sameScale && sameBlocks;
+            return sameBlocks && sameScale;
         }
 
         return false;

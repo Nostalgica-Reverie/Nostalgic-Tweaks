@@ -237,7 +237,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
      */
     public void save()
     {
-        if (FallingBlockConfig.BLOCK_DATA.isEmpty())
+        if (FallingBlockConfig.INSTANCE.isEmpty())
         {
             NostalgicTweaks.LOGGER.warn("[Falling Blocks] Could not save config file due to empty block data!");
             return;
@@ -246,7 +246,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         FallingBlockConfig.apply(this.managed);
         FallingBlockConfig.save();
 
-        this.initial = FallingBlockConfig.BLOCK_DATA.orElse(null);
+        this.initial = FallingBlockConfig.INSTANCE.orElse(null);
         this.managed = this.initial.copy();
     }
 
