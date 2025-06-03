@@ -1,3 +1,6 @@
+## Nostalgica Reverie
+This mod is now a part of the [Nostalgica Reverie Organization](https://github.com/Nostalgica-Reverie). A collection of repositories for all mods and projects focused on blending old with new! If you're interested to see what we're up to, then stop by the organization's [Discord](https://discord.gg/Un7b9AWSsu)!
+
 # Mod Relicense
 As of August 15th, 2024, Nostalgic Tweaks is now under the LGPLv3 license. All versions starting at `v2.0.0-beta.905` and later will use this license. Mod developers are allowed to fork this project and distribute their changes. However, if you would rather join the development team, then please reach out to us at the mod's [Discord](https://discord.gg/jWdfVh3) server.
 
