@@ -107,6 +107,7 @@ public interface GameplayTweak
 
     TweakFlag DISABLE_ORB_SPAWN = TweakFlag.server(false, GameplayGroup.EXPERIENCE_ORB).build();
     TweakFlag DISABLE_ORB_RENDERING = TweakFlag.client(false, GameplayGroup.EXPERIENCE_ORB).build();
+    TweakFlag IMMEDIATE_EXPERIENCE_PICKUP = TweakFlag.server(false, GameplayGroup.EXPERIENCE_ORB).build();
 
     // Experience Blocks
 

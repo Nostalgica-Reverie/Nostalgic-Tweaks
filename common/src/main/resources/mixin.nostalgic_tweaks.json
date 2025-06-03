@@ -164,6 +164,7 @@
     "gameplay.combat_player.LivingEntityMixin",
     "gameplay.combat_player.PlayerMixin",
     "gameplay.combat_player.ServerGamePacketListenerImplMixin",
+    "gameplay.experience_orb.ExperienceOrbMixin",
     "gameplay.experience_orb.ServerLevelMixin",
     "gameplay.food_health.FoodDataMixin",
     "gameplay.food_health.ItemMixin",

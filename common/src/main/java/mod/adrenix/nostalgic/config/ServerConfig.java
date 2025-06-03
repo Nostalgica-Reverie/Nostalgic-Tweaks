@@ -148,6 +148,7 @@ public class ServerConfig implements ConfigMeta
 
         // Experience
 
+        public boolean immediateExperiencePickup = GameplayTweak.IMMEDIATE_EXPERIENCE_PICKUP.register("immediateExperiencePickup");
         public boolean disableOrbSpawn = GameplayTweak.DISABLE_ORB_SPAWN.register("disableOrbSpawn");
         public boolean disableAnvil = GameplayTweak.DISABLE_ANVIL.register("disableAnvil");
         public boolean disableEnchantTable = GameplayTweak.DISABLE_ENCHANT_TABLE.register("disableEnchantTable");
