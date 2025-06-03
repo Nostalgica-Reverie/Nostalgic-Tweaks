@@ -753,6 +753,7 @@ public class ClientConfig implements ConfigMeta
 
         public boolean disableOrbSpawn = GameplayTweak.DISABLE_ORB_SPAWN.register("disableOrbSpawn");
         public boolean disableOrbRendering = GameplayTweak.DISABLE_ORB_RENDERING.register("disableOrbRendering");
+        public boolean immediateExperiencePickup = GameplayTweak.IMMEDIATE_EXPERIENCE_PICKUP.register("immediateExperiencePickup");
 
         // Experience Blocks
 

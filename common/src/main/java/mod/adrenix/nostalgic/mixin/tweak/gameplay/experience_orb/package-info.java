@@ -1,0 +1,5 @@
+@ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
+package mod.adrenix.nostalgic.mixin.tweak.gameplay.experience_orb;
+
+import mod.adrenix.nostalgic.annotation.MethodsReturnNonnullByDefault;
+import mod.adrenix.nostalgic.annotation.ParametersAreNonnullByDefault;
