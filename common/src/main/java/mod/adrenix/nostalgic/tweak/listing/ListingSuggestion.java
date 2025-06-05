@@ -7,5 +7,6 @@ public enum ListingSuggestion
 {
     NONE,
     SOUND,
-    PARTICLE
+    PARTICLE,
+    CREATURE
 }
