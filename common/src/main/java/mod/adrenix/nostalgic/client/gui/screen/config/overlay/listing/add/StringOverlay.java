@@ -4,6 +4,7 @@ import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
 import mod.adrenix.nostalgic.client.gui.widget.button.ButtonWidget;
 import mod.adrenix.nostalgic.client.gui.widget.grid.Grid;
 import mod.adrenix.nostalgic.client.gui.widget.input.GenericInput;
+import mod.adrenix.nostalgic.client.gui.widget.input.suggestion.CreatureSuggester;
 import mod.adrenix.nostalgic.client.gui.widget.input.suggestion.InputSuggester;
 import mod.adrenix.nostalgic.client.gui.widget.input.suggestion.ParticleSuggester;
 import mod.adrenix.nostalgic.client.gui.widget.input.suggestion.SoundSuggester;
@@ -57,6 +58,7 @@ public class StringOverlay
 
         Function<GenericInput, ? extends InputSuggester<GenericInput>> suggester = switch (stringSet.getSuggestion())
         {
+            case CREATURE -> CreatureSuggester::new;
             case PARTICLE -> ParticleSuggester::new;
             case SOUND -> SoundSuggester::new;
             case NONE -> null;
