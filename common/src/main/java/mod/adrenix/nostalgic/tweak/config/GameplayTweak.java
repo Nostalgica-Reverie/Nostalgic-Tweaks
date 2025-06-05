@@ -48,11 +48,9 @@ public interface GameplayTweak
 
     TweakFlag DISABLE_ANIMAL_BREEDING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).build();
     TweakFlag DISABLE_BABY_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).build();
-    TweakFlag OLD_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).warningTag().build();
-    TweakNumber<Integer> ANIMAL_SPAWN_CAP = TweakNumber.server(20, GameplayGroup.MOB_ANIMAL_SPAWN)
-        .slider(Lang.Slider.CAP, 0, 100)
-        .whenDisabled(MobCategory.CREATURE.getMaxInstancesPerChunk())
-        .build();
+    TweakFlag OLD_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().warningTag().build();
+    TweakStringSet OLD_ANIMAL_SPAWN_LIST = TweakStringSet.server(DefaultListing.oldAnimalSpawns(), GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
+    TweakNumber<Integer> ANIMAL_SPAWN_CAP = TweakNumber.server(15, GameplayGroup.MOB_ANIMAL_SPAWN).slider(Lang.Slider.CAP, 0, 100).build();
 
     // Sheep
 

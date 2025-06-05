@@ -2,18 +2,16 @@ package mod.adrenix.nostalgic.mixin.tweak.gameplay.animal_spawn;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import mod.adrenix.nostalgic.helper.gameplay.AnimalSpawnHelper;
 import mod.adrenix.nostalgic.mixin.access.MobAccess;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
-import mod.adrenix.nostalgic.util.common.world.LevelUtil;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Saddleable;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -54,6 +52,9 @@ public abstract class AnimalMixin extends Mob
     )
     private boolean nt_animal_spawn$modifyRemoveWhenFarAway(boolean removeWhenFarAway)
     {
+        if (!AnimalSpawnHelper.isInList(this.getType()))
+            return removeWhenFarAway;
+
         FlagHolder leashed = FlagHolder.off();
         FlagHolder saddled = FlagHolder.off();
         FlagHolder tamed = FlagHolder.off();
@@ -73,25 +74,5 @@ public abstract class AnimalMixin extends Mob
             return true;
 
         return removeWhenFarAway;
-    }
-
-    /**
-     * Only allows passive animals to spawn in bright areas.
-     */
-    @ModifyReturnValue(
-        method = "isBrightEnoughToSpawn",
-        at = @At("RETURN")
-    )
-    private static boolean nt_animal_spawn$modifyIsBrightEnoughToSpawn(boolean isBrightEnoughToSpawn, BlockAndTintGetter lightGetter, BlockPos blockPos)
-    {
-        if (!GameplayTweak.OLD_ANIMAL_SPAWNING.get())
-            return isBrightEnoughToSpawn;
-
-        Level level = LevelUtil.getOverworld();
-
-        if (level == null)
-            return isBrightEnoughToSpawn;
-
-        return level.getMaxLocalRawBrightness(blockPos) > 8;
     }
 }

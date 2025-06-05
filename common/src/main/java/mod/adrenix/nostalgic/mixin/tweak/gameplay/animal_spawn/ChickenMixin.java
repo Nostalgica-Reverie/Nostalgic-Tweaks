@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.mixin.tweak.gameplay.animal_spawn;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import mod.adrenix.nostalgic.helper.gameplay.AnimalSpawnHelper;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
@@ -30,7 +31,7 @@ public abstract class ChickenMixin extends Animal
     )
     private boolean nt_animal_spawn$modifyRemoveWhenFarAway(boolean removeWhenFarAway, double distanceToClosestPlayer)
     {
-        if (GameplayTweak.OLD_ANIMAL_SPAWNING.get())
+        if (GameplayTweak.OLD_ANIMAL_SPAWNING.get() && AnimalSpawnHelper.isInList(EntityType.CHICKEN))
             return super.removeWhenFarAway(distanceToClosestPlayer);
 
         return removeWhenFarAway;
