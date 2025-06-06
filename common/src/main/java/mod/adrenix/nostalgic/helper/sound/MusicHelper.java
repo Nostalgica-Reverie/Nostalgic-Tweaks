@@ -25,11 +25,12 @@ public abstract class MusicHelper
      * Set the current music and get a new sound instance.
      *
      * @param sound The {@link SoundEvent} of the music to play.
+     * @param fallback Fallback {@link SoundInstance} to use in case the {@link SoundEvent} is null.
      * @return The {@link SoundInstance} for the new music.
      */
-    private static SoundInstance setAndGet(SoundEvent sound)
+    private static SoundInstance setAndGetOrElse(SoundEvent sound, SoundInstance fallback)
     {
-        return CURRENT_SONG.setAndGet(SimpleSoundInstance.forMusic(sound));
+        return sound != null ? CURRENT_SONG.setAndGet(SimpleSoundInstance.forMusic(sound)) : fallback;
     }
 
     /**
@@ -49,13 +50,13 @@ public abstract class MusicHelper
             if (musicType == MusicType.MODERN)
                 return sound;
 
-            return setAndGet(switch (musicType)
+            return setAndGetOrElse(switch (musicType)
             {
-                case ALPHA -> ClientSound.MUSIC_ALPHA.get();
-                case BETA -> ClientSound.MUSIC_MENU_BETA.get();
-                case BLENDED -> ClientSound.MUSIC_MENU_BLENDED.get();
-                default -> ClientSound.BLANK.get();
-            });
+                case ALPHA -> ClientSound.MUSIC_ALPHA.getOrNull();
+                case BETA -> ClientSound.MUSIC_MENU_BETA.getOrNull();
+                case BLENDED -> ClientSound.MUSIC_MENU_BLENDED.getOrNull();
+                default -> ClientSound.BLANK.getOrNull();
+            }, sound);
         }
 
         if (soundLocation.equals(SoundEvents.MUSIC_CREATIVE.value().getLocation()))
@@ -65,34 +66,34 @@ public abstract class MusicHelper
             if (musicType == MusicType.MODERN)
                 return sound;
 
-            return setAndGet(switch (musicType)
+            return setAndGetOrElse(switch (musicType)
             {
-                case ALPHA -> ClientSound.MUSIC_ALPHA.get();
-                case BETA -> ClientSound.MUSIC_CREATIVE_BETA.get();
-                case BLENDED -> ClientSound.MUSIC_CREATIVE_BLENDED.get();
-                default -> ClientSound.BLANK.get();
-            });
+                case ALPHA -> ClientSound.MUSIC_ALPHA.getOrNull();
+                case BETA -> ClientSound.MUSIC_CREATIVE_BETA.getOrNull();
+                case BLENDED -> ClientSound.MUSIC_CREATIVE_BLENDED.getOrNull();
+                default -> ClientSound.BLANK.getOrNull();
+            }, sound);
         }
 
         if (SoundTweak.REPLACE_OVERWORLD_BIOME_MUSIC.get() && GameUtil.isInOverworld())
         {
             if (soundLocation.getPath().contains("music.overworld"))
-                return setAndGet(ClientSound.MUSIC_ALPHA.get());
+                return setAndGetOrElse(ClientSound.MUSIC_ALPHA.getOrNull(), sound);
 
             if (soundLocation.equals(SoundEvents.MUSIC_UNDER_WATER.value().getLocation()))
-                return setAndGet(ClientSound.MUSIC_ALPHA.get());
+                return setAndGetOrElse(ClientSound.MUSIC_ALPHA.getOrNull(), sound);
         }
 
         if (SoundTweak.REPLACE_NETHER_BIOME_MUSIC.get() && GameUtil.isInNether())
         {
             if (soundLocation.getPath().contains("music.nether"))
-                return setAndGet(ClientSound.MUSIC_ALPHA.get());
+                return setAndGetOrElse(ClientSound.MUSIC_ALPHA.getOrNull(), sound);
         }
 
         if (SoundTweak.REPLACE_GAMEPLAY_MUSIC.get())
         {
             if (soundLocation.equals(SoundEvents.MUSIC_GAME.value().getLocation()))
-                return setAndGet(ClientSound.MUSIC_ALPHA.get());
+                return setAndGetOrElse(ClientSound.MUSIC_ALPHA.getOrNull(), sound);
         }
 
         return sound;
