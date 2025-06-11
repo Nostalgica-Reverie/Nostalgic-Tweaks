@@ -52,7 +52,7 @@ public abstract class AnimalMixin extends Mob
     )
     private boolean nt_animal_spawn$modifyRemoveWhenFarAway(boolean removeWhenFarAway)
     {
-        if (!AnimalSpawnHelper.isInList(this.getType()))
+        if (!GameplayTweak.OLD_ANIMAL_SPAWNING.get() || !AnimalSpawnHelper.isInList(this.getType()))
             return removeWhenFarAway;
 
         FlagHolder leashed = FlagHolder.off();
@@ -70,7 +70,7 @@ public abstract class AnimalMixin extends Mob
                 tamed.enable();
         });
 
-        if (GameplayTweak.OLD_ANIMAL_SPAWNING.get() && !leashed.get() && !saddled.get() && !tamed.get())
+        if (!leashed.get() && !saddled.get() && !tamed.get())
             return true;
 
         return removeWhenFarAway;

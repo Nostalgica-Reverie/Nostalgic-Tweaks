@@ -24,6 +24,23 @@ public abstract class SeverChunkCacheMixin
     /* Injections */
 
     /**
+     * Does necessary logic before looping over all loaded chunks and performing old animal spawn instructions.
+     */
+    @Inject(
+        method = "tickChunks",
+        at = @At(
+            shift = At.Shift.AFTER,
+            value = "INVOKE",
+            target = "Ljava/util/Collections;shuffle(Ljava/util/List;)V"
+        )
+    )
+    private void nt_animal_spawn$onBeforeTickAllChunks(CallbackInfo callback)
+    {
+        if (GameplayTweak.OLD_ANIMAL_SPAWNING.get())
+            AnimalSpawnHelper.tickLevel(this.level, this.spawnFriendlies);
+    }
+
+    /**
      * Performs old animal spawning logic based on tweak context.
      */
     @Inject(
@@ -37,6 +54,6 @@ public abstract class SeverChunkCacheMixin
     private void nt_animal_spawn$onSpawnForChunk(CallbackInfo callback, @Local LevelChunk chunk)
     {
         if (GameplayTweak.OLD_ANIMAL_SPAWNING.get())
-            AnimalSpawnHelper.tickChunk(this.level, chunk, this.spawnFriendlies);
+            AnimalSpawnHelper.tickChunk(chunk, this.level, this.spawnFriendlies);
     }
 }
