@@ -7,14 +7,14 @@ import mod.adrenix.nostalgic.mixin.access.MobAccess;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Saddleable;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Animal.class)
 public abstract class AnimalMixin extends Mob
@@ -55,6 +55,9 @@ public abstract class AnimalMixin extends Mob
         if (!GameplayTweak.OLD_ANIMAL_SPAWNING.get() || !AnimalSpawnHelper.isInList(this.getType()))
             return removeWhenFarAway;
 
+        if (GameplayTweak.KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN.get() && this.isPersistenceRequired())
+            return removeWhenFarAway;
+
         FlagHolder leashed = FlagHolder.off();
         FlagHolder saddled = FlagHolder.off();
         FlagHolder tamed = FlagHolder.off();
@@ -74,5 +77,19 @@ public abstract class AnimalMixin extends Mob
             return true;
 
         return removeWhenFarAway;
+    }
+
+    /**
+     * Set the baby animal persistence flag to {@code true} so the animal can't be removed when its current chunk
+     * unloads.
+     */
+    @Inject(
+        method = "finalizeSpawnChildFromBreeding",
+        at = @At("HEAD")
+    )
+    private void nt_animal_spawn$onFinalizeSpawnChildFromBreeding(ServerLevel level, Animal animal, AgeableMob baby, CallbackInfo callback)
+    {
+        if (GameplayTweak.KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN.get() && AnimalSpawnHelper.isInList(baby.getType()))
+            baby.setPersistenceRequired();
     }
 }
