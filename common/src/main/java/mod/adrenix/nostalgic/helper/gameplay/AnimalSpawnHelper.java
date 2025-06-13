@@ -78,7 +78,7 @@ public abstract class AnimalSpawnHelper
 
         for (Entity entity : level.getAllEntities())
         {
-            if (entity instanceof Animal && isInList(entity.getType()))
+            if (entity instanceof Animal animal && isInList(animal.getType()) && !animal.isPersistenceRequired())
                 NUMBER_OF_ANIMALS.increment();
         }
     }

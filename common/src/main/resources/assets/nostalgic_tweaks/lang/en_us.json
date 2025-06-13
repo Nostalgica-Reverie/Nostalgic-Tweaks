@@ -1769,6 +1769,8 @@
   "gui.nostalgic_tweaks.config.gameplay.monsterSpawnCap": "Monster Spawn Cap",
   "gui.nostalgic_tweaks.config.gameplay.monsterSpawnCap.info": "Controls how many§e groups§r of monsters can spawn around a player. A§a higher cap§r yields§a more§r monsters. The vanilla monster cap is§d 70§r.",
 
+  "gui.nostalgic_tweaks.config.gameplay.keepBabyAnimalWhileOldSpawn": "Keep Baby Animals",
+  "gui.nostalgic_tweaks.config.gameplay.keepBabyAnimalWhileOldSpawn.info": "Any baby animal that is spawned while the §3@decode{tweak=gameplay.oldAnimalSpawning}§r tweak is§a enabled§r will be marked as persistent so that it§c cannot§r be removed when its chunk unloads.",
   "gui.nostalgic_tweaks.config.gameplay.animalSpawnCap": "Animal Spawn Cap",
   "gui.nostalgic_tweaks.config.gameplay.animalSpawnCap.info": "Controls how many§e groups§r of animals can spawn around a player when §3@decode{tweak=gameplay.oldAnimalSpawning}§r is§a enabled§r. A§a higher cap§r yields§a more§r animals. This§6 only§r applies to animals defined in the §3@decode{tweak=gameplay.oldAnimalSpawnList}§r tweak. To simulate§a alpha§r and§e beta§r spawn rates, set this value to§6 15§r.",
   "gui.nostalgic_tweaks.config.gameplay.animalSpawnCap.search": "Passive, Chunk, Group, Creature",

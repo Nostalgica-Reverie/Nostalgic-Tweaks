@@ -703,6 +703,7 @@ public class ClientConfig implements ConfigMeta
         public boolean disableBabyAnimalSpawning = GameplayTweak.DISABLE_BABY_ANIMAL_SPAWNING.register("disableBabyAnimalSpawning");
         public boolean disableAnimalBreeding = GameplayTweak.DISABLE_ANIMAL_BREEDING.register("disableAnimalBreeding");
         public boolean disableAnimalTempting = GameplayTweak.DISABLE_ANIMAL_TEMPTING.register("disableAnimalTempting");
+        public boolean keepBabyAnimalWhileOldSpawn = GameplayTweak.KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN.register("keepBabyAnimalWhileOldSpawn");
 
         // Sheep
 

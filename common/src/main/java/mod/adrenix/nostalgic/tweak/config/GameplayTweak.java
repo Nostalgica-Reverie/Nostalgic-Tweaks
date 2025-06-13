@@ -51,6 +51,7 @@ public interface GameplayTweak
     TweakFlag OLD_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().warningTag().build();
     TweakStringSet OLD_ANIMAL_SPAWN_LIST = TweakStringSet.server(DefaultListing.oldAnimalSpawns(), GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
     TweakNumber<Integer> ANIMAL_SPAWN_CAP = TweakNumber.server(15, GameplayGroup.MOB_ANIMAL_SPAWN).slider(Lang.Slider.CAP, 0, 100).build();
+    TweakFlag KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
 
     // Sheep
 
