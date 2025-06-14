@@ -1,0 +1,84 @@
+name: Bug Report
+description: File a bug report.
+title: "[Issue]: "
+labels: ["bug"]
+assignees:
+  - Adrenix
+body:
+  - type: input
+    id: issue
+    attributes:
+      label: What is the issue?
+      description: Please describe what the issue is.
+      placeholder: ex. Game crashes when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: To Reproduce
+      description: Please describe what steps to take to recreate the issue.
+      placeholder: |
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: mc-version
+    attributes:
+      label: Minecraft Version
+      description: What version of Minecraft are you running?
+      options:
+        - 1.21.1
+        - 1.20.1
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: modloader
+    attributes:
+      label: Modloader
+      description: What modloader are you running?
+      options:
+        - Fabric
+        - Forge
+        - Neoforge
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: nt-version
+    attributes:
+      label: Nostalgic Tweaks Version
+      description: What Nostalgic Tweaks version are you on?
+      placeholder: |
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log and/or crash report
+      description: Please upload your log or crash report to mclo.gs and paste the link here.
+    validations:
+      required: true
+  - type: textarea
+    id: extras
+    attributes:
+      label: Additional Context
+      description: Put any extra info you feel is neccessary here.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Acknowledgement
+      description: If you do not fill out this form correctly, your issue will be immediately closed.
+      options:
+        - label: I understand and have fully filled out the form, including the issue name.
+          required: true
