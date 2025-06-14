@@ -441,6 +441,8 @@ public class ClientConfig implements ConfigMeta
         public boolean overrideTitleScreen = CandyTweak.OVERRIDE_TITLE_SCREEN.register("overrideTitleScreen");
         public boolean oldTitleBackground = CandyTweak.OLD_TITLE_BACKGROUND.register("oldTitleBackground");
         public boolean uncapTitleFPS = CandyTweak.UNCAP_TITLE_FPS.register("uncapTitleFPS");
+        public boolean oldPanoramaRotation = CandyTweak.OLD_PANORAMA_ROTATION.register("oldPanoramaRotation");
+        public boolean oldPanoramaBlur = CandyTweak.OLD_PANORAMA_BLUR.register("oldPanoramaBlur");
 
         // Title Screen Logo
 

@@ -71,6 +71,7 @@
     "candy.gui_background.GenericMessageScreenMixin",
     "candy.gui_background.GuiMixin",
     "candy.gui_background.ScreenMixin",
+    "candy.gui_background.PanoramaRendererMixin",
     "candy.inventory_screen.InventoryArmorSlotMixin",
     "candy.inventory_screen.InventoryScreenMixin",
     "candy.inventory_screen.InventoryShieldSlotMixin",

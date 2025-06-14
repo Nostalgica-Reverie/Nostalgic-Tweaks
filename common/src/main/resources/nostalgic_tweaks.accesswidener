@@ -1,5 +1,8 @@
 accessWidener v2 named
 
+# Game Renderer
+accessible field net/minecraft/client/renderer/GameRenderer blurEffect Lnet/minecraft/client/renderer/PostChain;
+
 # Fog Renderer
 
 accessible class net/minecraft/client/renderer/FogRenderer$MobEffectFogFunction

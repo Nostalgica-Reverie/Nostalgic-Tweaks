@@ -281,6 +281,8 @@ public interface CandyTweak
     TweakFlag OVERRIDE_TITLE_SCREEN = TweakFlag.client(true, CandyGroup.INTERFACE_TITLE).build();
     TweakFlag OLD_TITLE_BACKGROUND = TweakFlag.client(true, CandyGroup.INTERFACE_TITLE).build();
     TweakFlag UNCAP_TITLE_FPS = TweakFlag.client(true, CandyGroup.INTERFACE_TITLE).build();
+    TweakFlag OLD_PANORAMA_ROTATION = TweakFlag.client(false, CandyGroup.INTERFACE_TITLE).build();
+    TweakFlag OLD_PANORAMA_BLUR = TweakFlag.client(false, CandyGroup.INTERFACE_TITLE).build();
 
     // Title Screen Logo
 
