@@ -70,10 +70,7 @@ public interface DefaultListing
         set.add(EntityType.getKey(EntityType.PIG).toString());
         set.add(EntityType.getKey(EntityType.SHEEP).toString());
 
-        StringSet createSet = new StringSet(ListingSuggestion.CREATURE).startWith(set);
-        createSet.setDisabled(true);
-
-        return createSet;
+        return new StringSet(ListingSuggestion.CREATURE).startWith(set);
     }
 
     static ItemSet selfBlockDrops()
