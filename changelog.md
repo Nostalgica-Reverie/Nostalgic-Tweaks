@@ -1,8 +1,26 @@
 # Nostalgic Tweaks 1.21(.1) (NeoForge/Fabric) Changelog
 
-## 2.0.0-beta.920 (in-dev)
+## 2.0.0-beta.920
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements.
+
+### 2.0.0-beta920 (indev.2)
+
+- Fixed most old HUD mod conflicts on NeoForge.
+- Fixed uncap title screens FPS not letting in-level FPS go below 60.
+- Fixed old animal spawning overriding spawn mechanics of some modern creatures.
+- Improved old animal spawning mechanics to better simulate how it was in alpha/beta.
+- Added `Old Animal Spawn List` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
+- Added `Keep Baby Animals` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
+- Added `Immediate Orb Pickup` tweak in `Gameplay > Experience System > Experience Orbs`.
+
+#### Changes from last indev release:
+
+- Fixed startup crash for dedicated servers.
+- Added a falling block logo scaling slider to the editor screen.
+    - This will not break any logo configs made in the last indev release.
+
+### 2.0.0-beta920 (indev.1)
 
 - Added tweak support for Create 0.6+ and Flywheel 1.0+.
     - Added tweak support when Create/Flywheel is installed with Sodium.
