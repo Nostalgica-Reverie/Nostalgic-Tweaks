@@ -2,6 +2,7 @@ package mod.adrenix.nostalgic.helper.gameplay;
 
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
+import mod.adrenix.nostalgic.util.common.data.IntegerHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -19,6 +20,23 @@ import java.util.Optional;
 
 public abstract class AnimalSpawnHelper
 {
+    /* Static */
+
+    /**
+     * Keeps a record of the chunks to poll every tick. When the server ticks all the loaded chunks, the
+     * {@link #tickChunk(LevelChunk, ServerLevel, boolean)} is ran. This method needs to know how many chunks to poll
+     * and how many old animals are spawned within the level.
+     */
+    private static final HashSet<ChunkPos> CHUNKS_TO_POLL = new HashSet<>();
+
+    /**
+     * Tracks the number of animals currently spawned in the level. This is necessary to ensure the animal spawn cap is
+     * not exceeded.
+     */
+    private static final IntegerHolder NUMBER_OF_ANIMALS = IntegerHolder.create(0);
+
+    /* Methods */
+
     /**
      * Check if the given entity type is a valid entry within the old animal spawn list tweak.
      *
@@ -31,18 +49,19 @@ public abstract class AnimalSpawnHelper
     }
 
     /**
-     * Performs old animal spawning logic each tick in each server level chunk.
+     * Generates a cache of information needed for old animal spawning logic before the server ticks over all loaded
+     * chunks.
      *
      * @param level           The {@link ServerLevel} instance.
-     * @param chunk           The {@link LevelChunk} instance.
      * @param spawnFriendlies Whether the server level is spawning friendly creatures.
      */
-    public static void tickChunk(ServerLevel level, LevelChunk chunk, boolean spawnFriendlies)
+    public static void tickLevel(ServerLevel level, boolean spawnFriendlies)
     {
         if (!spawnFriendlies)
             return;
 
-        HashSet<ChunkPos> chunksToPoll = new HashSet<>();
+        CHUNKS_TO_POLL.clear();
+        NUMBER_OF_ANIMALS.set(0);
 
         for (int i = 0; i < level.players().size(); i++)
         {
@@ -53,19 +72,27 @@ public abstract class AnimalSpawnHelper
             for (int x = -8; x <= 8; ++x)
             {
                 for (int z = -8; z <= 8; ++z)
-                    chunksToPoll.add(new ChunkPos(x + dx, z + dz));
+                    CHUNKS_TO_POLL.add(new ChunkPos(x + dx, z + dz));
             }
         }
 
-        int numberOfAnimals = 0;
-
         for (Entity entity : level.getAllEntities())
         {
-            if (entity instanceof Animal)
-                numberOfAnimals++;
+            if (entity instanceof Animal && isInList(entity.getType()))
+                NUMBER_OF_ANIMALS.increment();
         }
+    }
 
-        if (numberOfAnimals > GameplayTweak.ANIMAL_SPAWN_CAP.get() * chunksToPoll.size() / 256)
+    /**
+     * Performs old animal spawning logic each tick in each server level chunk.
+     *
+     * @param chunk           The {@link LevelChunk} instance.
+     * @param level           The {@link ServerLevel} instance.
+     * @param spawnFriendlies Whether the server level is spawning friendly creatures.
+     */
+    public static void tickChunk(LevelChunk chunk, ServerLevel level, boolean spawnFriendlies)
+    {
+        if (!spawnFriendlies || NUMBER_OF_ANIMALS.get() > GameplayTweak.ANIMAL_SPAWN_CAP.get() * CHUNKS_TO_POLL.size() / 256)
             return;
 
         BlockPos blockPos = getRandomPosWithin(level, chunk);
@@ -177,19 +204,20 @@ public abstract class AnimalSpawnHelper
      */
     public static boolean isValidSpawnPositionForMob(ServerLevel level, BlockPos blockPos, Mob mob)
     {
-        if (!isInList(mob.getType()))
+        EntityType<?> mobType = mob.getType();
+
+        if (!isInList(mobType))
             return false;
 
-        if (!mob.getType().canSummon())
+        if (!mobType.canSummon())
             return false;
 
-        if (!SpawnPlacements.checkSpawnRules(mob.getType(), level, MobSpawnType.NATURAL, blockPos, level.random))
+        if (!SpawnPlacements.checkSpawnRules(mobType, level, MobSpawnType.NATURAL, blockPos, level.random))
             return false;
 
         if (level.getMaxLocalRawBrightness(blockPos) <= 8)
             return false;
 
-        return level.noCollision(mob.getType()
-            .getSpawnAABB((double) blockPos.getX() + 0.5D, blockPos.getY(), (double) blockPos.getZ() + 0.5D));
+        return level.noCollision(mobType.getSpawnAABB((double) blockPos.getX() + 0.5D, blockPos.getY(), (double) blockPos.getZ() + 0.5D));
     }
 }
