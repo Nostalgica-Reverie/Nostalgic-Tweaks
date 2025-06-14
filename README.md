@@ -2,7 +2,7 @@
 This mod is now a part of the [Nostalgica Reverie Organization](https://github.com/Nostalgica-Reverie). A collection of repositories for all mods and projects focused on blending old with new! If you're interested to see what we're up to, then stop by the organization's [Discord](https://discord.gg/Un7b9AWSsu)!
 
 # Mod Relicense
-As of August 15th, 2024, Nostalgic Tweaks is now under the LGPLv3 license. All versions starting at `v2.0.0-beta.905` and later will use this license. Mod developers are allowed to fork this project and distribute their changes. However, if you would rather join the development team, then please reach out to us at the mod's [Discord](https://discord.gg/jWdfVh3) server.
+As of August 15th, 2024, Nostalgic Tweaks is now under the LGPLv3 license. All versions starting at `v2.0.0-beta.905` and later will use this license. Mod developers are allowed to fork this project and distribute their changes. However, if you would rather join the development team, then please reach out to us at the mod's [Discord](https://discord.gg/Un7b9AWSsu) server.
 
 # Development Branches
 - 1.21.4 (Beta 9.1) **Coming Soon™**
@@ -23,7 +23,7 @@ Inspired by Exalm's **Old Days** mod, **Nostalgic Tweaks** brings back a plethor
 
 Some of the major nostalgic tweaks included are **old classic and pre-beta 1.8 light engines**, **old fog rendering**, **old sky and void colors**, **2D floating items with disabled diffused lighting**, **old mob spawning**, **old combat mechanics**, **old game screens**, **old C418 music**, and **so much more**! There are currently over **400+** nostalgic tweaks as of 2.0.0-Beta 9 with more on the way!
 
-For the best nostalgic experience, I recommend using the **[Golden Days](https://github.com/PoeticRainbow/golden-days/releases)** resource pack by **PoeticRainbow**, or the **[Programmer Art Continuation Project](https://modrinth.com/resourcepack/pacp)** resource pack by **mzov**. Golden Days comes with an abundance of nostalgic packs, such as an alpha and picture perfect pack which coincides wonderfully with **Nostalgic Tweaks**. Additionally, use the **[Moderner Beta](https://modrinth.com/mod/moderner-beta)** mod by **BlueStaggo** for nostalgic terrain generation.
+For the best nostalgic experience, I recommend using the **[Golden Days](https://github.com/PoeticRainbow/golden-days/releases)** resource pack by **[PoeticRainbow](https://modrinth.com/user/PoeticRainbow)**, or the **[Programmer Art Continuation Project](https://modrinth.com/resourcepack/pacp)** resource pack by **[mzov](https://modrinth.com/user/mzov_jen)**. Golden Days comes with an abundance of nostalgic packs, such as an alpha and picture perfect pack which coincides wonderfully with **Nostalgic Tweaks**. Additionally, use the **[Moderner Beta](https://modrinth.com/mod/moderner-beta)** mod by **[BlueStaggo](https://modrinth.com/user/BlueStaggo)** for nostalgic terrain generation.
 
 # Compatibility
 
@@ -73,7 +73,7 @@ The config menu also comes with keyboard shortcuts. **Ctrl + F** focuses the sea
 
 ### What resource pack is used in the demo video and screenshots?
 
-It is the [Golden Days](https://github.com/PoeticRainbow/golden-days/releases) resource pack by **PoeticRainbow**. There is also a button in the mod's settings homepage that links the resource pack as well.
+It is the [Golden Days](https://github.com/PoeticRainbow/golden-days/releases) resource pack by **[PoeticRainbow](https://modrinth.com/user/PoeticRainbow)**. There is also a button in the mod's settings homepage that links the resource pack as well.
 
 ### Can I include this mod in my pack?
 
@@ -85,7 +85,7 @@ Yes! The mod is designed to disable tweaks that are not allowed on non-modded se
 
 ### Will there be any backport to version 1.x.x?
 
-Not for Nostalgic Tweaks. Use my previous mod **[OSECA](https://www.curseforge.com/minecraft/mc-mods/old-swing)**, for versions 1.12, 1.16, and 1.17.
+Not for Nostalgic Tweaks. Use **[OSECA](https://www.curseforge.com/minecraft/mc-mods/old-swing)**, for versions 1.12, 1.16, and 1.17.
 
 ### I ran into an issue running this mod.
 
