@@ -54,6 +54,7 @@ public interface Lang
         Translation STOP_SONG = new Translation("key.nostalgic_tweaks.stop_song");
         Translation NEXT_SONG = new Translation("key.nostalgic_tweaks.next_song");
         Translation UNBOUND = new Translation("key.nostalgic_tweaks.unbound");
+        Translation TOGGLE_KEY = new Translation("key.nostalgic_tweaks.toggle_key");
     }
 
     /* Vanilla */

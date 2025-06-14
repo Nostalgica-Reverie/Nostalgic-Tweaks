@@ -5,8 +5,11 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientScreenInputEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
+import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.screen.home.HomeScreen;
 import mod.adrenix.nostalgic.mixin.access.MusicManagerAccess;
+import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import mod.adrenix.nostalgic.tweak.gui.KeybindingId;
 import mod.adrenix.nostalgic.util.client.KeyboardUtil;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
@@ -49,6 +52,11 @@ public abstract class ClientKeyMapping
     public static final KeyMapping STOP_SONG_KEY = new KeyMapping(Lang.Binding.STOP_SONG.getString(), -1, Lang.TITLE.getString());
 
     /**
+     * The toggle key, when pressed, toggles the mod between the enabled and disabled state.
+     */
+    public static final KeyMapping TOGGLE_KEY = new KeyMapping(Lang.Binding.TOGGLE_KEY.getString(), InputConstants.KEY_HOME, Lang.TITLE.getString());
+
+    /**
      * Get a key mapping based on the given {@link KeybindingId}.
      *
      * @param id A {@link KeybindingId} enumeration.
@@ -62,6 +70,7 @@ public abstract class ClientKeyMapping
             case FOG -> FOG_KEY;
             case NEXT_SONG -> NEXT_SONG_KEY;
             case STOP_SONG -> STOP_SONG_KEY;
+            case TOGGLE -> TOGGLE_KEY;
         };
     }
 
@@ -74,6 +83,7 @@ public abstract class ClientKeyMapping
         KeyMappingRegistry.register(FOG_KEY);
         KeyMappingRegistry.register(STOP_SONG_KEY);
         KeyMappingRegistry.register(NEXT_SONG_KEY);
+        KeyMappingRegistry.register(TOGGLE_KEY);
 
         ClientScreenInputEvent.KEY_PRESSED_POST.register((minecraft, screen, keyCode, scanCode, modifiers) -> {
             Function<Translation, Boolean> isBindingMatched = (translation) -> {
@@ -100,6 +110,12 @@ public abstract class ClientKeyMapping
                 return EventResult.pass();
             }
 
+            if (isBindingMatched.apply(Lang.Binding.TOGGLE_KEY))
+            {
+                toggleEnabled(minecraft);
+                return EventResult.pass();
+            }
+
             return EventResult.pass();
         });
 
@@ -115,6 +131,9 @@ public abstract class ClientKeyMapping
 
             while (NEXT_SONG_KEY.consumeClick())
                 playNewSong(minecraft);
+
+            while (TOGGLE_KEY.consumeClick())
+                toggleEnabled(minecraft);
         });
     }
 
@@ -169,5 +188,12 @@ public abstract class ClientKeyMapping
     {
         minecraft.getMusicManager().stopPlaying();
         ((MusicManagerAccess) minecraft.getMusicManager()).nt$setNextSongDelay(0);
+    }
+
+    private static void toggleEnabled(Minecraft minecraft)
+    {
+        boolean newValue = !ModTweak.ENABLED.get();
+        ModTweak.ENABLED.setCacheAndDiskThenSave(newValue);
+        AfterConfigSave.reloadAndRun();
     }
 }

@@ -8,5 +8,6 @@ public enum KeybindingId
     CONFIG,
     FOG,
     NEXT_SONG,
-    STOP_SONG
+    STOP_SONG,
+    TOGGLE,
 }
