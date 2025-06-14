@@ -13,6 +13,7 @@ import mod.adrenix.nostalgic.tweak.enums.Hotbar;
 import mod.adrenix.nostalgic.tweak.enums.StaminaRegain;
 import mod.adrenix.nostalgic.tweak.listing.ItemMap;
 import mod.adrenix.nostalgic.tweak.listing.ItemSet;
+import mod.adrenix.nostalgic.tweak.listing.StringSet;
 
 /**
  * <b color=red>IMPORTANT</b>
@@ -95,6 +96,7 @@ public class ServerConfig implements ConfigMeta
         // Animal Spawning
 
         public int animalSpawnCap = GameplayTweak.ANIMAL_SPAWN_CAP.register("animalSpawnCap");
+        public StringSet oldAnimalSpawnList = GameplayTweak.OLD_ANIMAL_SPAWN_LIST.register("oldAnimalSpawnList");
         public boolean oldAnimalSpawning = GameplayTweak.OLD_ANIMAL_SPAWNING.register("oldAnimalSpawning");
         public boolean disableBabyAnimalSpawning = GameplayTweak.DISABLE_BABY_ANIMAL_SPAWNING.register("disableBabyAnimalSpawning");
         public boolean disableAnimalBreeding = GameplayTweak.DISABLE_ANIMAL_BREEDING.register("disableAnimalBreeding");

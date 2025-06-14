@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.tweak.listing;
 
 import mod.adrenix.nostalgic.util.common.world.ItemUtil;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -58,6 +59,22 @@ public interface DefaultListing
     }
 
     // Gameplay Listings
+
+    static StringSet oldAnimalSpawns()
+    {
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+
+        set.add(EntityType.getKey(EntityType.CHICKEN).toString());
+        set.add(EntityType.getKey(EntityType.COW).toString());
+        set.add(EntityType.getKey(EntityType.MOOSHROOM).toString());
+        set.add(EntityType.getKey(EntityType.PIG).toString());
+        set.add(EntityType.getKey(EntityType.SHEEP).toString());
+
+        StringSet createSet = new StringSet(ListingSuggestion.CREATURE).startWith(set);
+        createSet.setDisabled(true);
+
+        return createSet;
+    }
 
     static ItemSet selfBlockDrops()
     {
