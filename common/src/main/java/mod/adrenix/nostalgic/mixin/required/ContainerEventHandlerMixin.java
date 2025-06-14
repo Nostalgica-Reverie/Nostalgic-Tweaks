@@ -83,4 +83,19 @@ public interface ContainerEventHandlerMixin
 
         return isMouseDragged;
     }
+
+    /**
+     * If this implements {@link DynamicScreen} then changes the results based on its mouse scrolled helper.
+     */
+    @ModifyReturnValue(
+        method = "mouseScrolled",
+        at = @At("RETURN")
+    )
+    default boolean nt_required$onMouseScrolled(boolean isMouseScrolled, double mouseX, double mouseY, double deltaX, double deltaY)
+    {
+        if (!isMouseScrolled && this instanceof DynamicScreen<?> helper)
+            return helper.isMouseScrolled(mouseX, mouseY, deltaX, deltaY);
+
+        return isMouseScrolled;
+    }
 }

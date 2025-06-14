@@ -189,6 +189,20 @@ public interface DynamicScreen<T extends Screen> extends WidgetHolder, ParentHol
     }
 
     /**
+     * Helper handler method for when the mouse scrolls on the screen.
+     *
+     * @param mouseX The current x-position of the mouse.
+     * @param mouseY The current y-position of the mouse.
+     * @param deltaX A positive or negative value that indicates horizontal scroll direction.
+     * @param deltaY A positive or negative value that indicates vertical scroll direction.
+     * @return Whether this method handled the event.
+     */
+    default boolean isMouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
+    {
+        return this.getWidgets().stream().anyMatch(widget -> widget.mouseScrolled(mouseX, mouseY, deltaX, deltaY));
+    }
+
+    /**
      * Focus the first eligible widget.
      */
     default void focusFirst()
