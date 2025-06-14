@@ -84,12 +84,12 @@ public abstract class FallingBlockConfig
     /**
      * Upload blocks from a falling blocks logo config file to give the given blocks list.
      *
-     * @param config A {@link File} to read from.
-     * @param blocks The {@link ArrayList} of {@link FallingBlockData.Block} to upload to.
+     * @param config   A {@link File} to read from.
+     * @param receiver The {@link FallingBlockData} to upload to.
      * @throws JsonIOException     If there was a problem reading from the file reader.
      * @throws JsonSyntaxException If JSON is not a valid representation of {@link FallingBlockData}.
      */
-    public static void upload(File config, ArrayList<FallingBlockData.Block> blocks) throws JsonIOException, JsonSyntaxException
+    public static void upload(File config, FallingBlockData receiver) throws JsonIOException, JsonSyntaxException
     {
         try (FileReader reader = new FileReader(config))
         {
@@ -98,7 +98,7 @@ public abstract class FallingBlockConfig
             if (data != null)
             {
                 data.blocks.removeIf(FallingBlockConfig::isBlockOutOfBounds);
-                blocks.addAll(data.blocks);
+                data.copyTo(receiver);
             }
         }
         catch (IOException exception)
@@ -189,6 +189,22 @@ public abstract class FallingBlockConfig
         {
             NostalgicTweaks.LOGGER.error("[Falling Blocks] An error occurred when trying to read file for writing\n%s", exception);
         }
+    }
+
+    /**
+     * Apply the given the data to the current {@link FallingBlockData} cache. This does <b color=red>not</b> save the
+     * config file. Use {@link #save()}.
+     *
+     * @param data The {@link FallingBlockData} instance to apply.
+     */
+    public static void apply(FallingBlockData data)
+    {
+        BLOCK_DATA.ifPresent(cache -> {
+            cache.scale = data.scale;
+
+            cache.blocks.clear();
+            cache.blocks.addAll(data.blocks);
+        });
     }
 
     /**
@@ -288,22 +304,37 @@ public abstract class FallingBlockConfig
     }
 
     /**
-     * @return An empty {@link ArrayList} if the config is not available or an {@link ArrayList} of
-     * {@link FallingBlockData.Block}.
+     * @return A default {@link FallingBlockData} instance if the config is not available or the data that was read from
+     * disk.
      */
-    public static ArrayList<FallingBlockData.Block> getBlockData()
+    public static FallingBlockData getData()
     {
         if (isNotAvailable())
         {
             if (read() && BLOCK_DATA.isPresent())
-                return BLOCK_DATA.getOrThrow().blocks;
+                return BLOCK_DATA.getOrThrow();
 
-            return new ArrayList<>();
+            return new FallingBlockData();
         }
         else
         {
-            return BLOCK_DATA.getOrThrow().blocks;
+            return BLOCK_DATA.getOrThrow();
         }
+    }
+
+    /**
+     * Check if two falling block config caches are different.
+     *
+     * @param initial      The initial {@link FallingBlockData} config.
+     * @param maybeChanged The possibly modified {@link FallingBlockData} config.
+     * @return Whether the two config data caches are different.
+     */
+    public static boolean isDataChanged(FallingBlockData initial, FallingBlockData maybeChanged)
+    {
+        if (!((Float) initial.scale).equals(maybeChanged.scale))
+            return true;
+
+        return isBlockDataChanged(initial.blocks, maybeChanged.blocks);
     }
 
     /**
@@ -313,7 +344,7 @@ public abstract class FallingBlockConfig
      * @param maybeChanged The possibly modified {@link ArrayList} of {@link FallingBlockData.Block}.
      * @return Whether the two array lists are the same size and contain equal elements.
      */
-    public static boolean isDataChanged(ArrayList<FallingBlockData.Block> initial, ArrayList<FallingBlockData.Block> maybeChanged)
+    public static boolean isBlockDataChanged(ArrayList<FallingBlockData.Block> initial, ArrayList<FallingBlockData.Block> maybeChanged)
     {
         if (initial.isEmpty() && maybeChanged.isEmpty())
             return false;

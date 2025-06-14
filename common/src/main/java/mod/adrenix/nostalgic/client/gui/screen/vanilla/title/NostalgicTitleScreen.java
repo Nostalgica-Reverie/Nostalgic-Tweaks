@@ -68,7 +68,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
                 NostalgicTweaks.LOGGER.warn("[Falling Blocks] The falling blocks config is empty! Showing default logo.");
             }
 
-            this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getBlockData());
+            this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getData());
         }
     }
 
@@ -199,7 +199,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
                 if (FallingBlockConfig.hasNoBlocks())
                     FallingBlockConfig.setBlockDataToDefault();
 
-                this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getBlockData());
+                this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getData());
             }
             else
                 this.blockLogo = new FallingBlockRenderer();
