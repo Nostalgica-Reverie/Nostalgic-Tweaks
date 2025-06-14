@@ -130,7 +130,7 @@ public abstract class AnimalSpawnHelper
                     float dy = (float) y;
                     float dz = (float) z + 0.5F;
 
-                    if (level.getNearestPlayer(dx, dy, dz, 24.0, true) == null)
+                    if (level.getNearestPlayer(dx, dy, dz, 24.0, false) == null)
                     {
                         float ox = dx - (float) level.getLevelData().getXSpawn();
                         float oy = dy - (float) level.getLevelData().getYSpawn();
