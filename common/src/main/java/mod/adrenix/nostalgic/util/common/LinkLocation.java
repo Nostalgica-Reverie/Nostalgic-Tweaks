@@ -14,6 +14,6 @@ public interface LinkLocation
 
     static String getSupporterFace(String uuid)
     {
-        return String.format("https://crafthead.net/avatar/%s/8", uuid);
+        return String.format("https://crafthead.net/helm/%s/8", uuid);
     }
 }
