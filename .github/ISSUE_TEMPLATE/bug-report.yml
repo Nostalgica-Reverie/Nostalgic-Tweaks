@@ -14,7 +14,7 @@ body:
   - type: textarea
     id: how-to-reproduce
     attributes:
-      label: Steps to Reproduce:
+      label: Steps to Reproduce
       description: Please describe what steps to take to recreate the issue.
       placeholder: |
         Steps to reproduce the behavior:
@@ -27,7 +27,7 @@ body:
   - type: dropdown
     id: mc-version
     attributes:
-      label: Minecraft Version:
+      label: Minecraft Version
       description: What version of Minecraft are you running?
       options:
         - 1.21.1
@@ -38,7 +38,7 @@ body:
   - type: dropdown
     id: modloader
     attributes:
-      label: Mod Loader:
+      label: Mod Loader
       description: What mod loader are you using?
       options:
         - Fabric
@@ -50,7 +50,7 @@ body:
   - type: input
     id: nt-version
     attributes:
-      label: Nostalgic Tweaks Version:
+      label: Nostalgic Tweaks Version
       description: What Nostalgic Tweaks version are you on?
       placeholder: v#.#.#
     validations:
@@ -58,7 +58,7 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Log and/or Crash Report:
+      label: Log and/or Crash Report
       description: Please upload your log or crash report to mclo.gs and paste the link here (or N/a).
       placeholder: N/a
     validations:
@@ -66,13 +66,13 @@ body:
   - type: textarea
     id: extras
     attributes:
-      label: Additional Context:
+      label: Additional Context
       description: Put any extra info you feel is neccessary here (or N/a).
       placeholder: N/a
   - type: checkboxes
     id: terms
     attributes:
-      label: Acknowledgement:
+      label: Acknowledgement
       description: If you do not fill out this form correctly, your issue will be immediately closed.
       options:
         - label: I understand and have fully filled out the form, including the issue name.
