@@ -8,6 +8,7 @@ import mod.adrenix.nostalgic.util.common.world.ItemUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -62,7 +63,7 @@ public abstract class PlayerMixin extends LivingEntity
     private boolean nt_food_health$canPlayerEat(boolean playerCanEat, boolean canAlwaysEat)
     {
         if (GameplayTweak.DISABLE_HUNGER.get() && !canAlwaysEat)
-            return this.getHealth() < this.getMaxHealth();
+            return Mth.ceil(this.getHealth()) < Mth.ceil(this.getMaxHealth());
 
         return playerCanEat;
     }
