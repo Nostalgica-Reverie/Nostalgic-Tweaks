@@ -3,7 +3,7 @@ description: File an issue report.
 title: "[Issue]: "
 labels: ["issue"]
 body:
-  - type: input
+  - type: textarea
     id: issue
     attributes:
       label: What is the issue?
@@ -17,7 +17,7 @@ body:
       label: Steps to Reproduce
       description: Please describe what steps to take to recreate the issue.
       placeholder: |
-        Steps to reproduce the behavior:
+        Steps to reproduce the issue:
         1. Join a world
         2. Ride a pig
         3. Guide the pig off a cliff
