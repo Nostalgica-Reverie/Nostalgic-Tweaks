@@ -53,6 +53,7 @@ allprojects {
         maven { url "https://maven.tterrag.com/" }
         maven { url "https://maven.terraformersmc.com/" }
         maven { url "https://maven.createmod.net/" }
+        maven { url "https://modmaven.dev/" }
     }
 
     tasks.withType(JavaCompile) {
