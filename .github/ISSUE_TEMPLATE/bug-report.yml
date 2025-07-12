@@ -1,7 +1,7 @@
-name: Bug Report
-description: File a bug report.
+name: Issue Report
+description: File an issue report.
 title: "[Issue]: "
-labels: ["bug"]
+labels: ["issue"]
 body:
   - type: input
     id: issue
@@ -14,20 +14,20 @@ body:
   - type: textarea
     id: how-to-reproduce
     attributes:
-      label: To Reproduce
+      label: Steps to Reproduce:
       description: Please describe what steps to take to recreate the issue.
       placeholder: |
         Steps to reproduce the behavior:
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        1. Join a world
+        2. Ride a pig
+        3. Guide the pig off a cliff
+        4. See crash report
     validations:
       required: true
   - type: dropdown
     id: mc-version
     attributes:
-      label: Minecraft Version
+      label: Minecraft Version:
       description: What version of Minecraft are you running?
       options:
         - 1.21.1
@@ -38,44 +38,41 @@ body:
   - type: dropdown
     id: modloader
     attributes:
-      label: Modloader
-      description: What modloader are you running?
+      label: Mod Loader:
+      description: What mod loader are you using?
       options:
         - Fabric
         - Forge
-        - Neoforge
+        - NeoForge
       default: 0
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: nt-version
     attributes:
-      label: Nostalgic Tweaks Version
+      label: Nostalgic Tweaks Version:
       description: What Nostalgic Tweaks version are you on?
-      placeholder: |
-        Steps to reproduce the behavior:
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+      placeholder: v#.#.#
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Log and/or crash report
-      description: Please upload your log or crash report to mclo.gs and paste the link here.
+      label: Log and/or Crash Report:
+      description: Please upload your log or crash report to mclo.gs and paste the link here (or N/a).
+      placeholder: N/a
     validations:
       required: true
   - type: textarea
     id: extras
     attributes:
-      label: Additional Context
-      description: Put any extra info you feel is neccessary here.
+      label: Additional Context:
+      description: Put any extra info you feel is neccessary here (or N/a).
+      placeholder: N/a
   - type: checkboxes
     id: terms
     attributes:
-      label: Acknowledgement
+      label: Acknowledgement:
       description: If you do not fill out this form correctly, your issue will be immediately closed.
       options:
         - label: I understand and have fully filled out the form, including the issue name.
