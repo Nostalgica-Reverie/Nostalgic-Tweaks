@@ -42,13 +42,28 @@ public abstract class LivingEntityMixin
     }
 
     /**
+     * Prevents effects being applied to the player based on tweak context.
+     */
+    @WrapWithCondition(
+        method = "eat",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;addEatEffect(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)V"
+        )
+    )
+    private boolean nt_food_health$shouldAddFoodEffects(LivingEntity instance, ItemStack food, Level level, LivingEntity livingEntity)
+    {
+        return !FoodHelper.isInstantaneousEdible(food) || !GameplayTweak.PREVENT_INSTANT_EAT_EFFECTS.get();
+    }
+
+    /**
      * Prevents the hunger effect from being applied to entities if it is disabled.
      */
     @ModifyReturnValue(
         method = "canBeAffected",
         at = @At("RETURN")
     )
-    private boolean nt_food_health$shouldAddFoodEffect(boolean canBeAffected, MobEffectInstance effectInstance)
+    private boolean nt_food_health$shouldAddHungerEffect(boolean canBeAffected, MobEffectInstance effectInstance)
     {
         if (GameplayTweak.PREVENT_HUNGER_EFFECT.get() && effectInstance.getEffect() == MobEffects.HUNGER)
             return false;
