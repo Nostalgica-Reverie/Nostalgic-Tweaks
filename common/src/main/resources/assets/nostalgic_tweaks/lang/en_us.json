@@ -1984,6 +1984,8 @@
   "gui.nostalgic_tweaks.config.gameplay.instantEat": "Instant Eat",
   "gui.nostalgic_tweaks.config.gameplay.instantEat.info": "Immediately consume food items.",
   "gui.nostalgic_tweaks.config.gameplay.instantEat.search": "Food, Consume, Heart, Immediate",
+  "gui.nostalgic_tweaks.config.gameplay.preventInstantEatEffects": "Prevent Instant Eat Effects",
+  "gui.nostalgic_tweaks.config.gameplay.preventInstantEatEffects.info": "Disable effects being given to the player after an edible item is consumed when the §3@decode{tweak=gameplay.instantEat}§r tweak is§a enabled§r.",
   "gui.nostalgic_tweaks.config.gameplay.ignoredEdibles": "Ignored Edibles",
   "gui.nostalgic_tweaks.config.gameplay.ignoredEdibles.info": "Define which food items are not eligible to be instantaneously eaten when the §3@decode{tweak=gameplay.instantEat}§r tweak is§a enabled§r.",
   "gui.nostalgic_tweaks.config.gameplay.oldFoodStacking": "Old Food Stacking",

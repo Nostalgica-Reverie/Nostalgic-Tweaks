@@ -190,11 +190,15 @@ public interface GameplayTweak
     TweakFlag DISABLE_AXE_STRIPPING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).newForUpdate().build();
     TweakFlag DISABLE_SHOVEL_PATHING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).newForUpdate().build();
 
-    // Food Health
+    // Hunger
 
     TweakFlag DISABLE_HUNGER = TweakFlag.server(false, GameplayGroup.HUNGER).build();
+    TweakFlag PREVENT_HUNGER_EFFECT = TweakFlag.server(false, GameplayGroup.HUNGER).build();
+
+    // Instant Food
+
     TweakFlag INSTANT_EAT = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
-    TweakFlag PREVENT_HUNGER_EFFECT = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
+    TweakFlag PREVENT_INSTANT_EAT_EFFECTS = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
     TweakItemSet IGNORED_EDIBLES = TweakItemSet.server(new ItemSet(ItemRule.ONLY_EDIBLES), GameplayGroup.HUNGER_FOOD).build();
     TweakItemMap<Integer> CUSTOM_FOOD_HEALTH = TweakItemMap.server(DefaultListing.foodHealth(), GameplayGroup.HUNGER_FOOD)
         .icon(Icons.HEART)

@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,13 +43,28 @@ public abstract class LivingEntityMixin
     }
 
     /**
+     * Prevents effects being applied to the player based on tweak context.
+     */
+    @WrapWithCondition(
+        method = "eat(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/food/FoodProperties;)Lnet/minecraft/world/item/ItemStack;",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;addEatEffect(Lnet/minecraft/world/food/FoodProperties;)V"
+        )
+    )
+    private boolean nt_food_health$shouldAddFoodEffects(LivingEntity instance, FoodProperties foodProperties, Level level, ItemStack food)
+    {
+        return !FoodHelper.isInstantaneousEdible(food) || !GameplayTweak.PREVENT_INSTANT_EAT_EFFECTS.get();
+    }
+
+    /**
      * Prevents the hunger effect from being applied to entities if it is disabled.
      */
     @ModifyReturnValue(
         method = "canBeAffected",
         at = @At("RETURN")
     )
-    private boolean nt_food_health$shouldAddFoodEffect(boolean canBeAffected, MobEffectInstance effectInstance)
+    private boolean nt_food_health$shouldAddHungerEffect(boolean canBeAffected, MobEffectInstance effectInstance)
     {
         if (GameplayTweak.PREVENT_HUNGER_EFFECT.get() && effectInstance.getEffect() == MobEffects.HUNGER)
             return false;

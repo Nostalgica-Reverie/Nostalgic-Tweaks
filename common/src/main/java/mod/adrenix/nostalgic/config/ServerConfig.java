@@ -227,6 +227,7 @@ public class ServerConfig implements ConfigMeta
         public boolean instantEat = GameplayTweak.INSTANT_EAT.register("instantEat");
         public boolean oldFoodStacking = GameplayTweak.OLD_FOOD_STACKING.register("oldFoodStacking");
         public boolean preventHungerEffect = GameplayTweak.PREVENT_HUNGER_EFFECT.register("preventHungerEffect");
+        public boolean preventInstantEatEffects = GameplayTweak.PREVENT_INSTANT_EAT_EFFECTS.register("preventInstantEatEffects");
 
         public ItemSet ignoredEdibles = GameplayTweak.IGNORED_EDIBLES.register("ignoredEdibles");
         public ItemMap<Integer> customFoodHealth = GameplayTweak.CUSTOM_FOOD_HEALTH.register("customFoodHealth");
