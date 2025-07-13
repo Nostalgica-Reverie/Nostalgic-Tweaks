@@ -2,6 +2,7 @@ package mod.adrenix.nostalgic.mixin.tweak.gameplay.food_health;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import mod.adrenix.nostalgic.helper.gameplay.FoodHelper;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import mod.adrenix.nostalgic.util.common.data.NullableResult;
 import net.minecraft.sounds.SoundEvent;
@@ -78,6 +79,6 @@ public abstract class PlayerMixin extends LivingEntity
     )
     private boolean nt_food_health$shouldPlayBurpSound(Level level, Player player, double x, double y, double z, SoundEvent sound, SoundSource category, float volume, float pitch)
     {
-        return !GameplayTweak.INSTANT_EAT.get();
+        return !FoodHelper.isInstantaneousEdible(this.getUseItem());
     }
 }
