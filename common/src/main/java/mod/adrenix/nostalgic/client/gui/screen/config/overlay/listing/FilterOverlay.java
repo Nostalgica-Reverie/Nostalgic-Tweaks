@@ -25,6 +25,7 @@ public class FilterOverlay
     private final Holder<Boolean> items = Holder.create(false);
     private final Holder<Boolean> blocks = Holder.create(false);
     private final Holder<Boolean> edibles = Holder.create(false);
+    private final Holder<Boolean> invincible = Holder.create(false);
     private final List<Holder<Boolean>> holders = List.of(tools, items, blocks, edibles);
 
     /* Constructor */
@@ -45,8 +46,9 @@ public class FilterOverlay
         SwitchGroup items = SwitchGroup.create(parent, ItemRule.NO_ITEMS.getName(), ItemRule.NO_ITEMS.getInfo(), this.items::get, this.set(this.items));
         SwitchGroup blocks = SwitchGroup.create(parent, ItemRule.NO_BLOCKS.getName(), ItemRule.NO_BLOCKS.getInfo(), this.blocks::get, this.set(this.blocks));
         SwitchGroup edibles = SwitchGroup.create(parent, ItemRule.NO_EDIBLES.getName(), ItemRule.NO_EDIBLES.getInfo(), this.edibles::get, this.set(this.edibles));
+        SwitchGroup invincible = SwitchGroup.create(parent, ItemRule.INVINCIBLE.getName(), ItemRule.INVINCIBLE.getInfo(), this.invincible::get, this.set(this.invincible));
 
-        this.overlay.setGroups(List.of(tools, items, blocks, edibles));
+        this.overlay.setGroups(List.of(tools, items, blocks, edibles, invincible));
         this.overlay.get()
             .getBuilder()
             .outlineColor(Color.WHITE)
@@ -93,8 +95,9 @@ public class FilterOverlay
         boolean isItemFiltered = ItemFilter.isItemLike(item) && this.items.get();
         boolean isBlockFiltered = ItemFilter.isBlockLike(item) && this.blocks.get();
         boolean isEdibleFiltered = item.isEdible() && this.edibles.get();
+        boolean isInvincibleFiltered = item.canBeDepleted() && this.invincible.get();
 
-        return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered;
+        return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered || isInvincibleFiltered;
     }
 
     /**

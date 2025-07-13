@@ -31,6 +31,8 @@ public abstract class ItemFilter
             return !isChestLike(item);
         else if (list.rules().contains(ItemRule.ONLY_EDIBLES))
             return !item.isEdible();
+        else if (list.rules().contains(ItemRule.INVINCIBLE))
+            return !item.canBeDepleted();
         else
         {
             boolean isToolFiltered = ItemFilter.isToolLike(item) && list.rules().contains(ItemRule.NO_TOOLS);

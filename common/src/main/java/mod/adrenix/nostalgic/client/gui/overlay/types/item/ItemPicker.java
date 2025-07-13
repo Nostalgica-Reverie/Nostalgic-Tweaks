@@ -311,6 +311,8 @@ public class ItemPicker
             this.items.addAll(items.filter(ItemFilter::isChestLike).map(Item::getDefaultInstance).toList());
         else if (this.rules.contains(ItemRule.ONLY_EDIBLES))
             this.items.addAll(items.filter(Item::isEdible).map(Item::getDefaultInstance).toList());
+        else if (this.rules.contains(ItemRule.ONLY_DAMAGEABLE))
+            this.items.addAll(items.filter(Item::canBeDepleted).map(Item::getDefaultInstance).toList());
         else
         {
             items.forEach(item -> {
@@ -352,9 +354,11 @@ public class ItemPicker
         {
             boolean isLastSquare = i == this.items.size() - 1;
 
-            ItemSquare square = new ItemSquare(this, i, builder -> builder.rightOf(row.get()
-                .getWidgets()
-                .getLast(), 2));
+            ItemSquare square = new ItemSquare(
+                this, i, builder -> builder.rightOf(
+                row.get()
+                    .getWidgets()
+                    .getLast(), 2));
 
             row.get().addWidget(square.getButton());
 
