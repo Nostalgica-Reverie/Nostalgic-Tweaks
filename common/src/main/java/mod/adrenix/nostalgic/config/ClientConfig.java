@@ -505,6 +505,7 @@ public class ClientConfig implements ConfigMeta
 
         // Item Display
 
+        public ItemSet ignoredDurabilityColors = CandyTweak.IGNORED_DURABILITY_COLORS.register("ignoredDurabilityColors");
         public boolean oldDurabilityColors = CandyTweak.OLD_DURABILITY_COLORS.register("oldDurabilityColors");
         public boolean oldNoSelectedItemName = CandyTweak.OLD_NO_SELECTED_ITEM_NAME.register("oldNoSelectedItemName");
         public boolean oldPlainSelectedItemName = CandyTweak.OLD_PLAIN_SELECTED_ITEM_NAME.register("oldPlainSelectedItemName");

@@ -1495,6 +1495,8 @@
   "gui.nostalgic_tweaks.config.eyeCandy.disableEnchantedGroundItems.search": "Glint, Flat, Sprite, Billboard",
   "gui.nostalgic_tweaks.config.eyeCandy.disableEnchantedStaticItems": "Disable Static Item Enchantment Glint",
   "gui.nostalgic_tweaks.config.eyeCandy.disableEnchantedStaticItems.info": "§cDisable§r the§d enchantment glint§r for 2D static items. For example, 2D items in frames or 2D items on a campfire.",
+  "gui.nostalgic_tweaks.config.eyeCandy.ignoredDurabilityColors": "Ignored Durability Colors",
+  "gui.nostalgic_tweaks.config.eyeCandy.ignoredDurabilityColors.info": "Define which items are not eligible to receive old durability bar colors.",
   "gui.nostalgic_tweaks.config.eyeCandy.oldDurabilityColors": "Old Durability Colors",
   "gui.nostalgic_tweaks.config.eyeCandy.oldDurabilityColors.info": "Bring back the old durability bar colors.",
   "gui.nostalgic_tweaks.config.eyeCandy.oldNoSelectedItemName": "Hide Selected Item Name",
