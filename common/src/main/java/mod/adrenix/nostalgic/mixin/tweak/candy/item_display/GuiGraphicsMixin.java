@@ -2,8 +2,7 @@ package mod.adrenix.nostalgic.mixin.tweak.candy.item_display;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import mod.adrenix.nostalgic.tweak.config.CandyTweak;
-import mod.adrenix.nostalgic.util.common.world.ItemUtil;
+import mod.adrenix.nostalgic.helper.candy.ItemHelper;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
@@ -27,8 +26,10 @@ public abstract class GuiGraphicsMixin
     )
     private void nt_item_display$wrapDecorationBackground(GuiGraphics graphics, RenderType renderType, int minX, int minY, int maxX, int maxY, int color, Operation<Void> operation, Font font, ItemStack itemStack)
     {
-        if (ItemUtil.hasCustomBarColor(itemStack) || !CandyTweak.OLD_DURABILITY_COLORS.get())
-            operation.call(graphics, renderType, minX, minY, maxX, maxY, color);
+        if (ItemHelper.hasOldDecoration(itemStack))
+            return;
+
+        operation.call(graphics, renderType, minX, minY, maxX, maxY, color);
     }
 
     /**
@@ -45,7 +46,7 @@ public abstract class GuiGraphicsMixin
     )
     private void nt_item_display$wrapDecorationForeground(GuiGraphics graphics, RenderType renderType, int minX, int minY, int maxX, int maxY, int color, Operation<Void> operation, Font font, ItemStack itemStack, int x, int y)
     {
-        if (ItemUtil.hasCustomBarColor(itemStack) || !CandyTweak.OLD_DURABILITY_COLORS.get())
+        if (!ItemHelper.hasOldDecoration(itemStack))
         {
             operation.call(graphics, renderType, minX, minY, maxX, maxY, color);
             return;

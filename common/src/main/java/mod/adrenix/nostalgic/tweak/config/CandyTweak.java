@@ -348,6 +348,7 @@ public interface CandyTweak
 
     // Item Display
 
+    TweakItemSet IGNORED_DURABILITY_COLORS = TweakItemSet.client(new ItemSet(ItemRule.ONLY_DAMAGEABLE), CandyGroup.ITEM_DISPLAY).build();
     TweakFlag OLD_DURABILITY_COLORS = TweakFlag.client(true, CandyGroup.ITEM_DISPLAY).build();
     TweakFlag OLD_NO_SELECTED_ITEM_NAME = TweakFlag.client(true, CandyGroup.ITEM_DISPLAY).build();
     TweakFlag OLD_PLAIN_SELECTED_ITEM_NAME = TweakFlag.client(false, CandyGroup.ITEM_DISPLAY).build();
