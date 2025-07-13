@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.mixin.tweak.gameplay.food_health;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import mod.adrenix.nostalgic.helper.gameplay.FoodHelper;
@@ -20,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class LivingEntityMixin
 {
     /* Shadows */
+
+    @Shadow protected ItemStack useItem;
 
     @Shadow
     public abstract ItemStack getUseItem();
@@ -69,5 +72,56 @@ public abstract class LivingEntityMixin
             return false;
 
         return canBeAffected;
+    }
+
+    /**
+     * Sets the use duration to one if the item is an instantaneous edible item so that on the next tick the item is
+     * immediately consumed.
+     */
+    @ModifyExpressionValue(
+        method = "startUsingItem",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/item/ItemStack;getUseDuration()I"
+        )
+    )
+    private int nt_food_health$modifyUseDurationOnStartUsingItem(int useDuration)
+    {
+        if (FoodHelper.isInstantaneousEdible(this.useItem))
+            return 1;
+
+        return useDuration;
+    }
+
+    /**
+     * Prevents the item use effects from triggering on an item update when the use item is an instantaneous edible
+     * item.
+     */
+    @WrapWithCondition(
+        method = "updateUsingItem",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;triggerItemUseEffects(Lnet/minecraft/world/item/ItemStack;I)V"
+        )
+    )
+    private boolean nt_food_health$shouldTriggerItemUseEffectsOnUpdate(LivingEntity entity, ItemStack itemStack, int amount)
+    {
+        return !FoodHelper.isInstantaneousEdible(this.useItem);
+    }
+
+    /**
+     * Prevents the item use effects from triggering on item use completion when the use item is an instantaneous edible
+     * item.
+     */
+    @WrapWithCondition(
+        method = "completeUsingItem",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;triggerItemUseEffects(Lnet/minecraft/world/item/ItemStack;I)V"
+        )
+    )
+    private boolean nt_food_health$shouldTriggerItemUseEffectsOnComplete(LivingEntity entity, ItemStack ItemStack, int amount)
+    {
+        return !FoodHelper.isInstantaneousEdible(this.useItem);
     }
 }
