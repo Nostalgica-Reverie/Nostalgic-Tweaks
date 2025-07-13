@@ -153,6 +153,7 @@
     "gameplay.animal_sheep.EatBlockGoalMixin",
     "gameplay.animal_spawn.AgeableMobMixin",
     "gameplay.animal_spawn.AnimalMixin",
+    "gameplay.animal_spawn.BreedGoalMixin",
     "gameplay.animal_spawn.ChickenMixin",
     "gameplay.animal_spawn.SeverChunkCacheMixin",
     "gameplay.animal_spawn.TemptGoalMixin",

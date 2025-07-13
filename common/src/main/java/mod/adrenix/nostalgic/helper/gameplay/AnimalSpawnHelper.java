@@ -49,6 +49,18 @@ public abstract class AnimalSpawnHelper
     }
 
     /**
+     * Check if the given ageable mob should be persistent. This will yield true when old animal spawning, keep baby
+     * animals while old spawning, and the entity type is within the old spawn whitelist.
+     *
+     * @param ageableMob The {@link AgeableMob} to check.
+     * @return Whether the ageable mob should be persistent.
+     */
+    public static boolean isPersistent(AgeableMob ageableMob)
+    {
+        return GameplayTweak.OLD_ANIMAL_SPAWNING.get() && GameplayTweak.KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN.get() && isInList(ageableMob.getType());
+    }
+
+    /**
      * Generates a cache of information needed for old animal spawning logic before the server ticks over all loaded
      * chunks.
      *
