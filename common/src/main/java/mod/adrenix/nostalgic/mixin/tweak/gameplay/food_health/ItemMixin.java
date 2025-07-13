@@ -28,7 +28,7 @@ public abstract class ItemMixin
 
         if (FoodHelper.isInstantaneousEdible(itemInHand))
         {
-            player.eat(player.level(), itemInHand);
+            itemInHand.finishUsingItem(player.level(), player);
 
             return false;
         }
