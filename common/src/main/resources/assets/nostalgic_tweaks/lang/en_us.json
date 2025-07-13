@@ -1244,6 +1244,8 @@
   "gui.nostalgic_tweaks.config.eyeCandy.oldAlphaLogo": "Old Alpha Logo",
   "gui.nostalgic_tweaks.config.eyeCandy.oldAlphaLogo.info": "Bring back the old§a alpha§r animated Minecraft logo on the title screen. If§c disabled§r, the resource pack logo will be used.",
   "gui.nostalgic_tweaks.config.eyeCandy.oldAlphaLogo.search": "Falling, Minecraft, Animation",
+  "gui.nostalgic_tweaks.config.eyeCandy.clickOnLogoToggle": "Click On Logo to Toggle",
+  "gui.nostalgic_tweaks.config.eyeCandy.clickOnLogoToggle.info": "When§a enabled§r, clicking on the title screen logo will toggle between the falling block logo and resource pack logo.",
   "gui.nostalgic_tweaks.config.eyeCandy.useCustomFallingLogo": "Use Custom Falling Logo Animation",
   "gui.nostalgic_tweaks.config.eyeCandy.useCustomFallingLogo.info": "To use the custom animation made by the falling block logo editor, this tweak must be§a enabled§r.",
   "gui.nostalgic_tweaks.config.eyeCandy.useCustomFallingLogo.search": "Falling, Minecraft, Animation",
