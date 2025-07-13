@@ -89,7 +89,7 @@ public abstract class AnimalMixin extends Mob
     )
     private void nt_animal_spawn$onFinalizeSpawnChildFromBreeding(ServerLevel level, Animal animal, AgeableMob baby, CallbackInfo callback)
     {
-        if (GameplayTweak.KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN.get() && AnimalSpawnHelper.isInList(baby.getType()))
+        if (AnimalSpawnHelper.isPersistent(baby))
             baby.setPersistenceRequired();
     }
 }
