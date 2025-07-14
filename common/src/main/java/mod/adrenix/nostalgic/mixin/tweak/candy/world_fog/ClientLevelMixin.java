@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.mixin.tweak.candy.world_fog;
 
 import mod.adrenix.nostalgic.helper.candy.level.fog.VoidFogRenderer;
-import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -28,12 +27,12 @@ public abstract class ClientLevelMixin
     )
     private double nt_world_fog$onSetSkyColorRed(double red)
     {
-        if (ModTweak.ENABLED.get())
+        if (VoidFogRenderer.isRendering())
             VoidFogRenderer.setSkyRed((float) red);
         else
             return red;
 
-        return VoidFogRenderer.isRendering() ? VoidFogRenderer.getSkyRed() : red;
+        return VoidFogRenderer.getSkyRed();
     }
 
     /**
@@ -49,12 +48,12 @@ public abstract class ClientLevelMixin
     )
     private double nt_world_fog$onSetSkyColorGreen(double green)
     {
-        if (ModTweak.ENABLED.get())
+        if (VoidFogRenderer.isRendering())
             VoidFogRenderer.setSkyGreen((float) green);
         else
             return green;
 
-        return VoidFogRenderer.isRendering() ? VoidFogRenderer.getSkyGreen() : green;
+        return VoidFogRenderer.getSkyGreen();
     }
 
     /**
@@ -70,12 +69,12 @@ public abstract class ClientLevelMixin
     )
     private double nt_world_fog$onSetSkyColorBlue(double blue)
     {
-        if (ModTweak.ENABLED.get())
+        if (VoidFogRenderer.isRendering())
             VoidFogRenderer.setSkyBlue((float) blue);
         else
             return blue;
 
-        return VoidFogRenderer.isRendering() ? VoidFogRenderer.getSkyBlue() : blue;
+        return VoidFogRenderer.getSkyBlue();
     }
 
     /**
@@ -84,14 +83,13 @@ public abstract class ClientLevelMixin
     @Inject(
         method = "doAnimateTick",
         at = @At(
-            shift = At.Shift.BEFORE,
             value = "INVOKE",
             target = "Lnet/minecraft/client/multiplayer/ClientLevel;getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/Holder;"
         )
     )
     private void nt_world_fog$onAddBiomeParticles(int posX, int posY, int posZ, int range, RandomSource randomSource, Block block, BlockPos.MutableBlockPos blockPos, CallbackInfo callback)
     {
-        if (ModTweak.ENABLED.get())
+        if (VoidFogRenderer.isRendering())
             VoidFogRenderer.addParticles(randomSource);
     }
 }
