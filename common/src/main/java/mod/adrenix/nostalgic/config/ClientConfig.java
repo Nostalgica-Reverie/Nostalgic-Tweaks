@@ -258,6 +258,7 @@ public class ClientConfig implements ConfigMeta
         // Alternative Experience Text
 
         public boolean showExpLevelText = CandyTweak.SHOW_EXP_LEVEL_TEXT.register("showExpLevelText");
+        public boolean showExpLevelOnlyInventory = CandyTweak.SHOW_EXP_LEVEL_ONLY_INVENTORY.register("showExpLevelOnlyInventory");
         public boolean showExpLevelInCreative = CandyTweak.SHOW_EXP_LEVEL_IN_CREATIVE.register("showExpLevelInCreative");
         public Corner altExpLevelCorner = CandyTweak.ALT_EXP_LEVEL_CORNER.register("altExpLevelCorner");
         public int altExpLevelOffsetX = CandyTweak.ALT_EXP_LEVEL_OFFSET_X.register("altExpLevelOffsetX");
@@ -268,6 +269,7 @@ public class ClientConfig implements ConfigMeta
         // Alternative Progress Text
 
         public boolean showExpProgressText = CandyTweak.SHOW_EXP_PROGRESS_TEXT.register("showExpProgressText");
+        public boolean showExpProgressOnlyInventory = CandyTweak.SHOW_EXP_PROGRESS_ONLY_INVENTORY.register("showExpProgressOnlyInventory");
         public boolean showExpProgressInCreative = CandyTweak.SHOW_EXP_PROGRESS_IN_CREATIVE.register("showExpProgressInCreative");
         public boolean useDynamicProgressColor = CandyTweak.USE_DYNAMIC_PROGRESS_COLOR.register("useDynamicProgressColor");
         public Corner altExpProgressCorner = CandyTweak.ALT_EXP_PROGRESS_CORNER.register("altExpProgressCorner");
@@ -279,6 +281,7 @@ public class ClientConfig implements ConfigMeta
         // Alternative Food Text
 
         public boolean showHungerFoodText = CandyTweak.SHOW_HUNGER_FOOD_TEXT.register("showHungerFoodText");
+        public boolean showHungerFoodOnlyInventory = CandyTweak.SHOW_HUNGER_FOOD_ONLY_INVENTORY.register("showHungerFoodOnlyInventory");
         public boolean useDynamicFoodColor = CandyTweak.USE_DYNAMIC_FOOD_COLOR.register("useDynamicFoodColor");
         public Corner altHungerFoodCorner = CandyTweak.ALT_HUNGER_FOOD_CORNER.register("altHungerFoodCorner");
         public int altHungerFoodOffsetX = CandyTweak.ALT_HUNGER_FOOD_OFFSET_X.register("altHungerFoodOffsetX");
@@ -289,6 +292,7 @@ public class ClientConfig implements ConfigMeta
         // Alternative Saturation Text
 
         public boolean showHungerSaturationText = CandyTweak.SHOW_HUNGER_SATURATION_TEXT.register("showHungerSaturationText");
+        public boolean showHungerSaturationOnlyInventory = CandyTweak.SHOW_HUNGER_SATURATION_ONLY_INVENTORY.register("showHungerSaturationOnlyInventory");
         public boolean useDynamicSaturationColor = CandyTweak.USE_DYNAMIC_SATURATION_COLOR.register("useDynamicSaturationColor");
         public Corner altHungerSaturationCorner = CandyTweak.ALT_HUNGER_SATURATION_CORNER.register("altHungerSaturationCorner");
         public int altHungerSaturationOffsetX = CandyTweak.ALT_HUNGER_SATURATION_OFFSET_X.register("altHungerSaturationOffsetX");

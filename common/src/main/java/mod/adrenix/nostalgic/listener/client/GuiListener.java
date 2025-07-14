@@ -32,6 +32,7 @@ import mod.adrenix.nostalgic.util.common.world.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.*;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.progress.StoringChunkProgressListener;
@@ -46,7 +47,7 @@ public abstract class GuiListener
     {
         ClientGuiEvent.RENDER_PRE.register(GuiListener::setMousePosition);
         ClientGuiEvent.RENDER_POST.register(GuiListener::renderModGraphics);
-        ClientGuiEvent.RENDER_HUD.register(GuiListener::renderTextOverlay);
+        ClientGuiEvent.RENDER_HUD.register(GuiListener::renderInGameOverlay);
         ClientGuiEvent.SET_SCREEN.register(GuiListener::rerouteScreen);
     }
 
@@ -178,6 +179,9 @@ public abstract class GuiListener
         if (screen instanceof DynamicScreen<?> || screen instanceof Overlay)
             GuiUtil.renderDebug(graphics);
 
+        if (screen instanceof InventoryScreen)
+            renderTextOverlay(graphics, true);
+
         RenderUtil.flush();
     }
 
@@ -247,12 +251,23 @@ public abstract class GuiListener
     }
 
     /**
-     * Renders text overlay to the HUD if such tweaks are enabled to do so.
+     * Renders text overlays on the heads-up-display.
      *
      * @param graphics    The {@link GuiGraphics} instance.
      * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private static void renderTextOverlay(GuiGraphics graphics, float partialTick)
+    private static void renderInGameOverlay(GuiGraphics graphics, float partialTick)
+    {
+        renderTextOverlay(graphics, false);
+    }
+
+    /**
+     * Renders text overlays if such tweaks are enabled to do so.
+     *
+     * @param graphics    The {@link GuiGraphics} instance.
+     * @param isInventory Whether rendering is taking place within the inventory screen.
+     */
+    private static void renderTextOverlay(GuiGraphics graphics, boolean isInventory)
     {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
@@ -274,7 +289,7 @@ public abstract class GuiListener
 
         RenderUtil.beginBatching();
 
-        if (CandyTweak.OLD_VERSION_OVERLAY.get())
+        if (CandyTweak.OLD_VERSION_OVERLAY.get() && !isInventory)
         {
             String text = CandyTweak.OLD_OVERLAY_TEXT.parse(GameUtil.getVersion());
             int xOffset = CandyTweak.OLD_OVERLAY_OFFSET_X.get();
@@ -289,7 +304,8 @@ public abstract class GuiListener
             int xOffset = CandyTweak.ALT_EXP_LEVEL_OFFSET_X.get();
             int yOffset = CandyTweak.ALT_EXP_LEVEL_OFFSET_Y.get();
 
-            corner.drawText(graphics, text, CandyTweak.ALT_EXP_LEVEL_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_EXP_LEVEL_SHADOW.get());
+            if (CandyTweak.SHOW_EXP_LEVEL_ONLY_INVENTORY.get() == isInventory)
+                corner.drawText(graphics, text, CandyTweak.ALT_EXP_LEVEL_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_EXP_LEVEL_SHADOW.get());
         }
 
         if (CandyTweak.SHOW_EXP_PROGRESS_TEXT.get() && isExperienceEnabled && (!isCreative || isExperienceProgressCreative))
@@ -299,7 +315,8 @@ public abstract class GuiListener
             int xOffset = CandyTweak.ALT_EXP_PROGRESS_OFFSET_X.get();
             int yOffset = CandyTweak.ALT_EXP_PROGRESS_OFFSET_Y.get();
 
-            corner.drawText(graphics, text, CandyTweak.ALT_EXP_PROGRESS_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_EXP_PROGRESS_SHADOW.get());
+            if (CandyTweak.SHOW_EXP_PROGRESS_ONLY_INVENTORY.get() == isInventory)
+                corner.drawText(graphics, text, CandyTweak.ALT_EXP_PROGRESS_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_EXP_PROGRESS_SHADOW.get());
         }
 
         if (CandyTweak.SHOW_HUNGER_FOOD_TEXT.get() && isHungerEnabled && !isCreative)
@@ -309,7 +326,8 @@ public abstract class GuiListener
             int xOffset = CandyTweak.ALT_HUNGER_FOOD_OFFSET_X.get();
             int yOffset = CandyTweak.ALT_HUNGER_FOOD_OFFSET_Y.get();
 
-            corner.drawText(graphics, text, CandyTweak.ALT_HUNGER_FOOD_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_HUNGER_FOOD_SHADOW.get());
+            if (CandyTweak.SHOW_HUNGER_FOOD_ONLY_INVENTORY.get() == isInventory)
+                corner.drawText(graphics, text, CandyTweak.ALT_HUNGER_FOOD_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_HUNGER_FOOD_SHADOW.get());
         }
 
         if (CandyTweak.SHOW_HUNGER_SATURATION_TEXT.get() && isHungerEnabled && !isCreative)
@@ -319,10 +337,11 @@ public abstract class GuiListener
             int xOffset = CandyTweak.ALT_HUNGER_SATURATION_OFFSET_X.get();
             int yOffset = CandyTweak.ALT_HUNGER_SATURATION_OFFSET_Y.get();
 
-            corner.drawText(graphics, text, CandyTweak.ALT_HUNGER_SATURATION_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_HUNGER_SATURATION_SHADOW.get());
+            if (CandyTweak.SHOW_HUNGER_SATURATION_ONLY_INVENTORY.get() == isInventory)
+                corner.drawText(graphics, text, CandyTweak.ALT_HUNGER_SATURATION_CORNER.get(), xOffset, yOffset, CandyTweak.ALT_HUNGER_SATURATION_SHADOW.get());
         }
 
-        if (CandyTweak.SHOW_STAMINA_TEXT.get() && isStaminaEnabled && !isCreative)
+        if (CandyTweak.SHOW_STAMINA_TEXT.get() && isStaminaEnabled && !isCreative && !isInventory)
         {
             StaminaData data = StaminaHelper.get(player);
             String text = CandyTweak.ALT_STAMINA_TEXT.parse(getStaminaColor(data, player));
