@@ -9,6 +9,8 @@
     "BodyRotationControlAccess",
     "DebugScreenOverlayAccess",
     "GuiAccess",
+    "ImageButtonAccess",
+    "InventoryScreenAccess",
     "LevelRendererAccess",
     "MusicManagerAccess",
     "PauseScreenAccess",
