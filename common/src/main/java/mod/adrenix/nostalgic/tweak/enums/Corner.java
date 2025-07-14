@@ -12,6 +12,7 @@ public enum Corner implements EnumTweak
 {
     TOP_LEFT(Lang.Enum.CORNER_TOP_LEFT),
     TOP_RIGHT(Lang.Enum.CORNER_TOP_RIGHT),
+    TOP_CENTER(Lang.Enum.CORNER_TOP_CENTER),
     BOTTOM_LEFT(Lang.Enum.CORNER_BOTTOM_LEFT),
     BOTTOM_RIGHT(Lang.Enum.CORNER_BOTTOM_RIGHT);
 

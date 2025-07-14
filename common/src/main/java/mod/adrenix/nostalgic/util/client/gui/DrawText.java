@@ -83,6 +83,20 @@ public abstract class DrawText
     }
 
     /**
+     * Center a string of text within the given bounds.
+     *
+     * @param startX The starting x-coordinate.
+     * @param width  The width of the box that the text is being centered within.
+     * @param text   The {@link String} to get the font text width of.
+     * @return A centered x-coordinate.
+     */
+    @PublicAPI
+    public static float centerX(int startX, int width, String text)
+    {
+        return MathUtil.center(startX, width, GuiUtil.font().width(text));
+    }
+
+    /**
      * Get a centered y-coordinate for a line of text based on the given bounds.
      *
      * @param startY The starting y-coordinate.
