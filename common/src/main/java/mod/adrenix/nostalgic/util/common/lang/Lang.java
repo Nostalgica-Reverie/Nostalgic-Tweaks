@@ -1039,6 +1039,7 @@ public interface Lang
         Translation ANIMATION_EASE_IN_OUT_CIRCULAR = from("animationType.ease_in_out_circular");
         Translation CORNER_TOP_LEFT = from("corner.top_left");
         Translation CORNER_TOP_RIGHT = from("corner.top_right");
+        Translation CORNER_TOP_CENTER = from("corner.top_center");
         Translation CORNER_BOTTOM_LEFT = from("corner.bottom_left");
         Translation CORNER_BOTTOM_RIGHT = from("corner.bottom_right");
         Translation FOG_ALPHA_R164 = from("worldFog.alpha_r164");

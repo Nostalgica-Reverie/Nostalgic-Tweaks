@@ -682,6 +682,7 @@
   "gui.nostalgic_tweaks.enum.animationType.ease_in_out_circular.info": "Begins slow, rapidly moves through the middle, and ends slowly.",
   "gui.nostalgic_tweaks.enum.corner.top_left": "Top Left",
   "gui.nostalgic_tweaks.enum.corner.top_right": "Top Right",
+  "gui.nostalgic_tweaks.enum.corner.top_center": "Top Center",
   "gui.nostalgic_tweaks.enum.corner.bottom_left": "Bottom Left",
   "gui.nostalgic_tweaks.enum.corner.bottom_right": "Bottom Right",
   "gui.nostalgic_tweaks.enum.worldFog.alpha_r164": "Alpha - 1.6.4",

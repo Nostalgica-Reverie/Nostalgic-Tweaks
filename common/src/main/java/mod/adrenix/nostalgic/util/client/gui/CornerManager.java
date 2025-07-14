@@ -23,6 +23,7 @@ public class CornerManager
     private final float height = (float) GuiUtil.getGuiHeight();
     private final NumberHolder<Double> topLeft = NumberHolder.create(2.0D);
     private final NumberHolder<Double> topRight = NumberHolder.create(2.0D);
+    private final NumberHolder<Double> topCenter = NumberHolder.create(2.0D);
     private final NumberHolder<Double> bottomLeft = NumberHolder.create(this.height - 10.0D);
     private final NumberHolder<Double> bottomRight = NumberHolder.create(this.height - 10.0D);
 
@@ -38,6 +39,7 @@ public class CornerManager
         {
             case TOP_LEFT -> this.topLeft.getAndAdd(10.0D);
             case TOP_RIGHT -> this.topRight.getAndAdd(10.0D);
+            case TOP_CENTER -> this.topCenter.getAndAdd(10.0D);
             case BOTTOM_LEFT -> this.bottomLeft.getAndAdd(-10.0D);
             case BOTTOM_RIGHT -> this.bottomRight.getAndAdd(-10.0D);
         };
@@ -80,8 +82,8 @@ public class CornerManager
     @PublicAPI
     public void drawText(GuiGraphics graphics, String text, Corner corner, int xOffset, int yOffset, boolean dropShadow)
     {
-        int x = (corner.isLeft() ? 2 : this.getRightOffset(text)) + xOffset;
-        int y = (int) this.getAndAdd(corner) + yOffset;
+        float x = (corner.isLeft() ? 2 : this.getRightOffset(text)) + xOffset;
+        float y = (int) this.getAndAdd(corner) + yOffset;
 
         if (corner == Corner.TOP_RIGHT)
         {
@@ -98,6 +100,9 @@ public class CornerManager
                     y += 26;
             }
         }
+
+        if (corner == Corner.TOP_CENTER)
+            x = DrawText.centerX(0, GuiUtil.getGuiWidth(), text);
 
         x = Mth.clamp(x, 0, GuiUtil.getGuiWidth() - GuiUtil.font().width(text));
         y = Mth.clamp(y, 0, GuiUtil.getGuiHeight() - GuiUtil.textHeight());
