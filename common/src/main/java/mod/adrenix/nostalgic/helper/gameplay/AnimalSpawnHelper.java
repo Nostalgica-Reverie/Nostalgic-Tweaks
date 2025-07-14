@@ -170,7 +170,7 @@ public abstract class AnimalSpawnHelper
 
                             mob.moveTo(dx, dy, dz, level.random.nextFloat() * 360.0F, 0.0F);
 
-                            if (isValidSpawnPositionForMob(level, blockPos, mob))
+                            if (isValidSpawnPositionForMob(level, mob))
                             {
                                 spawnGroupData = mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.NATURAL, spawnGroupData, null);
                                 ++spawnCount;
@@ -200,7 +200,7 @@ public abstract class AnimalSpawnHelper
         int x = chunkPos.getMinBlockX() + level.random.nextInt(16);
         int z = chunkPos.getMinBlockZ() + level.random.nextInt(16);
         int height = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + 1;
-        int y = Mth.randomBetweenInclusive(level.random, level.getMinBuildHeight(), height);
+        int y = Mth.randomBetweenInclusive(level.random, level.getMinBuildHeight() + 1, height);
 
         return new BlockPos(x, y, z);
     }
@@ -208,25 +208,23 @@ public abstract class AnimalSpawnHelper
     /**
      * Checks if the given position and mob is valid to be spawned using old animal spawn logic.
      *
-     * @param level    The {@link ServerLevel} instance.
-     * @param blockPos The {@link BlockPos} to spawn the animal at.
-     * @param mob      The {@link Mob} instance for the animal.
+     * @param level The {@link ServerLevel} instance.
+     * @param mob   The {@link Mob} instance for the animal.
      * @return Whether the given position is valid to spawn the given mob.
      */
-    public static boolean isValidSpawnPositionForMob(ServerLevel level, BlockPos blockPos, Mob mob)
+    public static boolean isValidSpawnPositionForMob(ServerLevel level, Mob mob)
     {
-        EntityType<?> mobType = mob.getType();
+        BlockPos blockPos = mob.blockPosition();
 
-        if (!isInList(mobType))
+        if (level.getMaxLocalRawBrightness(blockPos) <= 8)
             return false;
 
-        if (!mobType.canSummon())
+        EntityType<?> mobType = mob.getType();
+
+        if (!isInList(mobType) || !mobType.canSummon())
             return false;
 
         if (!SpawnPlacements.checkSpawnRules(mobType, level, MobSpawnType.NATURAL, blockPos, level.random))
-            return false;
-
-        if (level.getMaxLocalRawBrightness(blockPos) <= 8)
             return false;
 
         return level.noCollision(mobType.getAABB((double) blockPos.getX() + 0.5D, blockPos.getY(), (double) blockPos.getZ() + 0.5D));
