@@ -48,7 +48,7 @@ public abstract class LevelRendererMixin
     )
     private void nt_world_fog$onSetSunriseColor(Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean isFoggy, Runnable skyFogSetup, CallbackInfo callback)
     {
-        if (ModTweak.ENABLED.get())
+        if (VoidFogRenderer.isRendering())
             VoidFogRenderer.setCelestialTransparency();
     }
 
@@ -73,10 +73,8 @@ public abstract class LevelRendererMixin
     )
     private void nt_world_fog$setSunAndMoonTransparency(CallbackInfo callback)
     {
-        if (!ModTweak.ENABLED.get())
-            return;
-
-        VoidFogRenderer.setCelestialTransparency();
+        if (VoidFogRenderer.isRendering())
+            VoidFogRenderer.setCelestialTransparency();
 
         boolean isAlphaFog = CandyTweak.OLD_WORLD_FOG.get() == WorldFog.ALPHA_R164;
         boolean isShort = GameUtil.getRenderDistance() <= 5;
@@ -91,17 +89,14 @@ public abstract class LevelRendererMixin
     @Inject(
         method = "renderClouds",
         at = @At(
-            shift = At.Shift.BEFORE,
             value = "INVOKE",
             target = "Lcom/mojang/blaze3d/vertex/VertexBuffer;drawWithShader(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/client/renderer/ShaderInstance;)V"
         )
     )
     private void nt_world_fog$setCloudTransparency(CallbackInfo callback)
     {
-        if (!ModTweak.ENABLED.get())
-            return;
-
-        VoidFogRenderer.setCloudTransparency();
+        if (VoidFogRenderer.isRendering())
+            VoidFogRenderer.setCloudTransparency();
     }
 
     /**

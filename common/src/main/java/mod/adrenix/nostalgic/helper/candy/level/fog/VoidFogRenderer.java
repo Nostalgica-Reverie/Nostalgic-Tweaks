@@ -240,8 +240,7 @@ public abstract class VoidFogRenderer
         float[] rgb = RenderSystem.getShaderColor();
         float alpha = Math.min(1.0F - level.getRainLevel(PartialTick.get()), CELESTIAL_TRANSPARENCY.lerpFloat());
 
-        if (isRendering())
-            RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], alpha);
+        RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], alpha);
     }
 
     /**
@@ -252,8 +251,7 @@ public abstract class VoidFogRenderer
         float[] rgb = RenderSystem.getShaderColor();
         float alpha = CLOUDS_TRANSPARENCY.lerpFloat();
 
-        if (isRendering())
-            RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], alpha);
+        RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], alpha);
     }
 
     /**
