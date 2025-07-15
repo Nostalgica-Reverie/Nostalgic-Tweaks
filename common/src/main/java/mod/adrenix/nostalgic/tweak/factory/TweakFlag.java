@@ -91,6 +91,15 @@ public class TweakFlag extends TweakValue<Boolean>
         return new ServerboundTweakFlag(this);
     }
 
+    /**
+     * Toggles the flag based on the value stored on disk, {@code if true then set false} or
+     * {@code if false then set true}. This will update the cache and then save change to disk.
+     */
+    public void toggle()
+    {
+        this.setCacheAndDiskThenSave(!this.fromDisk());
+    }
+
     /* Builder */
 
     public static class Builder extends TweakValue.Builder<Boolean, Builder>
