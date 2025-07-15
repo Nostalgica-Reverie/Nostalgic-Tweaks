@@ -1763,9 +1763,9 @@
   "gui.nostalgic_tweaks.config.eyeCandy.weatherType": "Weather Type",
   "gui.nostalgic_tweaks.config.eyeCandy.weatherType.info": "Change the precipitation that renders when §3@decode{tweak=eyeCandy.alwaysRenderWeather}§r is§a enabled§r.",
   "gui.nostalgic_tweaks.config.eyeCandy.alwaysRenderWeather": "Always Render Weather",
-  "gui.nostalgic_tweaks.config.eyeCandy.alwaysRenderWeather.info": "Forcefully renders weather precipitation. This tweak will§c not§r adjust world lighting, fog, sky, or emit weather sounds.",
+  "gui.nostalgic_tweaks.config.eyeCandy.alwaysRenderWeather.info": "Forcefully renders weather precipitation like in Minecraft§e Classic§r. This tweak will§c not§r adjust world lighting, fog, sky, or emit weather sounds.",
   "gui.nostalgic_tweaks.config.eyeCandy.preventWeatherInfluence": "Prevent Weather Influence",
-  "gui.nostalgic_tweaks.config.eyeCandy.preventWeatherInfluence.info": "When the server world is experiencing weather, world lighting, fog, and the sky will§c not§r change. Other weather effects remain§a active§r. This tweak§6 may not§r work correctly with other mods.",
+  "gui.nostalgic_tweaks.config.eyeCandy.preventWeatherInfluence.info": "When the server world is experiencing weather, world lighting, fog, and the sky will§c not§r change. Other weather effects remain§a active§r. This tweak§6 may not§r visually work correctly with other mods.",
   "gui.nostalgic_tweaks.config.eyeCandy.toggleWeatherBinding": "Toggle Weather",
   "gui.nostalgic_tweaks.config.eyeCandy.toggleWeatherBinding.info": "Define a hotkey that will quickly toggle the §3@decode{tweak=eyeCandy.alwaysRenderWeather}§r tweak.",
 
