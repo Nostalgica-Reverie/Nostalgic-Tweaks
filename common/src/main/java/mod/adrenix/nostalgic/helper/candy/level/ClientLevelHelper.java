@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.helper.candy.level;
 
+import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.util.common.data.NumberHolder;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.Camera;
@@ -65,8 +66,8 @@ public abstract class ClientLevelHelper
         float timeOfDay = level.getTimeOfDay(partialTick);
         float boundedTime = Mth.clamp(Mth.cos(timeOfDay * ((float) Math.PI * 2)) * 2.0F + 0.5F, 0.0F, 1.0F);
 
-        float rain = 1.0F - level.getRainLevel(partialTick) + 0.4F;
-        float thunder = 1.0F - level.getThunderLevel(partialTick) + 0.2F;
+        float rain = 1.0F - (CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getRainLevel(partialTick)) + 0.4F;
+        float thunder = 1.0F - (CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getThunderLevel(partialTick)) + 0.2F;
         float weather = Mth.clamp(Math.min(rain, thunder), 0.0F, 1.0F);
 
         float r = boundedTime * weather;

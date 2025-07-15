@@ -7,6 +7,7 @@ import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import mod.adrenix.nostalgic.client.gui.screen.home.HomeScreen;
 import mod.adrenix.nostalgic.mixin.access.MusicManagerAccess;
+import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.gui.KeybindingId;
 import mod.adrenix.nostalgic.util.client.KeyboardUtil;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
@@ -49,6 +50,11 @@ public abstract class ClientKeyMapping
     public static final KeyMapping STOP_SONG_KEY = new KeyMapping(Lang.Binding.STOP_SONG.getString(), -1, Lang.TITLE.getString());
 
     /**
+     * The toggle weather key, when pressed, will toggle the client-side persistent weather tweak.
+     */
+    public static final KeyMapping TOGGLE_WEATHER = new KeyMapping(Lang.Binding.TOGGLE_WEATHER.getString(), -1, Lang.TITLE.getString());
+
+    /**
      * Get a key mapping based on the given {@link KeybindingId}.
      *
      * @param id A {@link KeybindingId} enumeration.
@@ -62,6 +68,7 @@ public abstract class ClientKeyMapping
             case FOG -> FOG_KEY;
             case NEXT_SONG -> NEXT_SONG_KEY;
             case STOP_SONG -> STOP_SONG_KEY;
+            case TOGGLE_WEATHER -> TOGGLE_WEATHER;
         };
     }
 
@@ -74,6 +81,7 @@ public abstract class ClientKeyMapping
         KeyMappingRegistry.register(FOG_KEY);
         KeyMappingRegistry.register(STOP_SONG_KEY);
         KeyMappingRegistry.register(NEXT_SONG_KEY);
+        KeyMappingRegistry.register(TOGGLE_WEATHER);
 
         ClientScreenInputEvent.KEY_PRESSED_POST.register((minecraft, screen, keyCode, scanCode, modifiers) -> {
             Function<Translation, Boolean> isBindingMatched = (translation) -> {
@@ -115,6 +123,9 @@ public abstract class ClientKeyMapping
 
             while (NEXT_SONG_KEY.consumeClick())
                 playNewSong(minecraft);
+
+            while (TOGGLE_WEATHER.consumeClick())
+                CandyTweak.ALWAYS_RENDER_WEATHER.toggle();
         });
     }
 

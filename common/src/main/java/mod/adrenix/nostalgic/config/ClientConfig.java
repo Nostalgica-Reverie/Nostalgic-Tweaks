@@ -666,6 +666,13 @@ public class ClientConfig implements ConfigMeta
         public int voidParticleStart = CandyTweak.VOID_PARTICLE_START.register("voidParticleStart");
         public int voidParticleRadius = CandyTweak.VOID_PARTICLE_RADIUS.register("voidParticleRadius");
         public int voidParticleDensity = CandyTweak.VOID_PARTICLE_DENSITY.register("voidParticleDensity");
+
+        // Weather
+
+        public Weather weatherType = CandyTweak.WEATHER_TYPE.register("weatherType");
+        public boolean alwaysRenderWeather = CandyTweak.ALWAYS_RENDER_WEATHER.register("alwaysRenderWeather");
+        public boolean preventWeatherInfluence = CandyTweak.PREVENT_WEATHER_INFLUENCE.register("preventWeatherInfluence");
+        public int toggleWeatherBinding = CandyTweak.TOGGLE_WEATHER_BINDING.register("toggleWeatherBinding");
     }
 
     public EyeCandy eyeCandy = new EyeCandy();

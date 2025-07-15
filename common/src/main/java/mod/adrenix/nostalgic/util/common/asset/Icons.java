@@ -106,6 +106,7 @@ public interface Icons
     TextureIcon PINK_FOG = TextureIcon.fromSprite("pink_fog", 12);
     TextureIcon WATER_FOG = TextureIcon.fromSprite("water_fog", 12);
     TextureIcon VOID_FOG = TextureIcon.fromSprite("void_fog", 12);
+    TextureIcon WEATHER = TextureIcon.fromSprite("weather", 12);
     TextureIcon SKY = TextureIcon.fromSprite("sky", 12);
     TextureIcon PINK_SKY = TextureIcon.fromSprite("pink_sky", 12);
     TextureIcon VOID_SKY = TextureIcon.fromSprite("void_sky", 12);

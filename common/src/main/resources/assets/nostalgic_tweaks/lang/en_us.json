@@ -1,5 +1,6 @@
 {
   "key.nostalgic_tweaks.open_config": "Open Config",
+  "key.nostalgic_tweaks.toggle_weather": "Toggle Weather",
   "key.nostalgic_tweaks.toggle_fog": "Toggle Fog",
   "key.nostalgic_tweaks.stop_song": "Stop Song",
   "key.nostalgic_tweaks.next_song": "Next Song",
@@ -687,6 +688,12 @@
   "gui.nostalgic_tweaks.enum.corner.bottom_right": "Bottom Right",
   "gui.nostalgic_tweaks.enum.worldFog.alpha_r164": "Alpha - 1.6.4",
   "gui.nostalgic_tweaks.enum.worldFog.r17_r118": "1.7 - 1.18",
+  "gui.nostalgic_tweaks.enum.weather.biome": "Biome",
+  "gui.nostalgic_tweaks.enum.weather.biome.info": "Render precipitation based on biome.",
+  "gui.nostalgic_tweaks.enum.weather.rain": "Rain",
+  "gui.nostalgic_tweaks.enum.weather.rain.info": "Always render rain regardless of biome.",
+  "gui.nostalgic_tweaks.enum.weather.snow": "Snow",
+  "gui.nostalgic_tweaks.enum.weather.snow.info": "Always render snow regardless of biome.",
 
   "gui.nostalgic_tweaks.container": "Root",
 
@@ -807,6 +814,7 @@
   "gui.nostalgic_tweaks.container.eyeCandy.world_void": "Cave & Void Candy",
   "gui.nostalgic_tweaks.container.eyeCandy.world_void_fog": "Fog",
   "gui.nostalgic_tweaks.container.eyeCandy.world_void_sky": "Sky",
+  "gui.nostalgic_tweaks.container.eyeCandy.world_weather": "Weather",
 
   "gui.nostalgic_tweaks.container.gameplay": "Gameplay",
   "gui.nostalgic_tweaks.container.gameplay.bugs": "Bugs",
@@ -1748,6 +1756,14 @@
   "gui.nostalgic_tweaks.config.eyeCandy.lightRemovesVoidFog": "Light Removes Fog",
   "gui.nostalgic_tweaks.config.eyeCandy.lightRemovesVoidFog.info": "Allows emitted light from torches or blocks to remove encroaching cave/void fog.",
   "gui.nostalgic_tweaks.config.eyeCandy.lightRemovesVoidFog.search": "Cave Fog, Dark Cave",
+  "gui.nostalgic_tweaks.config.eyeCandy.weatherType": "Weather Type",
+  "gui.nostalgic_tweaks.config.eyeCandy.weatherType.info": "Change the precipitation that renders when §3@decode{tweak=eyeCandy.alwaysRenderWeather}§r is§a enabled§r.",
+  "gui.nostalgic_tweaks.config.eyeCandy.alwaysRenderWeather": "Always Render Weather",
+  "gui.nostalgic_tweaks.config.eyeCandy.alwaysRenderWeather.info": "Forcefully renders weather precipitation. This tweak will§c not§r adjust world lighting, fog, sky, or emit weather sounds.",
+  "gui.nostalgic_tweaks.config.eyeCandy.preventWeatherInfluence": "Prevent Weather Influence",
+  "gui.nostalgic_tweaks.config.eyeCandy.preventWeatherInfluence.info": "When the server world is experiencing weather, world lighting, fog, and the sky will§c not§r change. Other weather effects remain§a active§r. This tweak§6 may not§r work correctly with other mods.",
+  "gui.nostalgic_tweaks.config.eyeCandy.toggleWeatherBinding": "Toggle Weather",
+  "gui.nostalgic_tweaks.config.eyeCandy.toggleWeatherBinding.info": "Define a hotkey that will quickly toggle the §3@decode{tweak=eyeCandy.alwaysRenderWeather}§r tweak.",
 
   "gui.nostalgic_tweaks.config.gameplay.oldLadderGap": "Old Ladder Gaps",
   "gui.nostalgic_tweaks.config.gameplay.oldLadderGap.info": "Bring back the old bug that allowed players to continually climb when there is a single space between two ladders.",
