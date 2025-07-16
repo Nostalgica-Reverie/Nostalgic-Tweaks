@@ -83,6 +83,7 @@
     "candy.mip_map.ModelManagerMixin",
     "candy.missing_texture.MissingTextureAtlasSpriteMixin",
     "candy.name_tag.EntityRendererMixin",
+    "candy.old_hud.ChatListenerMixin",
     "candy.old_hud.ClientAdvancementsMixin",
     "candy.old_hud.ClientPacketListenerMixin",
     "candy.old_hud.GuiMixin",

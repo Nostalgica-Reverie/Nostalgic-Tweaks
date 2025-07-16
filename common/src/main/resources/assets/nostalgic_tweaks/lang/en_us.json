@@ -1086,6 +1086,8 @@
   "gui.nostalgic_tweaks.config.eyeCandy.hideAdvancementChats": "Hide Advancement Chats",
   "gui.nostalgic_tweaks.config.eyeCandy.hideAdvancementChats.info": "Prevent the advancement messages that appear in chat when a player makes a new achievement.",
 
+  "gui.nostalgic_tweaks.config.eyeCandy.moveMessagesToChat": "Move System Messages to Chat",
+  "gui.nostalgic_tweaks.config.eyeCandy.moveMessagesToChat.info": "Redirect all game system messages to the chat screen. This means messages that appear over the hotbar, like bed block information, will instead appear in chat.",
   "gui.nostalgic_tweaks.config.eyeCandy.hideExperienceBar": "Hide Experience Bar",
   "gui.nostalgic_tweaks.config.eyeCandy.hideExperienceBar.info": "Removes the experience bar from the heads-up display. Hotbar elements, such as the hearts, will be shifted down.",
   "gui.nostalgic_tweaks.config.eyeCandy.hideExperienceBar.search": "HUD, Armor, Air, Bubble",

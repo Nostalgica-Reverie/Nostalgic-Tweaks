@@ -242,6 +242,7 @@ public class ClientConfig implements ConfigMeta
 
         // Heads-up Display
 
+        public boolean moveMessagesToChat = CandyTweak.MOVE_MESSAGES_TO_CHAT.register("moveMessagesToChat");
         public boolean hideExperienceBar = CandyTweak.HIDE_EXPERIENCE_BAR.register("hideExperienceBar");
         public boolean hideHungerBar = CandyTweak.HIDE_HUNGER_BAR.register("hideHungerBar");
         public boolean hideStaminaBar = CandyTweak.HIDE_STAMINA_BAR.register("hideStaminaBar");
