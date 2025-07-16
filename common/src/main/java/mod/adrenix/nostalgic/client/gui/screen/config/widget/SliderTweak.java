@@ -7,9 +7,11 @@ import mod.adrenix.nostalgic.tweak.gui.SliderType;
 import mod.adrenix.nostalgic.tweak.gui.TweakSlider;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.asset.GameSprite;
+import mod.adrenix.nostalgic.util.common.asset.ModSprite;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -110,7 +112,10 @@ public class SliderTweak
      */
     private void effectsRenderer(SliderWidget slider, GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
     {
-        if (this.slider.getType() != SliderType.HEARTS)
+        boolean isHearts = this.slider.getType() == SliderType.HEARTS;
+        boolean isStamina = this.slider.getType() == SliderType.STAMINA;
+
+        if (!isHearts && !isStamina)
             return;
 
         if (slider.isInactive())
@@ -121,11 +126,15 @@ public class SliderTweak
         int y = slider.getY() + 6;
         int dx = x;
 
+        ResourceLocation empty = isHearts ? GameSprite.EMPTY_HEART : ModSprite.STAMINA_EMPTY;
+        ResourceLocation full = isHearts ? GameSprite.FULL_HEART : ModSprite.STAMINA_LEVEL;
+        ResourceLocation half = isHearts ? GameSprite.HALF_HEART : ModSprite.STAMINA_LEVEL_HALF;
+
         RenderUtil.beginBatching();
 
         for (int i = 0; i < 10; i++)
         {
-            RenderUtil.blitSprite(GameSprite.EMPTY_HEART, graphics, dx, y, 9, 9);
+            RenderUtil.blitSprite(empty, graphics, dx, y, 9, 9);
             dx += 9;
         }
 
@@ -136,12 +145,21 @@ public class SliderTweak
             if (MathUtil.isOdd(i))
                 continue;
 
-            RenderUtil.blitSprite(GameSprite.FULL_HEART, graphics, dx, y, 9, 9);
+            graphics.pose().pushPose();
+            graphics.pose().translate(0.0F, 0.0F, 1.0F);
+            RenderUtil.blitSprite(full, graphics, dx, y, 9, 9);
+            graphics.pose().popPose();
+
             dx += 9;
         }
 
         if (MathUtil.isOdd(value))
-            RenderUtil.blitSprite(GameSprite.HALF_HEART, graphics, dx, y, 9, 9);
+        {
+            graphics.pose().pushPose();
+            graphics.pose().translate(0.0F, 0.0F, 1.0F);
+            RenderUtil.blitSprite(half, graphics, dx, y, 9, 9);
+            graphics.pose().popPose();
+        }
 
         RenderUtil.endBatching();
     }

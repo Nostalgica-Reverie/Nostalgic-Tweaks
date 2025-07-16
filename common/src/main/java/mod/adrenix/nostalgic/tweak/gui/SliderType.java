@@ -14,6 +14,7 @@ public enum SliderType
     /* Types */
 
     GENERIC,
+    STAMINA,
     HEARTS,
 
     // @formatter:off
