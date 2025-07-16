@@ -86,6 +86,9 @@ public interface CandyTweak
     TweakFlag HIDE_STAMINA_BAR_MOVING = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
     TweakFlag HIDE_STAMINA_BAR_COOLDOWN = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
     TweakFlag HIDE_STAMINA_BAR_INACTIVE = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
+    TweakFlag HIGHLIGHT_STAMINA_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).build();
+    TweakFlag FLASH_STAMINA_BAR_WHEN_FULL = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR).whenDisabled(true).build();
+    TweakNumber<Integer> FLASH_STAMINA_BAR_AT = TweakNumber.client(7, CandyGroup.INTERFACE_HUD_STAMINA_BAR).slider(0, 20, SliderType.STAMINA).build();
 
     // Offhand Slot
 

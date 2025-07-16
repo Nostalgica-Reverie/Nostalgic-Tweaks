@@ -248,6 +248,9 @@ public class ClientConfig implements ConfigMeta
         public boolean hideStaminaMoving = CandyTweak.HIDE_STAMINA_BAR_MOVING.register("hideStaminaMoving");
         public boolean hideStaminaCooldown = CandyTweak.HIDE_STAMINA_BAR_COOLDOWN.register("hideStaminaCooldown");
         public boolean hideStaminaBarInactive = CandyTweak.HIDE_STAMINA_BAR_INACTIVE.register("hideStaminaBarInactive");
+        public boolean highlightStaminaBar = CandyTweak.HIGHLIGHT_STAMINA_BAR.register("highlightStaminaBar");
+        public boolean flashStaminaBarWhenFull = CandyTweak.FLASH_STAMINA_BAR_WHEN_FULL.register("flashStaminaBarWhenFull");
+        public int flashStaminaBarAt = CandyTweak.FLASH_STAMINA_BAR_AT.register("flashStaminaBarAt");
 
         // Offhand Slot
 

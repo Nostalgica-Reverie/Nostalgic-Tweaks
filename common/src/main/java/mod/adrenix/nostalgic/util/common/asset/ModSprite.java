@@ -23,6 +23,7 @@ public interface ModSprite
     GuiSprite STAMINA_POSITIVE_HALF = GuiSprite.stretch(SpriteAtlas.fromSprite("hud/stamina_positive_half", 9, 9));
     GuiSprite STAMINA_NEGATIVE = GuiSprite.stretch(SpriteAtlas.fromSprite("hud/stamina_negative", 9, 9));
     GuiSprite STAMINA_NEGATIVE_HALF = GuiSprite.stretch(SpriteAtlas.fromSprite("hud/stamina_negative_half", 9, 9));
+    GuiSprite STAMINA_HIGHLIGHT = GuiSprite.stretch(SpriteAtlas.fromSprite("hud/stamina_highlight", 9, 9));
     GuiSprite STAMINA_EMPTY = GuiSprite.stretch(SpriteAtlas.fromSprite("hud/stamina_empty", 9, 9));
 
     static ResourceLocation icon(String path)
