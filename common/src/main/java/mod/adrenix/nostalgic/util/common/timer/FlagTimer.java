@@ -74,6 +74,14 @@ public class FlagTimer
     }
 
     /**
+     * @return Whether this timer has reached its maximum repeat limit.
+     */
+    public boolean hasReachedMax()
+    {
+        return this.maxRepeat != ALWAYS_REPEAT && this.repeated >= this.maxRepeat;
+    }
+
+    /**
      * @return The current state of the timer.
      */
     public boolean getFlag()
