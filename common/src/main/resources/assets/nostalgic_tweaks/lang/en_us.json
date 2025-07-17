@@ -276,6 +276,8 @@
   "gui.nostalgic_tweaks.listing.item_rule.no_blocks.info": "Filter out any items that are block-like.",
   "gui.nostalgic_tweaks.listing.item_rule.no_edibles": "No Edibles",
   "gui.nostalgic_tweaks.listing.item_rule.no_edibles.info": "Filter out any items that are edible.",
+  "gui.nostalgic_tweaks.listing.item_rule.invincible": "Invincible",
+  "gui.nostalgic_tweaks.listing.item_rule.invincible.info": "Filter out any items that can take damage.",
 
   "gui.nostalgic_tweaks.logo_editor.up": "Move Toolbar Up",
   "gui.nostalgic_tweaks.logo_editor.up.tooltip": "Move the toolbar up one row. This will expand the pixel canvas. The shortcut key is§7 Pg Up§r.",

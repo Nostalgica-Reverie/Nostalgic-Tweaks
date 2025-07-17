@@ -311,6 +311,8 @@ public class ItemPicker
             this.items.addAll(items.filter(ItemFilter::isChestLike).map(Item::getDefaultInstance).toList());
         else if (this.rules.contains(ItemRule.ONLY_EDIBLES))
             this.items.addAll(items.filter(ItemUtil::isEdible).map(Item::getDefaultInstance).toList());
+        else if (this.rules.contains(ItemRule.ONLY_DAMAGEABLE))
+            this.items.addAll(items.filter(ItemUtil::isDamageable).map(Item::getDefaultInstance).toList());
         else
         {
             items.forEach(item -> {
@@ -320,7 +322,8 @@ public class ItemPicker
                 boolean areItemsFiltered = ItemFilter.isItemLike(item) && this.rules.contains(ItemRule.NO_ITEMS);
                 boolean areBlocksFiltered = ItemFilter.isBlockLike(item) && this.rules.contains(ItemRule.NO_BLOCKS);
                 boolean areEdiblesFiltered = ItemUtil.isEdible(item) && this.rules.contains(ItemRule.NO_EDIBLES);
-                boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered;
+                boolean areDamageableFiltered = ItemUtil.isDamageable(item) && this.rules.contains(ItemRule.INVINCIBLE);
+                boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered || areDamageableFiltered;
 
                 if (!isFiltered)
                     this.items.add(itemStack);
@@ -352,9 +355,11 @@ public class ItemPicker
         {
             boolean isLastSquare = i == this.items.size() - 1;
 
-            ItemSquare square = new ItemSquare(this, i, builder -> builder.rightOf(row.get()
-                .getWidgets()
-                .getLast(), 2));
+            ItemSquare square = new ItemSquare(
+                this, i, builder -> builder.rightOf(
+                row.get()
+                    .getWidgets()
+                    .getLast(), 2));
 
             row.get().addWidget(square.getButton());
 

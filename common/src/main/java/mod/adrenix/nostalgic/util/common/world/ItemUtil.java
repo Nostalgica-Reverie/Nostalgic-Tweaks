@@ -203,6 +203,30 @@ public abstract class ItemUtil
     }
 
     /**
+     * Check if the given item stack is damageable.
+     *
+     * @param itemStack The {@link ItemStack} to check.
+     * @return Whether the given item stack is damageable.
+     */
+    @PublicAPI
+    public static boolean isDamageable(ItemStack itemStack)
+    {
+        return itemStack.isDamageableItem();
+    }
+
+    /**
+     * Check if the given item is damageable.
+     *
+     * @param item The {@link Item} to check.
+     * @return Whether the given item is damageable.
+     */
+    @PublicAPI
+    public static boolean isDamageable(Item item)
+    {
+        return isDamageable(item.getDefaultInstance());
+    }
+
+    /**
      * Cast an item stack to a specific item class type.
      *
      * @param itemStack The {@link ItemStack} to get an {@link Item} instance from.

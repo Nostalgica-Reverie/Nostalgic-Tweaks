@@ -31,14 +31,17 @@ public abstract class ItemFilter
             return !isChestLike(item);
         else if (list.rules().contains(ItemRule.ONLY_EDIBLES))
             return !ItemUtil.isEdible(item);
+        else if (list.rules().contains(ItemRule.ONLY_DAMAGEABLE))
+            return !ItemUtil.isDamageable(item);
         else
         {
             boolean isToolFiltered = ItemFilter.isToolLike(item) && list.rules().contains(ItemRule.NO_TOOLS);
             boolean isItemFiltered = ItemFilter.isItemLike(item) && list.rules().contains(ItemRule.NO_ITEMS);
             boolean isBlockFiltered = ItemFilter.isBlockLike(item) && list.rules().contains(ItemRule.NO_BLOCKS);
             boolean isEdibleFiltered = ItemUtil.isEdible(item) && list.rules().contains(ItemRule.NO_EDIBLES);
+            boolean isDamageableFiltered = ItemUtil.isDamageable(item) && list.rules().contains(ItemRule.INVINCIBLE);
 
-            return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered;
+            return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered || isDamageableFiltered;
         }
     }
 

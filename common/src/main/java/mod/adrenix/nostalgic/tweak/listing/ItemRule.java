@@ -11,15 +11,17 @@ import java.util.Locale;
  * the data its reading is valid for the situation.
  *
  * <ul>
- *  <li>{@code NONE} - Any item within the item registry will be displayed in the item picker overlay (default).</li><br>
- *  <li>{@code ONLY_TOOLS} - Only tool items will be displayed in the item picker overlay.</li><br>
- *  <li>{@code ONLY_ITEMS} - Only items that are not tools, blocks, or edibles will be displayed in the item picker overlay.</li><br>
- *  <li>{@code ONLY_BLOCKS} - Only block items will be displayed in the item picker overlay.</li><br>
- *  <li>{@code ONLY_EDIBLES} - Only edible food items will be displayed in the item picker overlay.</li><br>
- *  <li>{@code NO_TOOLS} - No tool items will be displayed in the item picker overlay.</li><br>
- *  <li>{@code NO_ITEMS} - No item-like (<i>opposite to {@code ONLY_ITEMS}</i>) will be displayed in the item picker overlay.</li><br>
- *  <li>{@code NO_BLOCKS} - No block items will be displayed in the item picker overlay.</li><br>
- *  <li>{@code NO_EDIBLES} - No edible food items will be displayed in the item picker overlay.</li><br>
+ *  <li>{@code NONE} - Any item within the item registry will be displayed in the item picker overlay (default).</li>
+ *  <li>{@code ONLY_TOOLS} - Only tool items will be displayed in the item picker overlay.</li>
+ *  <li>{@code ONLY_ITEMS} - Only items that are not tools, blocks, or edibles will be displayed in the item picker overlay.</li>
+ *  <li>{@code ONLY_BLOCKS} - Only block items will be displayed in the item picker overlay.</li>
+ *  <li>{@code ONLY_EDIBLES} - Only edible food items will be displayed in the item picker overlay.</li>
+ *  <li>{@code ONLY_DAMAGEABLE} - Only items that can take damage will be displayed in the item picker overlay.</li>
+ *  <li>{@code INVINCIBLE} - Only items that are invincible (<i>cannot take damage</i>) will be displayed in the item picker overlay.</li>
+ *  <li>{@code NO_TOOLS} - No tool items will be displayed in the item picker overlay.</li>
+ *  <li>{@code NO_ITEMS} - No item-like (<i>opposite to {@code ONLY_ITEMS}</i>) will be displayed in the item picker overlay.</li>
+ *  <li>{@code NO_BLOCKS} - No block items will be displayed in the item picker overlay.</li>
+ *  <li>{@code NO_EDIBLES} - No edible food items will be displayed in the item picker overlay.</li>
  * </ul>
  */
 public enum ItemRule
@@ -30,6 +32,8 @@ public enum ItemRule
     ONLY_BLOCKS,
     ONLY_CHESTS,
     ONLY_EDIBLES,
+    ONLY_DAMAGEABLE,
+    INVINCIBLE,
     NO_TOOLS,
     NO_ITEMS,
     NO_BLOCKS,
