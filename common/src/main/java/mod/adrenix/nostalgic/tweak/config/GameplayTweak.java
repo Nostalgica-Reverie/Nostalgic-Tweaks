@@ -7,6 +7,8 @@ import mod.adrenix.nostalgic.tweak.factory.*;
 import mod.adrenix.nostalgic.tweak.gui.SliderType;
 import mod.adrenix.nostalgic.tweak.listing.DefaultListing;
 import mod.adrenix.nostalgic.tweak.listing.ItemMap;
+import mod.adrenix.nostalgic.tweak.listing.ItemRule;
+import mod.adrenix.nostalgic.tweak.listing.ItemSet;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.world.entity.MobCategory;
@@ -193,6 +195,7 @@ public interface GameplayTweak
     TweakFlag DISABLE_HUNGER = TweakFlag.server(false, GameplayGroup.HUNGER).build();
     TweakFlag INSTANT_EAT = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
     TweakFlag PREVENT_HUNGER_EFFECT = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
+    TweakItemSet IGNORED_EDIBLES = TweakItemSet.server(new ItemSet(ItemRule.ONLY_EDIBLES), GameplayGroup.HUNGER_FOOD).build();
     TweakItemMap<Integer> CUSTOM_FOOD_HEALTH = TweakItemMap.server(DefaultListing.foodHealth(), GameplayGroup.HUNGER_FOOD)
         .icon(Icons.HEART)
         .slider(0, 20, SliderType.HEARTS)

@@ -2,6 +2,7 @@ package mod.adrenix.nostalgic.mixin.tweak.gameplay.food_health;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import mod.adrenix.nostalgic.helper.gameplay.FoodHelper;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -9,13 +10,22 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin
 {
+    /* Shadows */
+
+    @Shadow
+    public abstract ItemStack getUseItem();
+
+    /* Injections */
+
     /**
      * Prevents the generic food consumption sound when instantaneous eating is enabled.
      */
@@ -28,7 +38,7 @@ public abstract class LivingEntityMixin
     )
     private boolean nt_food_health$shouldPlayConsumedFoodSound(Level level, Player player, double x, double y, double z, SoundEvent sound, SoundSource category, float volume, float pitch)
     {
-        return !GameplayTweak.INSTANT_EAT.get();
+        return !FoodHelper.isInstantaneousEdible(this.getUseItem());
     }
 
     /**

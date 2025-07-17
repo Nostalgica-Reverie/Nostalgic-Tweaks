@@ -1,10 +1,11 @@
 package mod.adrenix.nostalgic.mixin.tweak.gameplay.food_health;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
+import mod.adrenix.nostalgic.helper.gameplay.FoodHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -23,9 +24,11 @@ public abstract class ItemMixin
     )
     private boolean nt_food_health$shouldStartUsingItem(Player player, InteractionHand hand)
     {
-        if (GameplayTweak.INSTANT_EAT.get())
+        ItemStack itemInHand = player.getItemInHand(hand);
+
+        if (FoodHelper.isInstantaneousEdible(itemInHand))
         {
-            player.eat(player.level(), player.getItemInHand(hand));
+            player.eat(player.level(), itemInHand);
 
             return false;
         }
