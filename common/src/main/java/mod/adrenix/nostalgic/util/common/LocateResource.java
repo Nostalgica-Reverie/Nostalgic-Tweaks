@@ -27,4 +27,15 @@ public abstract class LocateResource
     {
         return ResourceLocation.withDefaultNamespace(location);
     }
+
+    /**
+     * Get a resource location by parsing the given location string.
+     *
+     * @param location The location of the resource. This location must have a namespace and ':' separator.
+     * @return A {@link ResourceLocation} using the given location.
+     */
+    public static ResourceLocation from(@NotNull String location)
+    {
+        return ResourceLocation.parse(location);
+    }
 }
