@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
-public class GuiMixin
+public abstract class GuiMixin
 {
     /* Shadows */
 
@@ -44,7 +44,7 @@ public class GuiMixin
     {
         int health = Mth.ceil(player.getHealth());
 
-        if (GameplayTweak.INSTANT_EAT.get() && health > this.lastHealth)
+        if (!CandyTweak.BLINK_HEARTS_ON_INSTANT_EAT.get() && GameplayTweak.INSTANT_EAT.get() && health > this.lastHealth)
             isRegainBlink.set(true);
     }
 
