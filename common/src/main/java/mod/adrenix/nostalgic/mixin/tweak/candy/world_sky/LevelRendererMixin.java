@@ -176,7 +176,7 @@ public abstract class LevelRendererMixin
         if (!ModTweak.ENABLED.get() || this.level == null)
             return;
 
-        float rain = 1.0F - this.level.getRainLevel(partialTick);
+        float rain = 1.0F - (CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : this.level.getRainLevel(partialTick));
         float transparency = this.level.getStarBrightness(partialTick) * rain;
         float color = Generic.BETA == starsState ? transparency : transparency / 0.5F;
 

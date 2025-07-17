@@ -107,6 +107,7 @@ public interface CandyGroup
     Container WORLD_FOG_WATER = Container.group(WORLD_FOG, "world_fog_water").color(0x8ED1FF).icon(Icons.WATER_FOG).build();
     Container WORLD_SKY = Container.group(WORLD, "world_sky").color(0xFEDB5B).icon(Icons.SKY).build();
     Container WORLD_SKY_CUSTOM = Container.group(WORLD_SKY, "world_sky_custom").color(0xEBC8E3).icon(Icons.PINK_SKY).build();
+    Container WORLD_WEATHER = Container.group(WORLD, "world_weather").color(0x91FCFF).icon(Icons.WEATHER).build();
     Container WORLD_VOID = Container.group(WORLD, "world_void").color(0x969696).icon(Blocks.BEDROCK).build();
     Container WORLD_VOID_FOG = Container.group(WORLD_VOID, "world_void_fog").color(0xFFFFFF).icon(Icons.VOID_FOG).build();
     Container WORLD_VOID_SKY = Container.group(WORLD_VOID, "world_void_sky").color(0xF6BB2F).icon(Icons.VOID_SKY).build();

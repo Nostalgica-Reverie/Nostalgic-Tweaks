@@ -50,6 +50,7 @@ public interface Lang
     interface Binding
     {
         Translation OPEN_CONFIG = new Translation("key.nostalgic_tweaks.open_config");
+        Translation TOGGLE_WEATHER = new Translation("key.nostalgic_tweaks.toggle_weather");
         Translation TOGGLE_FOG = new Translation("key.nostalgic_tweaks.toggle_fog");
         Translation STOP_SONG = new Translation("key.nostalgic_tweaks.stop_song");
         Translation NEXT_SONG = new Translation("key.nostalgic_tweaks.next_song");
@@ -1044,6 +1045,9 @@ public interface Lang
         Translation CORNER_BOTTOM_RIGHT = from("corner.bottom_right");
         Translation FOG_ALPHA_R164 = from("worldFog.alpha_r164");
         Translation FOG_R17_R118 = from("worldFog.r17_r118");
+        Translation WEATHER_BIOME = from("weather.biome");
+        Translation WEATHER_RAIN = from("weather.rain");
+        Translation WEATHER_SNOW = from("weather.snow");
 
         private static Translation from(String name)
         {

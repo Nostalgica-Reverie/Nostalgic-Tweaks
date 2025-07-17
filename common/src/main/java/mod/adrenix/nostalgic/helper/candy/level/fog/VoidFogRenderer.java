@@ -237,8 +237,9 @@ public abstract class VoidFogRenderer
         if (level == null)
             return;
 
+        float weather = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getRainLevel(PartialTick.get());
+        float alpha = Math.min(1.0F - weather, CELESTIAL_TRANSPARENCY.lerpFloat());
         float[] rgb = RenderSystem.getShaderColor();
-        float alpha = Math.min(1.0F - level.getRainLevel(PartialTick.get()), CELESTIAL_TRANSPARENCY.lerpFloat());
 
         RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], alpha);
     }

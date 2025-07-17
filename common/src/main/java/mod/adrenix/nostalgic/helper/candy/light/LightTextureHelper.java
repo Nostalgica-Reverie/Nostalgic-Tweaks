@@ -166,10 +166,12 @@ public abstract class LightTextureHelper
         boolean isNether = level.dimension() == Level.NETHER && !CandyTweak.OLD_NETHER_LIGHTING.get();
         float forceBrightness = isNether ? 7.0F : 15.0F;
         float skyDarken = 1.0F - (Mth.cos(level.getTimeOfDay(1.0F) * ((float) Math.PI * 2.0F)) * 2.0F + 0.5F);
+        float rainLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getRainLevel(1.0F);
+        float thunderLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getThunderLevel(1.0F);
 
         skyDarken = 1.0F - Mth.clamp(skyDarken, 0.0F, 1.0F);
-        skyDarken = (float) ((double) skyDarken * (1.0D - (double) (level.getRainLevel(1.0F) * 5.0F) / 16.0D));
-        skyDarken = (float) ((double) skyDarken * (1.0D - (double) (level.getThunderLevel(1.0F) * 5.0F) / 16.0D));
+        skyDarken = (float) ((double) skyDarken * (1.0D - (double) (rainLevel * 5.0F) / 16.0D));
+        skyDarken = (float) ((double) skyDarken * (1.0D - (double) (thunderLevel * 5.0F) / 16.0D));
         skyDarken = 1.0F - skyDarken;
 
         return (int) (skyDarken * (forceBrightness - 4.0F) + (15.0F - forceBrightness));

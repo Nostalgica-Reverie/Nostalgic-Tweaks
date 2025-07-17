@@ -350,7 +350,7 @@ public abstract class LightingHelper
 
         int maxLightLevel = level.getMaxLightLevel();
         int lightFromTime = TIME_SKYLIGHT.get();
-        int weatherDiff = WEATHER_SKYLIGHT.get();
+        int weatherDiff = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0 : WEATHER_SKYLIGHT.get();
         int minSkyLight = Math.max(0, (level.dimensionType().hasFixedTime() ? lightFromTime : maxLightLevel) - 11);
         int minLight = skyLight >= maxLightLevel ? minSkyLight : 0;
         int maxLight = Math.max(blockLight, CandyTweak.MAX_BLOCK_LIGHT.get());
@@ -448,19 +448,21 @@ public abstract class LightingHelper
         if (!isChestLightBlocked && !isWaterDarker && allChanged != 1)
             return;
 
-        CompletableFuture.runAsync(() -> findBlocks(chunk, blockState -> {
-            if (allChanged == 1)
-                return BlockUtil.isWaterLike(blockState) || BlockUtil.isChestLike(blockState);
+        CompletableFuture.runAsync(
+            () -> findBlocks(
+                chunk, blockState -> {
+                    if (allChanged == 1)
+                        return BlockUtil.isWaterLike(blockState) || BlockUtil.isChestLike(blockState);
 
-            boolean relightChest = isChestLightBlocked && ChestHelper.isOld(blockState);
-            boolean relightWater = isWaterDarker && BlockUtil.isWaterLike(blockState);
+                    boolean relightChest = isChestLightBlocked && ChestHelper.isOld(blockState);
+                    boolean relightWater = isWaterDarker && BlockUtil.isWaterLike(blockState);
 
-            return relightChest || relightWater;
-        }, (blockPos, blockState) -> {
-            final long packedChunk = chunk.getPos().toLong();
-            final long packedBlock = blockPos.asLong();
+                    return relightChest || relightWater;
+                }, (blockPos, blockState) -> {
+                    final long packedChunk = chunk.getPos().toLong();
+                    final long packedBlock = blockPos.asLong();
 
-            PACKED_CHUNK_BLOCK_QUEUE.add(new Pair<>(packedChunk, packedBlock));
-        }), Util.backgroundExecutor());
+                    PACKED_CHUNK_BLOCK_QUEUE.add(new Pair<>(packedChunk, packedBlock));
+                }), Util.backgroundExecutor());
     }
 }

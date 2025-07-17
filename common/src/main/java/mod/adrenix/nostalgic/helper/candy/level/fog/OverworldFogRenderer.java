@@ -340,8 +340,8 @@ public abstract class OverworldFogRenderer
         float fogGreen = (float) (FOG_COLOR[1] * ((double) (boundedTime * 0.96F + 0.04F)));
         float fogBlue = (float) (FOG_COLOR[2] * ((double) (boundedTime * 0.947F + 0.063F)));
 
-        float rainLevel = level.getRainLevel(partialTick);
-        float thunderLevel = level.getThunderLevel(partialTick);
+        float rainLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getRainLevel(partialTick);
+        float thunderLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getThunderLevel(partialTick);
 
         if (rainLevel > 0.0F)
         {

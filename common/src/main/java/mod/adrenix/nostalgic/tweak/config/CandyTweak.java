@@ -490,6 +490,13 @@ public interface CandyTweak
     TweakFlag CUSTOM_OVERWORLD_SKY = TweakFlag.client(false, CandyGroup.WORLD_SKY_CUSTOM).build();
     TweakColor CUSTOM_OVERWORLD_SKY_COLOR = TweakColor.client("#FFFFFF", CandyGroup.WORLD_SKY_CUSTOM).build();
 
+    // Weather
+
+    TweakEnum<Weather> WEATHER_TYPE = TweakEnum.client(Weather.BIOME, CandyGroup.WORLD_WEATHER).whenDisabled(Weather.BIOME).build();
+    TweakFlag ALWAYS_RENDER_WEATHER = TweakFlag.client(false, CandyGroup.WORLD_WEATHER).build();
+    TweakFlag PREVENT_WEATHER_INFLUENCE = TweakFlag.client(false, CandyGroup.WORLD_WEATHER).build();
+    TweakBinding TOGGLE_WEATHER_BINDING = TweakBinding.client(-1, CandyGroup.WORLD_WEATHER, KeybindingId.TOGGLE_WEATHER).build();
+
     // Void Sky
 
     TweakEnum<Generic> OLD_BLUE_VOID = TweakEnum.client(Generic.ALPHA, CandyGroup.WORLD_VOID_SKY).whenDisabled(Generic.MODERN).build();

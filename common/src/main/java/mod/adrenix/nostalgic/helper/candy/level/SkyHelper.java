@@ -111,8 +111,8 @@ public abstract class SkyHelper
         float voidGreen = (float) (0.24F * ((double) (boundedTime * 0.05F + 0.95F)));
         float voidBlue = (float) (0.85F * ((double) (boundedTime * 0.85F + 0.15F)));
 
-        float rainLevel = level.getRainLevel(partialTicks);
-        float thunderLevel = level.getThunderLevel(partialTicks);
+        float rainLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getRainLevel(partialTicks);
+        float thunderLevel = CandyTweak.PREVENT_WEATHER_INFLUENCE.get() ? 0.0F : level.getThunderLevel(partialTicks);
 
         if (rainLevel > 0.0F)
         {
