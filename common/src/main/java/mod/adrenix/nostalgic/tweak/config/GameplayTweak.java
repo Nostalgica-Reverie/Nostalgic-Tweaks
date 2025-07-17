@@ -51,10 +51,10 @@ public interface GameplayTweak
     TweakFlag DISABLE_ANIMAL_BREEDING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).build();
     TweakFlag DISABLE_BABY_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).build();
     TweakFlag OLD_ANIMAL_SPAWNING = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().warningTag().build();
-    TweakStringSet OLD_ANIMAL_SPAWN_LIST = TweakStringSet.server(DefaultListing.oldAnimalSpawns(), GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
+    TweakStringSet OLD_ANIMAL_SPAWN_LIST = TweakStringSet.server(DefaultListing.oldAnimalSpawns(), GameplayGroup.MOB_ANIMAL_SPAWN).newForUpdate().ignoreNetworkCheck().build();
     TweakNumber<Integer> ANIMAL_SPAWN_CAP = TweakNumber.server(15, GameplayGroup.MOB_ANIMAL_SPAWN).slider(Lang.Slider.CAP, 0, 100).build();
-    TweakFlag KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
-    TweakFlag IGNORE_ANIMAL_BIOME_RESTRICTIONS = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).ignoreNetworkCheck().build();
+    TweakFlag KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).newForUpdate().ignoreNetworkCheck().build();
+    TweakFlag IGNORE_ANIMAL_BIOME_RESTRICTIONS = TweakFlag.server(false, GameplayGroup.MOB_ANIMAL_SPAWN).newForUpdate().ignoreNetworkCheck().build();
 
     // Sheep
 
@@ -109,7 +109,7 @@ public interface GameplayTweak
 
     TweakFlag DISABLE_ORB_SPAWN = TweakFlag.server(false, GameplayGroup.EXPERIENCE_ORB).build();
     TweakFlag DISABLE_ORB_RENDERING = TweakFlag.client(false, GameplayGroup.EXPERIENCE_ORB).build();
-    TweakFlag IMMEDIATE_EXPERIENCE_PICKUP = TweakFlag.server(false, GameplayGroup.EXPERIENCE_ORB).build();
+    TweakFlag IMMEDIATE_EXPERIENCE_PICKUP = TweakFlag.server(false, GameplayGroup.EXPERIENCE_ORB).newForUpdate().build();
 
     // Experience Blocks
 
@@ -199,8 +199,8 @@ public interface GameplayTweak
     // Instant Food
 
     TweakFlag INSTANT_EAT = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
-    TweakFlag PREVENT_INSTANT_EAT_EFFECTS = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).build();
-    TweakItemSet IGNORED_EDIBLES = TweakItemSet.server(new ItemSet(ItemRule.ONLY_EDIBLES), GameplayGroup.HUNGER_FOOD).build();
+    TweakFlag PREVENT_INSTANT_EAT_EFFECTS = TweakFlag.server(false, GameplayGroup.HUNGER_FOOD).newForUpdate().build();
+    TweakItemSet IGNORED_EDIBLES = TweakItemSet.server(new ItemSet(ItemRule.ONLY_EDIBLES), GameplayGroup.HUNGER_FOOD).newForUpdate().build();
     TweakItemMap<Integer> CUSTOM_FOOD_HEALTH = TweakItemMap.server(DefaultListing.foodHealth(), GameplayGroup.HUNGER_FOOD)
         .icon(Icons.HEART)
         .slider(0, 20, SliderType.HEARTS)
