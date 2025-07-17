@@ -8,6 +8,7 @@
     "candy.armor_damage.HumanoidArmorLayerMixin",
     "candy.debug_screen.ForgeGuiAccess",
     "candy.item_display.GuiMixin",
+    "candy.old_hud.ForgeGuiMixin",
     "candy.tooltip_background.TooltipRenderUtilMixin",
     "candy.torch_block.BlockRenderDispatcherMixin"
   ],
