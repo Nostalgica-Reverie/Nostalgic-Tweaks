@@ -26,7 +26,7 @@ public class FilterOverlay
     private final Holder<Boolean> blocks = Holder.create(false);
     private final Holder<Boolean> edibles = Holder.create(false);
     private final Holder<Boolean> invincible = Holder.create(false);
-    private final List<Holder<Boolean>> holders = List.of(tools, items, blocks, edibles);
+    private final List<Holder<Boolean>> holders = List.of(tools, items, blocks, edibles, invincible);
 
     /* Constructor */
 

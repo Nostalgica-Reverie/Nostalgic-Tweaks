@@ -283,7 +283,8 @@ public class ItemOverlay<V, L extends ItemListing<V, L>>
                 boolean areItemsFiltered = ItemFilter.isItemLike(item) && this.rules.contains(ItemRule.NO_ITEMS);
                 boolean areBlocksFiltered = ItemFilter.isBlockLike(item) && this.rules.contains(ItemRule.NO_BLOCKS);
                 boolean areEdiblesFiltered = item.isEdible() && this.rules.contains(ItemRule.NO_EDIBLES);
-                boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered;
+                boolean areDamageableFiltered = item.canBeDepleted() && this.rules.contains(ItemRule.INVINCIBLE);
+                boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered || areDamageableFiltered;
 
                 if (!isFiltered)
                     this.items.add(itemStack);

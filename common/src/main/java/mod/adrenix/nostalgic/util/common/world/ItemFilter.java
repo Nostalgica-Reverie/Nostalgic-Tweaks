@@ -31,7 +31,7 @@ public abstract class ItemFilter
             return !isChestLike(item);
         else if (list.rules().contains(ItemRule.ONLY_EDIBLES))
             return !item.isEdible();
-        else if (list.rules().contains(ItemRule.INVINCIBLE))
+        else if (list.rules().contains(ItemRule.ONLY_DAMAGEABLE))
             return !item.canBeDepleted();
         else
         {
@@ -39,8 +39,9 @@ public abstract class ItemFilter
             boolean isItemFiltered = ItemFilter.isItemLike(item) && list.rules().contains(ItemRule.NO_ITEMS);
             boolean isBlockFiltered = ItemFilter.isBlockLike(item) && list.rules().contains(ItemRule.NO_BLOCKS);
             boolean isEdibleFiltered = item.isEdible() && list.rules().contains(ItemRule.NO_EDIBLES);
+            boolean isDamageableFiltered = item.canBeDepleted() && list.rules().contains(ItemRule.INVINCIBLE);
 
-            return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered;
+            return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered || isDamageableFiltered;
         }
     }
 
