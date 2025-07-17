@@ -63,7 +63,7 @@ public interface SoundTweak
 
     TweakFlag DISABLE_GROWTH = TweakFlag.client(true, SoundGroup.BLOCK).build();
     TweakFlag DISABLE_DOOR_PLACE = TweakFlag.client(true, SoundGroup.BLOCK).build();
-    TweakFlag DISABLE_BUBBLE_COLUMN = TweakFlag.client(true, SoundGroup.BLOCK).newForUpdate().build();
+    TweakFlag DISABLE_BUBBLE_COLUMN = TweakFlag.client(true, SoundGroup.BLOCK).build();
 
     // Damage
 

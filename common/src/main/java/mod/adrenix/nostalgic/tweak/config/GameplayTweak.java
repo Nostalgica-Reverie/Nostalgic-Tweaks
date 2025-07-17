@@ -26,8 +26,8 @@ public interface GameplayTweak
     TweakFlag DISABLE_ANIMAL_TEMPTING = TweakFlag.server(false, GameplayGroup.MOB_AI).build();
     TweakFlag DISABLE_ANIMAL_PANIC = TweakFlag.server(true, GameplayGroup.MOB_AI).build();
     TweakFlag DISABLE_MONSTER_AVOID_SUN = TweakFlag.server(true, GameplayGroup.MOB_AI).build();
-    TweakFlag DISABLE_SKELETON_STRAFING = TweakFlag.server(false, GameplayGroup.MOB_AI).newForUpdate().build();
-    TweakFlag OLD_CREEPER_STRAFE_ON_SWELL = TweakFlag.server(true, GameplayGroup.MOB_AI).newForUpdate().build();
+    TweakFlag DISABLE_SKELETON_STRAFING = TweakFlag.server(false, GameplayGroup.MOB_AI).build();
+    TweakFlag OLD_CREEPER_STRAFE_ON_SWELL = TweakFlag.server(true, GameplayGroup.MOB_AI).build();
 
     // Monsters
 
@@ -118,17 +118,17 @@ public interface GameplayTweak
 
     // Stamina Mechanics
 
-    TweakFlag STAMINA_SPRINT = TweakFlag.dynamic(false, GameplayGroup.STAMINA).newForUpdate().noSSO().alert(TweakAlert.STAMINA_SPRINTING_CONFLICT).build();
-    TweakFlag STAMINA_INFINITE_PEACEFUL = TweakFlag.dynamic(false, GameplayGroup.STAMINA).newForUpdate().build();
-    TweakEnum<StaminaRegain> STAMINA_REGAIN_WHEN_MOVING = TweakEnum.dynamic(StaminaRegain.NORMAL, GameplayGroup.STAMINA).newForUpdate().build();
-    TweakNumber<Integer> STAMINA_DURATION = TweakNumber.dynamic(5, GameplayGroup.STAMINA).newForUpdate().slider(Lang.Slider.SECONDS, 1, 60).build();
-    TweakNumber<Integer> STAMINA_RECHARGE = TweakNumber.dynamic(7, GameplayGroup.STAMINA).newForUpdate().slider(Lang.Slider.SECONDS, 1, 60).build();
-    TweakNumber<Integer> STAMINA_COOLDOWN = TweakNumber.dynamic(0, GameplayGroup.STAMINA).newForUpdate().slider(Lang.Slider.SECONDS, 0, 60).build();
+    TweakFlag STAMINA_SPRINT = TweakFlag.dynamic(false, GameplayGroup.STAMINA).noSSO().alert(TweakAlert.STAMINA_SPRINTING_CONFLICT).build();
+    TweakFlag STAMINA_INFINITE_PEACEFUL = TweakFlag.dynamic(false, GameplayGroup.STAMINA).build();
+    TweakEnum<StaminaRegain> STAMINA_REGAIN_WHEN_MOVING = TweakEnum.dynamic(StaminaRegain.NORMAL, GameplayGroup.STAMINA).build();
+    TweakNumber<Integer> STAMINA_DURATION = TweakNumber.dynamic(5, GameplayGroup.STAMINA).slider(Lang.Slider.SECONDS, 1, 60).build();
+    TweakNumber<Integer> STAMINA_RECHARGE = TweakNumber.dynamic(7, GameplayGroup.STAMINA).slider(Lang.Slider.SECONDS, 1, 60).build();
+    TweakNumber<Integer> STAMINA_COOLDOWN = TweakNumber.dynamic(0, GameplayGroup.STAMINA).slider(Lang.Slider.SECONDS, 0, 60).build();
 
     // Stamina Effects
 
-    TweakFlag STAMINA_SATURATION_EFFECT = TweakFlag.dynamic(false, GameplayGroup.STAMINA_EFFECTS).newForUpdate().build();
-    TweakFlag STAMINA_HUNGER_EFFECT = TweakFlag.dynamic(false, GameplayGroup.STAMINA_EFFECTS).newForUpdate().build();
+    TweakFlag STAMINA_SATURATION_EFFECT = TweakFlag.dynamic(false, GameplayGroup.STAMINA_EFFECTS).build();
+    TweakFlag STAMINA_HUNGER_EFFECT = TweakFlag.dynamic(false, GameplayGroup.STAMINA_EFFECTS).build();
 
     // Player Mechanics
 
@@ -140,9 +140,9 @@ public interface GameplayTweak
 
     // Fishing Mechanics
 
-    TweakFlag OLD_FISHING_LOOT = TweakFlag.server(false, GameplayGroup.MECHANICS_FISHING).newForUpdate().build();
-    TweakFlag OLD_FISHING_LURING = TweakFlag.server(true, GameplayGroup.MECHANICS_FISHING).newForUpdate().build();
-    TweakFlag OLD_FISHING_CASTING = TweakFlag.dynamic(true, GameplayGroup.MECHANICS_FISHING).newForUpdate().build();
+    TweakFlag OLD_FISHING_LOOT = TweakFlag.server(false, GameplayGroup.MECHANICS_FISHING).build();
+    TweakFlag OLD_FISHING_LURING = TweakFlag.server(true, GameplayGroup.MECHANICS_FISHING).build();
+    TweakFlag OLD_FISHING_CASTING = TweakFlag.dynamic(true, GameplayGroup.MECHANICS_FISHING).build();
 
     // Farming Mechanics
 
@@ -176,7 +176,7 @@ public interface GameplayTweak
     TweakFlag PUNCH_TNT_IGNITION = TweakFlag.server(false, GameplayGroup.MECHANICS_BLOCK_TNT).build();
     TweakFlag DISABLE_BED_BOUNCE = TweakFlag.server(true, GameplayGroup.MECHANICS_BLOCK_BED).build();
     TweakFlag ALWAYS_OPEN_CHEST = TweakFlag.server(true, GameplayGroup.MECHANICS_BLOCK_CHEST).build();
-    TweakItemSet SELF_BLOCK_DROPS = TweakItemSet.server(DefaultListing.selfBlockDrops(), GameplayGroup.MECHANICS_BLOCK).newForUpdate().ignoreNetworkCheck().warningTag().build();
+    TweakItemSet SELF_BLOCK_DROPS = TweakItemSet.server(DefaultListing.selfBlockDrops(), GameplayGroup.MECHANICS_BLOCK).ignoreNetworkCheck().warningTag().build();
 
     // Item Mechanics
 
@@ -188,8 +188,8 @@ public interface GameplayTweak
 
     // Tool Mechanics
 
-    TweakFlag DISABLE_AXE_STRIPPING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).newForUpdate().build();
-    TweakFlag DISABLE_SHOVEL_PATHING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).newForUpdate().build();
+    TweakFlag DISABLE_AXE_STRIPPING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).build();
+    TweakFlag DISABLE_SHOVEL_PATHING = TweakFlag.dynamic(false, GameplayGroup.MECHANICS_TOOLS).build();
 
     // Hunger
 
