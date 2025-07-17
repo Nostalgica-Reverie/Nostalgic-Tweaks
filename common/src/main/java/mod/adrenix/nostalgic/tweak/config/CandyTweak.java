@@ -73,20 +73,20 @@ public interface CandyTweak
 
     // Heads-up Toasts
 
-    TweakFlag HIDE_RECIPE_TOASTS = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_TOAST).newForUpdate().build();
-    TweakFlag HIDE_TUTORIAL_TOASTS = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_TOAST).newForUpdate().build();
-    TweakFlag HIDE_ADVANCEMENT_TOASTS = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_TOAST).newForUpdate().whenDisabled(false).build();
-    TweakFlag HIDE_ADVANCEMENT_CHATS = TweakFlag.server(false, CandyGroup.INTERFACE_HUD_TOAST).newForUpdate().whenDisabled(false).ignoreNetworkCheck().build();
+    TweakFlag HIDE_RECIPE_TOASTS = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_TOAST).build();
+    TweakFlag HIDE_TUTORIAL_TOASTS = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_TOAST).build();
+    TweakFlag HIDE_ADVANCEMENT_TOASTS = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_TOAST).whenDisabled(false).build();
+    TweakFlag HIDE_ADVANCEMENT_CHATS = TweakFlag.server(false, CandyGroup.INTERFACE_HUD_TOAST).whenDisabled(false).ignoreNetworkCheck().build();
 
     // Heads-up Display
 
     TweakFlag MOVE_MESSAGES_TO_CHAT = TweakFlag.client(false, CandyGroup.INTERFACE_HUD).build();
     TweakFlag HIDE_EXPERIENCE_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_EXP_BAR).orIf(GameplayTweak.DISABLE_ORB_SPAWN::get).build();
     TweakFlag HIDE_HUNGER_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_HUNGER_BAR).orIf(GameplayTweak.DISABLE_HUNGER::get).build();
-    TweakFlag HIDE_STAMINA_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().orIf(GameplayTweak.DISABLE_SPRINT::get).build();
-    TweakFlag HIDE_STAMINA_BAR_MOVING = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
-    TweakFlag HIDE_STAMINA_BAR_COOLDOWN = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
-    TweakFlag HIDE_STAMINA_BAR_INACTIVE = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).newForUpdate().build();
+    TweakFlag HIDE_STAMINA_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).orIf(GameplayTweak.DISABLE_SPRINT::get).build();
+    TweakFlag HIDE_STAMINA_BAR_MOVING = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).build();
+    TweakFlag HIDE_STAMINA_BAR_COOLDOWN = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).build();
+    TweakFlag HIDE_STAMINA_BAR_INACTIVE = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).build();
     TweakFlag HIGHLIGHT_STAMINA_BAR = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR).build();
     TweakFlag FLASH_STAMINA_BAR_WHEN_FULL = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR).whenDisabled(true).build();
     TweakNumber<Integer> FLASH_STAMINA_BAR_AT = TweakNumber.client(7, CandyGroup.INTERFACE_HUD_STAMINA_BAR).slider(0, 20, SliderType.STAMINA).build();
@@ -153,14 +153,14 @@ public interface CandyTweak
 
     // Alternative Stamina Text
 
-    TweakFlag SHOW_STAMINA_TEXT = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().build();
-    TweakFlag USE_DYNAMIC_STAMINA_COLOR = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().whenDisabled(true).build();
-    TweakFlag ALT_STAMINA_SHOW_ON_ACTIVE = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().build();
-    TweakEnum<Corner> ALT_STAMINA_CORNER = TweakEnum.client(Corner.TOP_LEFT, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().build();
-    TweakNumber<Integer> ALT_STAMINA_OFFSET_X = TweakNumber.client(0, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().slider(Lang.Slider.OFFSET, -100, 100).build();
-    TweakNumber<Integer> ALT_STAMINA_OFFSET_Y = TweakNumber.client(0, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().slider(Lang.Slider.OFFSET, -100, 100).build();
-    TweakFlag ALT_STAMINA_SHADOW = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().whenDisabled(true).build();
-    TweakText ALT_STAMINA_TEXT = TweakText.client("Stamina: %v%", CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).newForUpdate().build();
+    TweakFlag SHOW_STAMINA_TEXT = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).build();
+    TweakFlag USE_DYNAMIC_STAMINA_COLOR = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).whenDisabled(true).build();
+    TweakFlag ALT_STAMINA_SHOW_ON_ACTIVE = TweakFlag.client(false, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).build();
+    TweakEnum<Corner> ALT_STAMINA_CORNER = TweakEnum.client(Corner.TOP_LEFT, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).build();
+    TweakNumber<Integer> ALT_STAMINA_OFFSET_X = TweakNumber.client(0, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).slider(Lang.Slider.OFFSET, -100, 100).build();
+    TweakNumber<Integer> ALT_STAMINA_OFFSET_Y = TweakNumber.client(0, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).slider(Lang.Slider.OFFSET, -100, 100).build();
+    TweakFlag ALT_STAMINA_SHADOW = TweakFlag.client(true, CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).whenDisabled(true).build();
+    TweakText ALT_STAMINA_TEXT = TweakText.client("Stamina: %v%", CandyGroup.INTERFACE_HUD_STAMINA_BAR_ALT).build();
 
     // Window Title
 
@@ -268,7 +268,7 @@ public interface CandyTweak
     // World Select Screen
 
     TweakEnum<Generic> OLD_WORLD_SELECT_SCREEN = TweakEnum.client(Generic.BETA, CandyGroup.INTERFACE_WORLD_SELECT).whenDisabled(Generic.MODERN).build();
-    TweakFlag LEVEL_SELECT_WHEN_EMPTY = TweakFlag.client(true, CandyGroup.INTERFACE_WORLD_SELECT).newForUpdate().build();
+    TweakFlag LEVEL_SELECT_WHEN_EMPTY = TweakFlag.client(true, CandyGroup.INTERFACE_WORLD_SELECT).build();
     TweakFlag ADD_WORLD_THUMBNAIL = TweakFlag.client(true, CandyGroup.INTERFACE_WORLD_SELECT).whenDisabled(true).build();
     TweakFlag ADD_WORLD_METADATA = TweakFlag.client(true, CandyGroup.INTERFACE_WORLD_SELECT).whenDisabled(true).build();
     TweakFlag IGNORE_WORLD_SIZE = TweakFlag.client(false, CandyGroup.INTERFACE_WORLD_SELECT).build();
@@ -345,7 +345,7 @@ public interface CandyTweak
     TweakFlag OLD_2D_ITEMS = TweakFlag.client(true, CandyGroup.ITEM_FLAT).build();
     TweakFlag OLD_2D_COLORS = TweakFlag.client(false, CandyGroup.ITEM_FLAT).build();
     TweakFlag OLD_2D_RENDERING = TweakFlag.client(true, CandyGroup.ITEM_FLAT).modIssues(TweakIssue.OPTIFINE).build();
-    TweakItemSet OLD_2D_EXCEPTIONS = TweakItemSet.client(DefaultListing.old2dExceptions(), CandyGroup.ITEM_FLAT).newForUpdate().build();
+    TweakItemSet OLD_2D_EXCEPTIONS = TweakItemSet.client(DefaultListing.old2dExceptions(), CandyGroup.ITEM_FLAT).build();
     TweakFlag DISABLE_ENCHANTED_GROUND_ITEMS = TweakFlag.client(false, CandyGroup.ITEM_FLAT).andIf(TweakCondition::areItemsFlat).build();
     TweakFlag DISABLE_ENCHANTED_STATIC_ITEMS = TweakFlag.client(false, CandyGroup.ITEM_FLAT).andIf(TweakCondition::areItemsFlat).build();
 
@@ -374,13 +374,13 @@ public interface CandyTweak
     TweakFlag ROUND_ROBIN_RELIGHT = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_ENGINE).reloadChunks().modIssues(TweakIssue.SODIUM, TweakIssue.OPTIFINE, TweakIssue.POLYTONE).conflictMods(ModTracker.DISTANT_HORIZONS, ModTracker.STARLIGHT).build();
     TweakFlag OLD_NETHER_LIGHTING = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_ENGINE).reloadChunks().build();
     TweakFlag OLD_SMOOTH_LIGHTING = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_ENGINE).reloadChunks().build();
-    TweakFlag DISABLE_SMOOTH_LIGHTING = TweakFlag.client(false, CandyGroup.LIGHTING_WORLD_ENGINE).newForUpdate().reloadChunks().build();
+    TweakFlag DISABLE_SMOOTH_LIGHTING = TweakFlag.client(false, CandyGroup.LIGHTING_WORLD_ENGINE).reloadChunks().build();
     TweakFlag OLD_CLASSIC_ENGINE = TweakFlag.server(false, CandyGroup.LIGHTING_WORLD_ENGINE).reloadChunks().warningTag().build();
 
     // Lightmap Texture
 
     TweakFlag SMOOTH_LIGHT_TRANSITION = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_TEXTURE).whenDisabled(true).build();
-    TweakFlag DYNAMIC_LIGHT_BRIGHTNESS = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_TEXTURE).newForUpdate().alert(TweakAlert.BRIGHTNESS_CONFLICT).build();
+    TweakFlag DYNAMIC_LIGHT_BRIGHTNESS = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_TEXTURE).alert(TweakAlert.BRIGHTNESS_CONFLICT).build();
     TweakFlag DISABLE_LIGHT_BRIGHTNESS = TweakFlag.client(false, CandyGroup.LIGHTING_WORLD_TEXTURE).alert(TweakAlert.BRIGHTNESS_CONFLICT).build();
     TweakFlag OLD_LIGHT_COLOR = TweakFlag.client(true, CandyGroup.LIGHTING_WORLD_TEXTURE).modIssues(TweakIssue.POLYTONE).build();
 
