@@ -7,6 +7,7 @@ import mod.adrenix.nostalgic.client.gui.screen.DynamicScreen;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.FallingBlockRenderer;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.config.FallingBlockConfig;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.text.FallingBlockText;
+import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
 import mod.adrenix.nostalgic.mixin.access.TitleScreenAccess;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
@@ -15,6 +16,8 @@ import mod.adrenix.nostalgic.util.client.GameUtil;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.timer.PartialTick;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
+import mod.adrenix.nostalgic.util.common.data.FlagHolder;
+import mod.adrenix.nostalgic.util.common.data.NullableAction;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.Minecraft;
@@ -33,6 +36,10 @@ import java.util.List;
 
 public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<NostalgicTitleScreen>
 {
+    /* Static */
+
+    private static final FlagHolder TOGGLE_LOGO = FlagHolder.off();
+
     /* Fields */
 
     private FallingBlockRenderer blockLogo;
@@ -40,6 +47,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
     private final UniqueArrayList<DynamicWidget<?, ?>> widgets;
     private final TitleWidgets titleWidgets;
     private final TitleScreenAccess titleAccess;
+    private BlankWidget titleRegion;
     private boolean isLayoutSet;
 
     /* Constructor */
@@ -83,6 +91,35 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
     }
 
     /**
+     * Reset the falling block logo animation.
+     */
+    public void resetBlockLogo()
+    {
+        if (CandyTweak.USE_CUSTOM_FALLING_LOGO.get())
+        {
+            if (FallingBlockConfig.hasNoBlocks())
+                FallingBlockConfig.setBlockDataToDefault();
+
+            this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getData());
+        }
+        else
+            this.blockLogo = new FallingBlockRenderer();
+    }
+
+    /**
+     * Toggle between the falling block logo animation and the resource pack title logo.
+     */
+    public void switchLogo()
+    {
+        if (!CandyTweak.CLICK_ON_LOGO_TOGGLE.get())
+            return;
+
+        TOGGLE_LOGO.toggle();
+
+        this.resetBlockLogo();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -95,6 +132,15 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             this.clearWidgets();
             this.titleWidgets.init();
         }
+
+        this.titleRegion = BlankWidget.create()
+            .posY(16)
+            .widthOfScreen(0.75F)
+            .centerInScreenX()
+            .noClickSound()
+            .height(this.titleWidgets.getY() - 24)
+            .onPress(this::switchLogo)
+            .build(this::addWidget);
 
         for (Renderable widget : this.renderables)
         {
@@ -193,22 +239,22 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             return;
 
         if (FallingBlockConfig.LOGO_CHANGED.ifEnabledThenDisable() || FallingBlockText.LOGO_CHANGED.ifEnabledThenDisable())
-        {
-            if (CandyTweak.USE_CUSTOM_FALLING_LOGO.get())
-            {
-                if (FallingBlockConfig.hasNoBlocks())
-                    FallingBlockConfig.setBlockDataToDefault();
-
-                this.blockLogo = new FallingBlockRenderer(FallingBlockConfig.getData());
-            }
-            else
-                this.blockLogo = new FallingBlockRenderer();
-        }
+            this.resetBlockLogo();
 
         if (CandyTweak.OLD_ALPHA_LOGO.get())
-            this.blockLogo.render();
+        {
+            if (TOGGLE_LOGO.get())
+                this.imageLogo.renderLogo(graphics, this.width, 1.0F);
+            else
+                this.blockLogo.render();
+        }
         else
-            this.imageLogo.renderLogo(graphics, this.width, 1.0F);
+        {
+            if (TOGGLE_LOGO.get())
+                this.blockLogo.render();
+            else
+                this.imageLogo.renderLogo(graphics, this.width, 1.0F);
+        }
 
         if (this.titleAccess.nt$getSplash() != null)
         {
@@ -254,6 +300,8 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             graphics.drawString(this.font, memory, memX, 2, 0x808080);
             graphics.drawString(this.font, allocated, allX, GuiUtil.textHeight() + 3, 0x808080);
         }
+
+        NullableAction.attempt(this.titleRegion, blankWidget -> blankWidget.render(graphics, mouseX, mouseY, partialTick));
 
         if (this.getLayout() != TitleLayout.MODERN)
             DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);

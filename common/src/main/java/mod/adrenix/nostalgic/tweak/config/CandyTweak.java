@@ -285,6 +285,7 @@ public interface CandyTweak
     // Title Screen Logo
 
     TweakFlag OLD_ALPHA_LOGO = TweakFlag.client(true, CandyGroup.INTERFACE_TITLE_LOGO).build();
+    TweakFlag CLICK_ON_LOGO_TOGGLE = TweakFlag.client(false, CandyGroup.INTERFACE_TITLE_LOGO).build();
     TweakFlag USE_CUSTOM_FALLING_LOGO = TweakFlag.client(false, CandyGroup.INTERFACE_TITLE_LOGO).build();
     TweakCustom FALLING_LOGO_EDITOR = TweakCustom.client(ControllerId.FALLING_LOGO, CandyGroup.INTERFACE_TITLE_LOGO).alert(TweakAlert.CUSTOM_FALLING_LOGO_DISABLED).build();
     TweakNumber<Integer> SPLASH_OFFSET_X = TweakNumber.client(0, CandyGroup.INTERFACE_TITLE_LOGO).slider(Lang.Slider.OFFSET, 0, 100).build();

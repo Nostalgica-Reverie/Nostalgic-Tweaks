@@ -22,10 +22,10 @@ class TitleWidgets implements WidgetManager
 {
     /* Constants */
 
-    private static final int WIDGET_MARGIN = 4;
-    private static final int LARGE_MARGIN = 28;
-    private static final int LARGE_BUTTON = 200;
-    private static final int SMALL_BUTTON = 98;
+    static final int WIDGET_MARGIN = 4;
+    static final int LARGE_MARGIN = 28;
+    static final int LARGE_BUTTON = 200;
+    static final int SMALL_BUTTON = 98;
 
     /* Fields */
 
@@ -67,7 +67,7 @@ class TitleWidgets implements WidgetManager
     /**
      * @return The x-coordinate for all left-side buttons.
      */
-    private int getX()
+    int getX()
     {
         return this.titleScreen.width / 2 - 100;
     }
@@ -75,7 +75,7 @@ class TitleWidgets implements WidgetManager
     /**
      * @return The y-coordinate for all top buttons.
      */
-    private int getY()
+    int getY()
     {
         return this.titleScreen.height / 4 + 48 - (this.hasModsButton() ? 12 : 0);
     }
