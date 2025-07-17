@@ -2,8 +2,10 @@ package mod.adrenix.nostalgic.helper.gameplay;
 
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
+import mod.adrenix.nostalgic.util.common.LocateResource;
 import mod.adrenix.nostalgic.util.common.data.IntegerHolder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.WeightedRandomList;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -136,7 +139,22 @@ public abstract class AnimalSpawnHelper
                 if (spawnerData.isEmpty())
                     break;
 
-                if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.getPlacementType(spawnerData.get().type), level, blockPos, spawnerData.get().type))
+                EntityType<?> entityType = spawnerData.get().type;
+
+                if (GameplayTweak.IGNORE_ANIMAL_BIOME_RESTRICTIONS.get() && level.dimension().equals(Level.OVERWORLD))
+                {
+                    String[] spawnList = GameplayTweak.OLD_ANIMAL_SPAWN_LIST.get().stream().toArray(String[]::new);
+                    int randomIndex = level.random.nextInt(spawnList.length);
+
+                    Optional<EntityType<?>> maybeEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(LocateResource.game(spawnList[randomIndex]));
+
+                    if (maybeEntity.isEmpty())
+                        break;
+
+                    entityType = maybeEntity.get();
+                }
+
+                if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.getPlacementType(entityType), level, blockPos, entityType))
                 {
                     float dx = (float) x + 0.5F;
                     float dy = (float) y;
@@ -155,7 +173,7 @@ public abstract class AnimalSpawnHelper
 
                             try
                             {
-                                Entity entity = spawnerData.get().type.create(level);
+                                Entity entity = entityType.create(level);
 
                                 if (entity instanceof Mob)
                                     mob = (Mob) entity;
