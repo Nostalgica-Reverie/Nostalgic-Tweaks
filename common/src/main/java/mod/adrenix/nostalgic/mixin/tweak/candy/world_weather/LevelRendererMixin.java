@@ -49,6 +49,26 @@ public abstract class LevelRendererMixin
     }
 
     /**
+     * Forcefully changes biome precipitation based on tweak context.
+     */
+    @ModifyExpressionValue(
+        method = "tickRain",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"
+        )
+    )
+    private Biome.Precipitation nt_world_weather$modifyPrecipitationOnTickRain(Biome.Precipitation precipitation)
+    {
+        return switch (CandyTweak.WEATHER_TYPE.get())
+        {
+            case BIOME -> precipitation;
+            case RAIN -> Biome.Precipitation.RAIN;
+            case SNOW -> Biome.Precipitation.SNOW;
+        };
+    }
+
+    /**
      * Prevents weather influencing the sky based on tweak context.
      */
     @ModifyExpressionValue(
