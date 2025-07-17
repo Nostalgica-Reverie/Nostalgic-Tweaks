@@ -5,7 +5,9 @@ import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.asset.ModSprite;
+import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
+import mod.adrenix.nostalgic.util.common.timer.FlagTimer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,11 +15,33 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * This utility class is used only by the client.
  */
 public abstract class StaminaRenderer
 {
+    /**
+     * Tracks if the stamina bar has begun to drain.
+     */
+    public static final FlagHolder HAS_BEGUN_TO_DRAIN = FlagHolder.off();
+
+    /**
+     * A timer for fully refilled stamina flash delay.
+     */
+    public static final FlagTimer FULL_FLASH_TIMER = FlagTimer.create(250, TimeUnit.MILLISECONDS)
+        .maxRepeat(4)
+        .startWith(true)
+        .build();
+
+    /**
+     * A timer for low stamina flash delay.
+     */
+    public static final FlagTimer LOW_FLASH_TIMER = FlagTimer.create(250, TimeUnit.MILLISECONDS)
+        .startWith(true)
+        .build();
+
     /**
      * @return Whether the stamina bar is visible on the heads-up display.
      */
@@ -68,6 +92,9 @@ public abstract class StaminaRenderer
         boolean hasNegativeEffect = data.hasNegativeEffect(player);
         boolean cannotRegain = data.cannotRegain(player);
 
+        if (CandyTweak.FLASH_STAMINA_BAR_WHEN_FULL.get() && stamina < 20)
+            HAS_BEGUN_TO_DRAIN.enable();
+
         for (int i = 0; i < 10; i++)
         {
             ResourceLocation sprite = isExhausted ? ModSprite.STAMINA_RECHARGE : ModSprite.STAMINA_LEVEL;
@@ -108,6 +135,37 @@ public abstract class StaminaRenderer
             }
 
             RenderUtil.blitSprite(sprite, graphics, x, top, 9, 9);
+
+            boolean shouldHighlight = false;
+
+            if (CandyTweak.HIGHLIGHT_STAMINA_BAR.get() && stamina != 20)
+                shouldHighlight = player.isSprinting();
+
+            if (HAS_BEGUN_TO_DRAIN.get() && stamina == 20)
+                shouldHighlight = FULL_FLASH_TIMER.getFlag();
+            else
+                FULL_FLASH_TIMER.reset();
+
+            if (FULL_FLASH_TIMER.hasReachedMax())
+            {
+                FULL_FLASH_TIMER.reset();
+                HAS_BEGUN_TO_DRAIN.disable();
+
+                shouldHighlight = false;
+            }
+
+            int flashAt = CandyTweak.FLASH_STAMINA_BAR_AT.get();
+
+            if (flashAt > 0 && flashAt >= stamina && player.isSprinting())
+                shouldHighlight = LOW_FLASH_TIMER.getFlag();
+
+            if (shouldHighlight)
+            {
+                graphics.pose().pushPose();
+                graphics.pose().translate(0.0F, 0.0F, 1.0F);
+                RenderUtil.blitSprite(ModSprite.STAMINA_HIGHLIGHT, graphics, x, top, 9, 9);
+                graphics.pose().popPose();
+            }
         }
 
         RenderUtil.endBatching();

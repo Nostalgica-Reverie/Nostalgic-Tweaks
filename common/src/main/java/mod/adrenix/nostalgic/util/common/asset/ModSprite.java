@@ -21,6 +21,7 @@ public interface ModSprite
     ResourceLocation STAMINA_POSITIVE_HALF = ModAsset.sprite("hud/stamina_positive_half");
     ResourceLocation STAMINA_NEGATIVE = ModAsset.sprite("hud/stamina_negative");
     ResourceLocation STAMINA_NEGATIVE_HALF = ModAsset.sprite("hud/stamina_negative_half");
+    ResourceLocation STAMINA_HIGHLIGHT = ModAsset.sprite("hud/stamina_highlight");
     ResourceLocation STAMINA_EMPTY = ModAsset.sprite("hud/stamina_empty");
 
     static ResourceLocation icon(String path)
