@@ -66,10 +66,9 @@ interface LevenshteinDatabase<T>
      * Each {@link LevenshteinDatabase} has a database {@link Map} of a large set of strings. The {@link #levenshtein()}
      * instance will use the cache map to perform lookup calculations using a given query.
      *
-     * @return A {@link Map} using strings as the keys and the cache's class type instances as the values linked to
-     * those keys.
+     * @return A {@link Map} using strings as the keys. Values are a list of objects that are associated with a key.
      */
-    Map<String, T> getDatabase();
+    Map<String, List<T>> getDatabase();
 
     /**
      * Change the minimum threshold requirements that a search result must meet before it is added to the list of

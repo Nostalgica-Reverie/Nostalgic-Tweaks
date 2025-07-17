@@ -2,6 +2,7 @@ package mod.adrenix.nostalgic.util.client.search;
 
 import mod.adrenix.nostalgic.tweak.factory.Tweak;
 import mod.adrenix.nostalgic.tweak.factory.TweakPool;
+import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,11 @@ public class TweakDatabase extends Database<Tweak<?>>
         if (!this.map.isEmpty())
             this.map.clear();
 
-        TweakPool.filter(Tweak::isNotIgnored)
-            .forEach(tweak -> this.map.put(tweak.getTranslation().getString().toLowerCase(), tweak));
+        TweakPool.filter(Tweak::isNotIgnored).forEach(tweak -> {
+            String key = tweak.getTranslation().getString().toLowerCase();
+
+            this.map.computeIfAbsent(key, str -> new UniqueArrayList<>()).add(tweak);
+        });
     }
 
     /**
@@ -42,7 +46,7 @@ public class TweakDatabase extends Database<Tweak<?>>
     }
 
     @Override
-    public Map<String, Tweak<?>> getDatabase()
+    public Map<String, List<Tweak<?>>> getDatabase()
     {
         Optional<SearchTag> tag = SearchTag.get(this.lastQuery);
 
@@ -63,7 +67,7 @@ public class TweakDatabase extends Database<Tweak<?>>
         String trimmed = query.toLowerCase().replaceFirst("#\\w+", "").trim();
         List<Map.Entry<Tweak<?>, Double>> results = this.levenshtein().apply(trimmed);
 
-        if (trimmed.isEmpty() || trimmed.isBlank())
+        if (trimmed.isBlank())
             results.sort(Map.Entry.comparingByKey(Tweak::compareTranslationName));
 
         this.setThreshold(cacheThreshold);

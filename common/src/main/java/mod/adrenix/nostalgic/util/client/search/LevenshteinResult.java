@@ -6,18 +6,19 @@ import net.minecraft.Util;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 public class LevenshteinResult<T>
 {
     /* Fields */
 
-    private final Map<String, T> map;
+    private final Map<String, List<T>> map;
     private final double threshold;
 
     /* Constructor */
 
-    private LevenshteinResult(Map<String, T> map, double threshold)
+    private LevenshteinResult(Map<String, List<T>> map, double threshold)
     {
         this.map = map;
         this.threshold = threshold;
@@ -36,7 +37,7 @@ public class LevenshteinResult<T>
      * @return A new {@link LevenshteinResult} instance to match the content of the given {@link Map} using the given
      * threshold.
      */
-    public static <V> LevenshteinResult<V> with(Map<String, V> map, double threshold)
+    public static <V> LevenshteinResult<V> with(Map<String, List<V>> map, double threshold)
     {
         return new LevenshteinResult<>(map, threshold);
     }
@@ -51,8 +52,7 @@ public class LevenshteinResult<T>
      */
     public List<Map.Entry<T, Double>> apply(String query)
     {
-        int sizeOfMap = this.map.values().size();
-        boolean isEmpty = query.isEmpty() || query.isBlank();
+        int sizeOfMap = this.map.size();
 
         ArrayList<Map.Entry<T, Double>> results = new ArrayList<>(sizeOfMap);
         HashMap<Map.Entry<T, Double>, String> pointers = new HashMap<>(sizeOfMap);
@@ -66,35 +66,45 @@ public class LevenshteinResult<T>
                 entry.setValue(-1.0D);
         };
 
-        this.map.forEach((key, value) -> {
+        this.map.forEach((key, values) -> values.forEach(value -> {
             Map.Entry<T, Double> entry = new AbstractMap.SimpleEntry<>(value, 1.0D);
 
             results.add(entry);
             pointers.put(entry, key);
-        });
+        }));
 
-        if (isEmpty)
+        if (query.isBlank())
             return results;
 
-        if (sizeOfMap > 1000)
+        int sizeOfResults = results.size();
+
+        if (sizeOfResults > 1000)
         {
             HashSet<CompletableFuture<Void>> processes = new HashSet<>();
             int numberOfProcessors = ThreadMaker.getNumberOfProcessors();
-            int chunkSize = sizeOfMap / numberOfProcessors;
-            int leftOver = sizeOfMap % numberOfProcessors;
+            int chunkSize = sizeOfResults / numberOfProcessors;
+            int leftOver = sizeOfResults % numberOfProcessors;
 
             for (int i = 0; i < numberOfProcessors; i++)
             {
                 final int startIndex = (i * chunkSize);
                 final int endIndex = startIndex + chunkSize + (i == numberOfProcessors - 1 ? leftOver : 0);
 
-                CompletableFuture<Void> future = CompletableFuture.runAsync(() -> results.subList(startIndex, endIndex)
-                    .forEach(processor), Util.backgroundExecutor());
+                CompletableFuture<Void> future = CompletableFuture.runAsync(
+                    () -> results.subList(startIndex, endIndex)
+                        .forEach(processor), Util.backgroundExecutor());
 
                 processes.add(future);
             }
 
-            processes.forEach(CompletableFuture::join);
+            try
+            {
+                CompletableFuture.allOf(processes.toArray(CompletableFuture[]::new)).get();
+            }
+            catch (InterruptedException | ExecutionException exception)
+            {
+                throw new RuntimeException(exception);
+            }
         }
         else
             results.forEach(processor);

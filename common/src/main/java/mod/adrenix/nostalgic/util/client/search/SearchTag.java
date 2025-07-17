@@ -2,8 +2,8 @@ package mod.adrenix.nostalgic.util.client.search;
 
 import mod.adrenix.nostalgic.tweak.factory.Tweak;
 import mod.adrenix.nostalgic.tweak.factory.TweakPool;
-import mod.adrenix.nostalgic.util.common.lang.Translation;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
+import mod.adrenix.nostalgic.util.common.lang.Translation;
 import mod.adrenix.nostalgic.util.common.text.TextUtil;
 import net.minecraft.ChatFormatting;
 
@@ -29,7 +29,7 @@ public enum SearchTag
 
     /* Fields */
 
-    final Map<String, Tweak<?>> map;
+    final Map<String, List<Tweak<?>>> map;
     final Predicate<Tweak<?>> predicate;
     final ChatFormatting color;
     final boolean recalculate;
@@ -94,11 +94,14 @@ public enum SearchTag
         if (!this.map.isEmpty())
             this.map.clear();
 
-        TweakPool.filter(this.predicate, Tweak::isNotIgnored)
-            .forEachOrdered(tweak -> this.map.put(tweak.getTranslation().getString().toLowerCase(), tweak));
+        TweakPool.filter(this.predicate, Tweak::isNotIgnored).forEachOrdered(tweak -> {
+            String key = tweak.getTranslation().getString().toLowerCase();
+
+            this.map.computeIfAbsent(key, str -> new ArrayList<>()).add(tweak);
+        });
     }
 
-    Map<String, Tweak<?>> getMap()
+    Map<String, List<Tweak<?>>> getMap()
     {
         if (this.recalculate)
             this.init();

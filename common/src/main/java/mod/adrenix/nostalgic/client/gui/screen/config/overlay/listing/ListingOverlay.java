@@ -247,6 +247,7 @@ public interface ListingOverlay<V, L extends Listing<V, L>>
         HashMap<Pair<String, V>, String> localized = this.getLocalizedEntries(this.getEntries());
 
         this.getWidgets().rowList.clear();
+        this.getWidgets().database.clear();
 
         localized.entrySet()
             .stream()
