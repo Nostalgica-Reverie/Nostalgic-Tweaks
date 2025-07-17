@@ -213,7 +213,7 @@ public class ListingWidgets<V, L extends Listing<V, L>>
      */
     public void findAndHighlight(String string, boolean smoothScroll)
     {
-        AbstractRow<?, ?> row = this.database.getFromDatabase(string);
+        AbstractRow<?, ?> row = this.database.getFirstResult(string);
 
         if (row == null)
             return;

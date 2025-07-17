@@ -1,5 +1,10 @@
 package mod.adrenix.nostalgic.util.client.search;
 
+import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
+import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +24,7 @@ public class GenericDatabase<T> extends Database<T>
      */
     public void put(String key, T value)
     {
-        this.map.put(key.toLowerCase(), value);
+        this.map.computeIfAbsent(key.toLowerCase(), str -> new UniqueArrayList<>()).add(value);
     }
 
     /**
@@ -31,15 +36,38 @@ public class GenericDatabase<T> extends Database<T>
     }
 
     /**
-     * @return A value from the database or {@code null} if nothing was found using the given key.
+     * Get the first value associated with the given database key.
+     *
+     * @param key The database string key.
+     * @return The first value from the database or {@code null} if nothing was found using the given key.
      */
-    public T getFromDatabase(String key)
+    @PublicAPI
+    @Nullable
+    public T getFirstResult(String key)
+    {
+        List<T> results = this.map.get(key.toLowerCase());
+
+        if (results.isEmpty())
+            return null;
+
+        return results.get(0);
+    }
+
+    /**
+     * Get all results associated with the given database key.
+     *
+     * @param key The database string key.
+     * @return All results from the database or {@code null} if nothing was found using the given key.
+     */
+    @PublicAPI
+    @Nullable
+    public List<T> getAllResults(String key)
     {
         return this.map.get(key.toLowerCase());
     }
 
     @Override
-    public Map<String, T> getDatabase()
+    public Map<String, List<T>> getDatabase()
     {
         return this.map;
     }
