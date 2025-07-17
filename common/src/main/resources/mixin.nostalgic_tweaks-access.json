@@ -10,6 +10,7 @@
     "DebugScreenOverlayAccess",
     "FpsDebugChartAccess",
     "GuiAccess",
+    "ImageButtonAccess",
     "LevelRendererAccess",
     "MusicManagerAccess",
     "PauseScreenAccess",

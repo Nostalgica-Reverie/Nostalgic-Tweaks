@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.helper.candy.screen.inventory;
 
 import mod.adrenix.nostalgic.mixin.access.AbstractContainerScreenAccess;
+import mod.adrenix.nostalgic.mixin.access.ImageButtonAccess;
 import mod.adrenix.nostalgic.mixin.access.ScreenAccess;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.enums.InventoryShield;
@@ -9,6 +10,7 @@ import mod.adrenix.nostalgic.util.common.asset.ModSprite;
 import mod.adrenix.nostalgic.util.common.asset.TextureLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -85,10 +87,12 @@ public abstract class InventoryScreenHelper
      */
     private static ImageButton getLargeBook(AbstractContainerScreenAccess inventory, ImageButton original)
     {
-        return new ImageButton(inventory.nt$getLeftPos() + 151, inventory.nt$getTopPos() + 7, 18, 18, LARGE_RECIPE_BUTTON, (button) -> {
+        Button.OnPress onPress = button -> {
             original.onPress();
             button.setPosition(inventory.nt$getLeftPos() + 151, inventory.nt$getTopPos() + 7);
-        });
+        };
+
+        return new ImageButton(inventory.nt$getLeftPos() + 151, inventory.nt$getTopPos() + 7, 18, 18, LARGE_RECIPE_BUTTON, onPress);
     }
 
     /**
@@ -100,19 +104,21 @@ public abstract class InventoryScreenHelper
      */
     private static ImageButton getSmallBook(AbstractContainerScreenAccess inventory, ImageButton original)
     {
-        return new ImageButton(inventory.nt$getLeftPos() + 160, inventory.nt$getTopPos() + 7, 9, 10, SMALL_RECIPE_BUTTON, (button) -> {
+        Button.OnPress onPress = button -> {
             original.onPress();
             button.setPosition(inventory.nt$getLeftPos() + 160, inventory.nt$getTopPos() + 7);
-        });
+        };
+
+        return new ImageButton(inventory.nt$getLeftPos() + 160, inventory.nt$getTopPos() + 7, 9, 10, SMALL_RECIPE_BUTTON, onPress);
     }
 
     /**
      * Set the inventory screen's recipe button to use.
      *
      * @param inventory The inventory {@link AbstractContainerScreenAccess} instance.
-     * @param book      The {@link RecipeBook} value to use.
+     * @param bookType  The {@link RecipeBook} value to use.
      */
-    public static void setRecipeButton(AbstractContainerScreenAccess inventory, RecipeBook book)
+    public static void setRecipeButton(AbstractContainerScreenAccess inventory, RecipeBook bookType)
     {
         ImageButton recipeButton = null;
         Screen screen = Minecraft.getInstance().screen;
@@ -124,15 +130,18 @@ public abstract class InventoryScreenHelper
         {
             if (widget instanceof ImageButton button)
             {
-                recipeButton = button;
-                break;
+                if (((ImageButtonAccess) button).nt$getSprites().equals(RecipeBookComponent.RECIPE_BUTTON_SPRITES))
+                {
+                    recipeButton = button;
+                    break;
+                }
             }
         }
 
         if (recipeButton == null)
             return;
 
-        switch (book)
+        switch (bookType)
         {
             case DISABLED ->
             {
