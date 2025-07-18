@@ -61,7 +61,7 @@ public abstract class ItemHelper
             double y = (double) ((float) entity.getY() + 0.01F) + Mth.nextDouble(level.random, -0.04, 0.04) - (double) EntityType.ITEM.getHeight() / 2.0F;
             double z = (double) ((float) entity.getZ() + 0.01F) + Mth.nextDouble(level.random, -0.04, 0.04);
 
-            ItemEntity itemEntity = new ItemEntity(level, x, y, z, entity.getItem());
+            ItemEntity itemEntity = new ItemEntity(level, x, y, z, entity.getItem().copy());
 
             itemEntity.setDefaultPickUpDelay();
             consumer.accept(itemEntity);
