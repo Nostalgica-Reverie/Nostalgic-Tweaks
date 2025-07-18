@@ -148,7 +148,6 @@
   ],
   "mixins": [
     "animation.player.PlayerMixin",
-    "candy.item_merge.BlockMixin",
     "candy.item_merge.ItemEntityMixin",
     "candy.item_merge.LivingEntityMixin",
     "candy.old_hud.PlayerAdvancementsMixin",

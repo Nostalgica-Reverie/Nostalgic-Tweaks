@@ -15,6 +15,7 @@
     "candy.world_fog.FogRendererMixin"
   ],
   "mixins": [
+    "candy.item_merge.BlockMixin",
     "gameplay.food_health.PlayerMixin",
     "gameplay.mechanics_farming.BoneMealItemMixin",
     "gameplay.mob_ai.RangedBowAttackGoalMixin"

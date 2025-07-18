@@ -49,7 +49,7 @@ public abstract class ItemHelper
     {
         int count = entity.getItem().getCount();
 
-        if (!CandyTweak.OLD_ITEM_MERGING.get() || CandyTweak.ITEM_MERGE_LIMIT.get() <= count)
+        if (CandyTweak.ITEM_MERGE_LIMIT.get() <= count)
             return;
 
         entity.getItem().setCount(1);
