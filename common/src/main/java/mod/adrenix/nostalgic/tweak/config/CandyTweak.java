@@ -499,7 +499,7 @@ public interface CandyTweak
 
     TweakEnum<Weather> WEATHER_TYPE = TweakEnum.client(Weather.BIOME, CandyGroup.WORLD_WEATHER).newForUpdate().whenDisabled(Weather.BIOME).build();
     TweakFlag ALWAYS_RENDER_WEATHER = TweakFlag.client(false, CandyGroup.WORLD_WEATHER).newForUpdate().build();
-    TweakFlag PREVENT_WEATHER_INFLUENCE = TweakFlag.client(false, CandyGroup.WORLD_WEATHER).newForUpdate().build();
+    TweakFlag PREVENT_WEATHER_INFLUENCE = TweakFlag.client(false, CandyGroup.WORLD_WEATHER).newForUpdate().reloadChunks().build();
     TweakBinding TOGGLE_WEATHER_BINDING = TweakBinding.client(-1, CandyGroup.WORLD_WEATHER, KeybindingId.TOGGLE_WEATHER).newForUpdate().build();
 
     // Void Sky
