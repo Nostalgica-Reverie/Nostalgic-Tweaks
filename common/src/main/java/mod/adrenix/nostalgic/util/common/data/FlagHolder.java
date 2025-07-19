@@ -5,6 +5,7 @@ import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.function.Supplier;
 
 public class FlagHolder extends Holder<Boolean>
 {
@@ -101,6 +102,17 @@ public class FlagHolder extends Holder<Boolean>
     }
 
     /**
+     * Enable this flag, if and only if, the given supplier yields {@code true}.
+     *
+     * @param supplier A {@link Supplier} that provides a flag state.
+     */
+    public void enableIf(Supplier<Boolean> supplier)
+    {
+        if (supplier.get())
+            this.set(true);
+    }
+
+    /**
      * Disable this flag which will set the holder value to {@code false}.
      */
     public void disable()
@@ -109,7 +121,18 @@ public class FlagHolder extends Holder<Boolean>
     }
 
     /**
-     * @return Whether the holder was enabled.
+     * Disable this flag, if and only if, the given supplier yields {@code false}.
+     *
+     * @param supplier A {@link Supplier} that provides a flag state.
+     */
+    public void disableIf(Supplier<Boolean> supplier)
+    {
+        if (supplier.get())
+            this.set(false);
+    }
+
+    /**
+     * @return Whether the holder was disabled.
      */
     @PublicAPI
     public boolean ifDisabledThenEnable()
@@ -125,7 +148,7 @@ public class FlagHolder extends Holder<Boolean>
     }
 
     /**
-     * @return Whether the holder was disabled.
+     * @return Whether the holder was enabled.
      */
     @PublicAPI
     public boolean ifEnabledThenDisable()
