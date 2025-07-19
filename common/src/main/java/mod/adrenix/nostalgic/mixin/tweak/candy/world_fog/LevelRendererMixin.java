@@ -1,12 +1,14 @@
 package mod.adrenix.nostalgic.mixin.tweak.candy.world_fog;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import mod.adrenix.nostalgic.helper.candy.level.fog.FogHelper;
 import mod.adrenix.nostalgic.helper.candy.level.fog.OverworldFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.VoidFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.WaterFogRenderer;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import mod.adrenix.nostalgic.tweak.enums.WorldFog;
+import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.client.GameUtil;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -112,5 +114,17 @@ public abstract class LevelRendererMixin
             return;
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    /**
+     * Checks if Sodium is getting ready to mess with the fog.
+     */
+    @Inject(
+        method = "renderClouds",
+        at = @At("HEAD")
+    )
+    private void nt_world_fog$sodiumCheckOnRenderClouds(CallbackInfo callback)
+    {
+        FogHelper.SODIUM_CLOUDS.enableIf(ModTracker.SODIUM::isInstalled);
     }
 }

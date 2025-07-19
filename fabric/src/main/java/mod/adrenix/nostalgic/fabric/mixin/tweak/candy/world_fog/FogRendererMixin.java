@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.fabric.mixin.tweak.candy.world_fog;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import mod.adrenix.nostalgic.helper.candy.level.fog.FogHelper;
 import mod.adrenix.nostalgic.helper.candy.level.fog.OverworldFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.VoidFogRenderer;
 import mod.adrenix.nostalgic.helper.candy.level.fog.WaterFogRenderer;
@@ -39,7 +40,7 @@ public abstract class FogRendererMixin
     )
     private static void nt_fabric_world_fog$onFinishSetup(Camera camera, FogRenderer.FogMode fogMode, float farPlaneDistance, boolean shouldCreateFog, float partialTick, CallbackInfo callback)
     {
-        if (!ModTweak.ENABLED.get())
+        if (!ModTweak.ENABLED.get() || FogHelper.SODIUM_CLOUDS.ifEnabledThenDisable())
             return;
 
         OverworldFogRenderer.setupFog(camera, fogMode, RenderSystem::getShaderFogStart, RenderSystem::getShaderFogEnd, RenderSystem::setShaderFogShape, RenderSystem::setShaderFogStart, RenderSystem::setShaderFogEnd);
