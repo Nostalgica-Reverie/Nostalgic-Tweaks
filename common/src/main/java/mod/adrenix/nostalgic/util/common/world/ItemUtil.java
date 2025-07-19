@@ -211,7 +211,7 @@ public abstract class ItemUtil
     @PublicAPI
     public static boolean isDamageable(ItemStack itemStack)
     {
-        return itemStack.isDamageableItem();
+        return itemStack.isDamageableItem() || itemStack.isBarVisible();
     }
 
     /**
