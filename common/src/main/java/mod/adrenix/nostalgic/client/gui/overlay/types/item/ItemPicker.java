@@ -312,7 +312,7 @@ public class ItemPicker
         else if (this.rules.contains(ItemRule.ONLY_EDIBLES))
             this.items.addAll(items.filter(Item::isEdible).map(Item::getDefaultInstance).toList());
         else if (this.rules.contains(ItemRule.ONLY_DAMAGEABLE))
-            this.items.addAll(items.filter(Item::canBeDepleted).map(Item::getDefaultInstance).toList());
+            this.items.addAll(items.filter(ItemUtil::isDamageable).map(Item::getDefaultInstance).toList());
         else
         {
             items.forEach(item -> {
@@ -322,7 +322,7 @@ public class ItemPicker
                 boolean areItemsFiltered = ItemFilter.isItemLike(item) && this.rules.contains(ItemRule.NO_ITEMS);
                 boolean areBlocksFiltered = ItemFilter.isBlockLike(item) && this.rules.contains(ItemRule.NO_BLOCKS);
                 boolean areEdiblesFiltered = item.isEdible() && this.rules.contains(ItemRule.NO_EDIBLES);
-                boolean areDamageableFiltered = item.canBeDepleted() && this.rules.contains(ItemRule.INVINCIBLE);
+                boolean areDamageableFiltered = ItemUtil.isDamageable(item) && this.rules.contains(ItemRule.INVINCIBLE);
                 boolean isFiltered = areToolsFiltered || areItemsFiltered || areBlocksFiltered || areEdiblesFiltered || areDamageableFiltered;
 
                 if (!isFiltered)

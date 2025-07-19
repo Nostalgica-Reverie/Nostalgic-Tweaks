@@ -9,6 +9,7 @@ import mod.adrenix.nostalgic.util.common.color.Gradient;
 import mod.adrenix.nostalgic.util.common.data.Holder;
 import mod.adrenix.nostalgic.util.common.function.BooleanConsumer;
 import mod.adrenix.nostalgic.util.common.world.ItemFilter;
+import mod.adrenix.nostalgic.util.common.world.ItemUtil;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -95,7 +96,7 @@ public class FilterOverlay
         boolean isItemFiltered = ItemFilter.isItemLike(item) && this.items.get();
         boolean isBlockFiltered = ItemFilter.isBlockLike(item) && this.blocks.get();
         boolean isEdibleFiltered = item.isEdible() && this.edibles.get();
-        boolean isInvincibleFiltered = item.canBeDepleted() && this.invincible.get();
+        boolean isInvincibleFiltered = ItemUtil.isDamageable(item) && this.invincible.get();
 
         return isToolFiltered || isItemFiltered || isBlockFiltered || isEdibleFiltered || isInvincibleFiltered;
     }
