@@ -87,6 +87,7 @@
     "candy.old_hud.ClientAdvancementsMixin",
     "candy.old_hud.ClientPacketListenerMixin",
     "candy.old_hud.GuiMixin",
+    "candy.old_hud.MinecraftMixin",
     "candy.old_hud.TutorialMixin",
     "candy.particle_engine.ParticleEngineMixin",
     "candy.player_particles.ClientLevelMixin",
