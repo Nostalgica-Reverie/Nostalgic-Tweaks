@@ -14,5 +14,6 @@ libs/
 classes/
 .metadata
 .vscode
+.idea
 .settings
 *.launch
