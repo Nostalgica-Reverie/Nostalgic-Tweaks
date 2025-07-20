@@ -1,36 +1,50 @@
 # Nostalgic Tweaks 1.21(.1) (NeoForge/Fabric) Changelog
 
-## 2.0.0-beta.920
+## 2.0.0-beta920
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements.
 
-### 2.0.0-beta920 (indev.2)
-
+- Fixed crash with Create 0.6+ and Flywheel 1.0+
+    - Create 0.5.x and Flywheel 0.6.x still work with this version of the mod.
+- Fixed the `Old World Fog` tweak not applying its disabled value when disabled.
+- Fixed the `Stamina Bar` on the HUD not working with mods like Raised on NeoForge.
 - Fixed most old HUD mod conflicts on NeoForge.
 - Fixed uncap title screens FPS not letting in-level FPS go below 60.
+- Fixed old item merging tweak not working correctly with some mods.
+- Fixed inventory screen incompatibility with the Doctor Who Regeneration mod.
+- Fixed food being consumed when the player appears to have full health when instant eat is enabled.
+- Fixed food not triggering their effects on the player when instant eat is enabled.
+- Fixed food items not returning their finish items, like bowls, when instant eat is enabled.
+- Fixed social interactions toast appearing when the hide tutorial toasts tweak is enabled.
 - Fixed old animal spawning overriding spawn mechanics of some modern creatures.
-- Improved old animal spawning mechanics to better simulate how it was in alpha/beta.
-- Added `Old Animal Spawn List` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
-- Added `Keep Baby Animals` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
-- Added `Immediate Orb Pickup` tweak in `Gameplay > Experience System > Experience Orbs`.
-
-#### Changes from last indev release:
-
-- Fixed startup crash for dedicated servers.
-- Added a falling block logo scaling slider to the editor screen.
-    - This will not break any logo configs made in the last indev release.
-
-### 2.0.0-beta920 (indev.1)
-
-- Added tweak support for Create 0.6+ and Flywheel 1.0+.
-    - Added tweak support when Create/Flywheel is installed with Sodium.
-- Fixed the `Old World Fog` tweak not applying its disabled value when disabled.
-- Fixed the `Stamina Bar` on the HUD not working with mods like Raised on Forge/NeoForge.
 - Potentially fixed a crash with Immersive Portals mod in during a singleplayer local server session.
 - Made `StaminaData` methods public so other mods can change player stamina.
 - Updated tweak category icons to better match the mod's icon theming.
+- Improved old animal spawning mechanics to better simulate how it was in alpha/beta.
+- Reduced logging output when the game starts.
+- Added `Top Center` as a now corner option for all alternative text tweaks.
+- Added `Show Only In Inventory` for alternative hunger and experience text tweaks.
+- Added `Old Animal Spawn List` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
+- Added `Keep Baby Animals` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
+- Added `Ignore Animal Biome Restrictions` tweak in `Gameplay > Mob System > Animals > Spawn Rules`.
+- Added `Immediate Orb Pickup` tweak in `Gameplay > Experience System > Experience Orbs`.
 - Added `Custom Falling Logo Animation` editor and tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
 - Added `Splash Text Horizontal & Vertical Offset` slider tweaks in `Eye Candy > Interface Candy > Title Screen > Logo`.
+- Added `Click On Logo to Toggle` tweak in `Eye Candy > Interface Candy > Title Screen > Logo`.
+- Added `Ignored Durability Colors` list tweak in `Eye Candy > Item Candy > Item Display`.
+- Added `Prevent Instant Eat Effects` tweak in `Gameplay > Hunger System > Food`.
+- Added `Ignored Edibles` list tweak in `Gameplay > Hunger System > Food`.
+- Added new weather tweaks in `Eye Candy > World Candy > Weather`.
+    - Added `Always Render Weather`.
+    - Added `Prevent Weather Influence`.
+    - Added `Toggle Weather`, which is a hotkey for quickly toggling the `Always Render Weather` tweak.
+    - Added `Weather Type`, which changes the precipitation that renders when the `Always Render Weather` tweak is on.
+- Added stamina bar highlighting and flashing options in `Eye Candy > Interface Candy > Heads-up Display > Stamina Bar`.
+    - Added `Highlight Stamina Bar`.
+    - Added `Flash Stamina Bar When Full`.
+    - Added `Flash Stamina Bar At`, define to flash when player stamina depletes to the amount defined by the tweak.
+- Added `Move System Messages to Chat` in `Eye Candy > Interface Candy > Heads-up Display`.
+- Added `Blink Hearts on Instant Eat` in `Eye Candy > Interface Candy > Heads-up Display`.
 
 ## 2.0.0-beta910
 
