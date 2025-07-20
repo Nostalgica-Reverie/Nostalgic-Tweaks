@@ -30,7 +30,7 @@ public abstract class StaminaRenderer
     /**
      * A timer for fully refilled stamina flash delay.
      */
-    public static final FlagTimer FULL_FLASH_TIMER = FlagTimer.create(250, TimeUnit.MILLISECONDS)
+    public static final FlagTimer FULL_FLASH_TIMER = FlagTimer.create(150, TimeUnit.MILLISECONDS)
         .maxRepeat(4)
         .startWith(true)
         .build();
@@ -38,7 +38,7 @@ public abstract class StaminaRenderer
     /**
      * A timer for low stamina flash delay.
      */
-    public static final FlagTimer LOW_FLASH_TIMER = FlagTimer.create(250, TimeUnit.MILLISECONDS)
+    public static final FlagTimer LOW_FLASH_TIMER = FlagTimer.create(200, TimeUnit.MILLISECONDS)
         .startWith(true)
         .build();
 
