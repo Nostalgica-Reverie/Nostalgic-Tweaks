@@ -6,6 +6,7 @@ This update fixes reported issues, adds new tweaks, and includes general mod imp
 
 - Fixed crash with Create 0.6+ and Flywheel 1.0+
     - Create 0.5.x and Flywheel 0.6.x still work with this version of the mod.
+- Fixed modern fog being broken when Sodium is installed.
 - Fixed the `Old World Fog` tweak not applying its disabled value when disabled.
 - Fixed the `Stamina Bar` on the HUD not working with mods like Raised on NeoForge.
 - Fixed most old HUD mod conflicts on NeoForge.
