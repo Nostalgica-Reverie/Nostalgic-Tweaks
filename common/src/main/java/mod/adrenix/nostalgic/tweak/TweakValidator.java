@@ -89,9 +89,9 @@ public class TweakValidator
             throw new LoaderException(new Throwable(THROW_REASON));
 
         if (this.internal)
-            NostalgicTweaks.LOGGER.info("[Config Validator] Scanning default %s...", config.getSimpleName());
+            NostalgicTweaks.LOGGER.debug("[Config Validator] Scanning default %s...", config.getSimpleName());
         else
-            NostalgicTweaks.LOGGER.info("[Config Validator] Scanning loaded %s...", config.getSimpleName());
+            NostalgicTweaks.LOGGER.debug("[Config Validator] Scanning loaded %s...", config.getSimpleName());
 
         if (config.equals(ClientConfig.class))
             TweakPool.values().forEach(this::validate);
@@ -124,14 +124,14 @@ public class TweakValidator
     }
 
     /**
-     * Output an informative message to the game's console.
+     * Output a debug message to the game's console.
      *
-     * @param message The info message.
+     * @param message The debug message.
      * @param args    A varargs list of arguments.
      */
-    public void info(String message, Object... args)
+    public void debug(String message, Object... args)
     {
-        NostalgicTweaks.LOGGER.info("[Config Validator] " + message, args);
+        NostalgicTweaks.LOGGER.debug("[Config Validator] " + message, args);
     }
 
     /**

@@ -69,7 +69,7 @@ abstract class ListingValidator
         }
 
         if (validator.ok())
-            validator.info("%s was successfully validated with %s entries", tweak, map.size());
+            validator.debug("%s was successfully validated with %s entries", tweak, map.size());
 
         return hasNotChanged;
     }
@@ -95,7 +95,7 @@ abstract class ListingValidator
             return false;
 
         if (validator.ok())
-            validator.info("%s was successfully validated with %s entries", tweak, set.size());
+            validator.debug("%s was successfully validated with %s entries", tweak, set.size());
 
         return true;
     }
