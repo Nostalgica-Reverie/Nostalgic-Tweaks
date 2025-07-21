@@ -64,6 +64,9 @@ public class CaveSoundManager
      */
     public void tickAndPlayIfPossible(BlockPos blockPos)
     {
+        if (this.level.dimensionType().hasCeiling() || !this.level.dimensionType().hasSkyLight())
+            return;
+
         if (this.tickCountdown > 0)
             this.tickCountdown--;
 
