@@ -1,5 +1,12 @@
 # Nostalgic Tweaks 1.21(.1) (NeoForge/Fabric) Changelog
 
+## 2.0.0-beta921
+
+This update fixes a crash and a reported issue.
+
+- Fixed crash when entering dimensions like The End or the Aether with `Old Animal Spawning` enabled.
+- Fixed old cave sounds playing in dimensions with no sky light like The End.
+
 ## 2.0.0-beta920
 
 This update fixes reported issues, adds new tweaks, and includes general mod improvements.
