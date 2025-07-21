@@ -112,6 +112,9 @@ public abstract class AnimalSpawnHelper
 
         BlockPos blockPos = getRandomPosWithin(level, chunk);
 
+        if (blockPos.getY() < level.getMinBuildHeight() + 1)
+            return;
+
         WeightedRandomList<MobSpawnSettings.SpawnerData> creatures = level.getBiomeManager()
             .getBiome(blockPos)
             .value()
@@ -219,7 +222,7 @@ public abstract class AnimalSpawnHelper
         int x = chunkPos.getMinBlockX() + level.random.nextInt(16);
         int z = chunkPos.getMinBlockZ() + level.random.nextInt(16);
         int height = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + 1;
-        int y = Mth.randomBetweenInclusive(level.random, level.getMinBuildHeight() + 1, height);
+        int y = Mth.randomBetweenInclusive(level.random, level.getMinBuildHeight(), height);
 
         return new BlockPos(x, y, z);
     }
