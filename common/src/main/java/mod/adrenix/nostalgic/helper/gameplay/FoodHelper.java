@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.helper.gameplay;
 
 import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
+import mod.adrenix.nostalgic.util.common.world.ItemUtil;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -16,6 +17,9 @@ public abstract class FoodHelper
      */
     public static boolean isInstantaneousEdible(ItemStack itemStack)
     {
+        if (!ItemUtil.isEdible(itemStack))
+            return false;
+
         return GameplayTweak.INSTANT_EAT.get() && !GameplayTweak.IGNORED_EDIBLES.get().containsItem(itemStack);
     }
 }
