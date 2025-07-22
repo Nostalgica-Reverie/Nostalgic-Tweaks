@@ -33,6 +33,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.*;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.network.chat.Component;
@@ -180,7 +181,7 @@ public abstract class GuiListener
         if (screen instanceof DynamicScreen<?> || screen instanceof Overlay)
             GuiUtil.renderDebug(graphics);
 
-        if (screen instanceof InventoryScreen)
+        if (screen instanceof InventoryScreen || screen instanceof CreativeModeInventoryScreen)
             renderTextOverlay(graphics, true);
 
         RenderUtil.flush();
