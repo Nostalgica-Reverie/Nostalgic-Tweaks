@@ -127,6 +127,7 @@
     "gameplay.combat_player.ItemInHandRendererMixin",
     "gameplay.combat_player.MinecraftMixin",
     "gameplay.combat_player.PlayerItemInHandLayerMixin",
+    "gameplay.food_health.LocalPlayerMixin",
     "gameplay.food_health.MinecraftMixin",
     "gameplay.mechanics_boat.LocalPlayerMixin",
     "gameplay.mechanics_minecart.EntityMixin",
