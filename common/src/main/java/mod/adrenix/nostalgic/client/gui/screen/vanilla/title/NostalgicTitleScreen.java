@@ -7,7 +7,6 @@ import mod.adrenix.nostalgic.client.gui.screen.DynamicScreen;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.FallingBlockRenderer;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.config.FallingBlockConfig;
 import mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.text.FallingBlockText;
-import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
 import mod.adrenix.nostalgic.mixin.access.TitleScreenAccess;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
@@ -17,7 +16,6 @@ import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.timer.PartialTick;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
-import mod.adrenix.nostalgic.util.common.data.NullableAction;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.Minecraft;
@@ -44,10 +42,10 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
 
     private FallingBlockRenderer blockLogo;
     private final LogoRenderer imageLogo;
+    private final UniqueArrayList<DynamicWidget<?, ?>> empty;
     private final UniqueArrayList<DynamicWidget<?, ?>> widgets;
     private final TitleWidgets titleWidgets;
     private final TitleScreenAccess titleAccess;
-    private BlankWidget titleRegion;
     private boolean isLayoutSet;
 
     /* Constructor */
@@ -57,6 +55,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
      */
     public NostalgicTitleScreen()
     {
+        this.empty = new UniqueArrayList<>();
         this.widgets = new UniqueArrayList<>();
         this.titleWidgets = new TitleWidgets(this);
         this.blockLogo = new FallingBlockRenderer();
@@ -128,19 +127,9 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
         super.init();
 
         if (this.getLayout() != TitleLayout.MODERN)
-        {
             this.clearWidgets();
-            this.titleWidgets.init();
-        }
 
-        this.titleRegion = BlankWidget.create()
-            .posY(16)
-            .widthOfScreen(0.75F)
-            .centerInScreenX()
-            .noClickSound()
-            .height(this.titleWidgets.getY() - 24)
-            .onPress(this::switchLogo)
-            .build(this::addWidget);
+        this.titleWidgets.init();
 
         for (Renderable widget : this.renderables)
         {
@@ -191,7 +180,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
     @Override
     public List<? extends GuiEventListener> children()
     {
-        return this.getLayout() == TitleLayout.MODERN ? this.children : this.widgets;
+        return this.getLayout() == TitleLayout.MODERN ? this.children : this.empty;
     }
 
     /**
@@ -300,8 +289,6 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             graphics.drawString(this.font, memory, memX, 2, 0x808080);
             graphics.drawString(this.font, allocated, allX, GuiUtil.textHeight() + 3, 0x808080);
         }
-
-        NullableAction.attempt(this.titleRegion, blankWidget -> blankWidget.render(graphics, mouseX, mouseY, partialTick));
 
         if (this.getLayout() != TitleLayout.MODERN)
             DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);

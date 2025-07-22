@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.client.gui.screen.vanilla.title;
 
 import mod.adrenix.nostalgic.client.gui.screen.WidgetManager;
+import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.button.ButtonWidget;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.enums.TitleLayout;
@@ -48,12 +49,24 @@ class TitleWidgets implements WidgetManager
     @Override
     public void init()
     {
-        switch (this.titleScreen.getLayout())
+        if (this.titleScreen.getLayout() != TitleLayout.MODERN)
         {
-            case ALPHA -> this.setAlphaLayout();
-            case BETA -> this.setBetaLayout();
-            default -> this.setReleaseLayout();
+            switch (this.titleScreen.getLayout())
+            {
+                case ALPHA -> this.setAlphaLayout();
+                case BETA -> this.setBetaLayout();
+                default -> this.setReleaseLayout();
+            }
         }
+
+        BlankWidget.create()
+            .posY(16)
+            .widthOfScreen(0.75F)
+            .centerInScreenX()
+            .noClickSound()
+            .height(this.getY() - 24)
+            .onPress(this.titleScreen::switchLogo)
+            .build(this.titleScreen::addWidget);
     }
 
     /**
@@ -67,7 +80,7 @@ class TitleWidgets implements WidgetManager
     /**
      * @return The x-coordinate for all left-side buttons.
      */
-    int getX()
+    private int getX()
     {
         return this.titleScreen.width / 2 - 100;
     }
@@ -75,7 +88,7 @@ class TitleWidgets implements WidgetManager
     /**
      * @return The y-coordinate for all top buttons.
      */
-    int getY()
+    private int getY()
     {
         return this.titleScreen.height / 4 + 48 - (this.hasModsButton() ? 12 : 0);
     }
