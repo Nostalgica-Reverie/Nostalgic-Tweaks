@@ -1,0 +1,34 @@
+﻿modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "${mod_issues}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description = '''
+${mod_description}
+
+Donations: ${mod_donate}
+Discord: ${mod_discord}
+'''
+credits = "${mod_credits}"
+displayURL = "${mod_curse}"
+logoFile = "assets/nostalgic_tweaks/nt_logo.png"
+displayTest = "NONE"
+
+[[dependencies.nostalgic_tweaks]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neoforge_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.nostalgic_tweaks]]
+modId = "minecraft"
+type = "required"
+versionRange = "${neoforge_mc_version_range}"
+ordering = "NONE"
+side = "BOTH"
