@@ -41,6 +41,10 @@ repositories {
     maven("https://maven.terraformersmc.com/releases/") { name = "TerraformersMC" }
 }
 
+dependencies {
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+}
+
 tasks {
     processResources {
         val expandProps = mapOf(

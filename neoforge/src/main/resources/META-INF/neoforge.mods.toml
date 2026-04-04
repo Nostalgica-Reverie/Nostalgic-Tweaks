@@ -19,6 +19,12 @@ displayURL = "${mod_curse}"
 logoFile = "assets/nostalgic_tweaks/nt_logo.png"
 displayTest = "NONE"
 
+[[mixins]]
+config = "mixin.nostalgic_tweaks-access.json"
+
+[[mixins]]
+config = "mixin.nostalgic_tweaks-required.json"
+
 [[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required"

@@ -1,0 +1,15 @@
+{
+  "package": "mod.adrenix.nostalgic.mixin.access",
+  "compatibilityLevel": "JAVA_25",
+  "minVersion": "0.8",
+  "client": [
+    "ProgressScreenAccess",
+    "SelectWorldScreenAccess",
+    "TimerAccess",
+    "TitleScreenAccess",
+    "WorldListEntryAccess",
+    "WorldSelectionListAccess"
+  ],
+  "mixins": [
+  ]
+}

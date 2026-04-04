@@ -31,7 +31,10 @@
       "mod.adrenix.nostalgic.fabric.client.ModMenuIntegration"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "mixin.nostalgic_tweaks-access.json",
+    "mixin.nostalgic_tweaks-required.json"
+  ],
   "depends": {
     "fabric-api": ">=${fabric_api_version}",
     "minecraft": [
@@ -45,5 +48,6 @@
         "gui.nostalgic_tweaks.support": "${mod_donate}"
       }
     }
-  }
+  },
+  "accessWidener": "nostalgic_tweaks.accesswidener"
 }

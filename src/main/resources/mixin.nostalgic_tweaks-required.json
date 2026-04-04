@@ -1,0 +1,13 @@
+{
+  "package": "mod.adrenix.nostalgic.mixin.required",
+  "compatibilityLevel": "JAVA_25",
+  "minVersion": "0.8",
+  "client": [
+    "AbstractContainerEventHandlerMixin",
+    "ContainerEventHandlerMixin",
+    "NativeImageMixin",
+    "ScreenMixin"
+  ],
+  "mixins": [
+  ]
+}

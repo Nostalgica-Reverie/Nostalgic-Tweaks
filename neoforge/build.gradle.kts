@@ -4,6 +4,8 @@ plugins {
 }
 
 loom {
+    accessWidenerPath = project(":").loom.accessWidenerPath
+
     runConfigs.all {
         ideConfigGenerated(true)
         runDir = "../run"
@@ -15,7 +17,7 @@ dependencies {
     neoForge("net.neoforged:neoforge:${rootProject.mod.prop("neoforge_version")}")
 }
 
-//loom.convertAw2At(tasks.named("jar"), ["nostalgic_tweaks.accesswidener"])
+loom.convertAw2At(tasks.jar, listOf("nostalgic_tweaks.accesswidener"))
 
 /*
 publishMods {
