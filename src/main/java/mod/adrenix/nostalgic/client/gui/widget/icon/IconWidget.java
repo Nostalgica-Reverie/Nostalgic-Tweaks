@@ -274,8 +274,9 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             TextureLocation location = icon.getTextureLocation().get();
 
             graphics.pose().pushMatrix();
+            graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, location.location(), x, y, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height());
             graphics.pose().popMatrix();
 
             this.renderDebug(graphics);
@@ -288,9 +289,9 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             int height = icon.getHeight();
 
             graphics.pose().pushMatrix();
-            graphics.pose().translate(0.0F, 0.0F);
+            graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon.getSpriteLocation().get(), x, y, width, height);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon.getSpriteLocation().get(), 0, 0, width, height);
             graphics.pose().popMatrix();
 
             this.renderDebug(graphics);

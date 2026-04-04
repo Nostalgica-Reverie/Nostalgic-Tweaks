@@ -241,7 +241,7 @@ public abstract class DrawText {
             } else if (this.component != null) {
                 this.graphics.text(GuiUtil.font(), this.component, this.x, this.y, this.color, this.dropShadow);
             } else if (this.sequence != null) {
-                this.graphics.text(GuiUtil.font(), this.sequence, 0, 0, this.color, this.dropShadow);
+                this.graphics.text(GuiUtil.font(), this.sequence, this.x, this.y, this.color, this.dropShadow);
             }
 
             return this.x + textWidth;

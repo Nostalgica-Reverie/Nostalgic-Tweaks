@@ -183,10 +183,14 @@ public class HomeScreen extends EnhancedScreen<HomeScreen, HomeWidgets> {
 
         graphics.pose().popMatrix();
 
-        int width = (int) (TITLE_LOCATION.width() * titleScale);
-        int height = (int) (TITLE_LOCATION.height() * titleScale);
+        int width = TITLE_LOCATION.width();
+        int height = TITLE_LOCATION.height();
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TITLE_LOCATION.location(), titleX, titleY, 0.0F, 0.0F, width, height, width, height);
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(titleX, titleY);
+        graphics.pose().scale(titleScale, titleScale);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TITLE_LOCATION.location(), 0, 0, 0.0F, 0.0F, width, height, width, height);
+        graphics.pose().popMatrix();
 
         graphics.pose().pushMatrix();
         graphics.pose().translate(splashX, splashY);

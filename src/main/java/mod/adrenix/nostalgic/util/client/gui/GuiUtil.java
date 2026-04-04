@@ -309,11 +309,9 @@ public abstract class GuiUtil {
         boolean isDebugging = NostalgicTweaks.isDebugging();
         int width = isDebugging ? 27 : 30;
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(0.0F, 0.0F);
-
         graphics.fill(0, 0, width, ((textHeight() / 2) + 1) * 3, 0xA5000000);
 
+        graphics.pose().pushMatrix();
         graphics.pose().scale(0.5F, 0.5F);
         graphics.pose().translate(1.0F, 2.0F);
 

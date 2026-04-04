@@ -246,7 +246,7 @@ public class HomeWidgets implements WidgetManager {
 
         /* Mod Information */
 
-        String version = "v3.0.0";//NostalgicTweaks.getTinyVersion(); //TODO
+        String version = "3.0.0";//NostalgicTweaks.getTinyVersion(); //TODO
         String beta = "INDEV";//NostalgicTweaks.getBetaVersion(); //TODO
 
         TextWidget.create("Made by Adrenix\n" + "Version: v" + version + (beta.isEmpty() ? "" : "-" + beta))

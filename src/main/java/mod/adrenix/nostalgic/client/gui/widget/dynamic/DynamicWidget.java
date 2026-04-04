@@ -1145,14 +1145,9 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
         int endX = this.getEndX();
         int endY = this.getEndY();
 
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(0.0F, 0.0F);
-
         graphics.fill(startX, startY, endX, startY + 1, Color.RED.fromAlpha(0.4F).get());
         graphics.fill(endX - 1, startY + 1, endX, endY - 1, Color.PINK.fromAlpha(0.4F).get());
         graphics.fill(startX, startY + 1, startX + 1, endY - 1, Color.CYAN.fromAlpha(0.4F).get());
         graphics.fill(startX, endY - 1, endX, endY, Color.GREEN.fromAlpha(0.4F).get());
-
-        graphics.pose().popMatrix();
     }
 }
