@@ -1,4 +1,4 @@
-﻿modLoader = "javafml"
+modLoader = "javafml"
 loaderVersion = "[1,)"
 issueTrackerURL = "${mod_issues}"
 license = "${mod_license}"
@@ -19,14 +19,14 @@ displayURL = "${mod_curse}"
 logoFile = "assets/nostalgic_tweaks/nt_logo.png"
 displayTest = "NONE"
 
-[[dependencies.nostalgic_tweaks]]
+[[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required"
 versionRange = "${neoforge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.nostalgic_tweaks]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
 versionRange = "${neoforge_mc_version_range}"
