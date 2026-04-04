@@ -15,6 +15,7 @@ import mod.adrenix.nostalgic.util.common.asset.ModAsset;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -247,11 +248,10 @@ public class SupporterOverlay {
      * Stops the connection and builds the downloaded data into the row list on the main thread.
      */
     private void callback() {
-        //TODO
-//        RenderSystem.recordRenderCall(() -> {
-        this.build();
-        isConnecting = false;
-//        });
+        Minecraft.getInstance().execute(() -> {
+            this.build();
+            isConnecting = false;
+        });
     }
 
     /**
