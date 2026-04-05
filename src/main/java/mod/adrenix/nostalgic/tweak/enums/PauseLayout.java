@@ -1,14 +1,13 @@
 package mod.adrenix.nostalgic.tweak.enums;
 
-import mod.adrenix.nostalgic.util.common.lang.Translation;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
+import mod.adrenix.nostalgic.util.common.lang.Translation;
 
 /**
  * The pause layout enumeration is used by the pause layout tweak. That tweak changes the button layout of the game's
  * pause screen.
  */
-public enum PauseLayout implements EnumTweak
-{
+public enum PauseLayout implements EnumTweak {
     ALPHA_BETA(Lang.literal("§aAlpha§r - §eb1.4_01")),
     ACHIEVE_LOWER(Lang.literal("§eb1.5§r - §61.0")),
     ACHIEVE_UPPER(Lang.literal("§61.1§r - §61.2.5")),
@@ -18,14 +17,12 @@ public enum PauseLayout implements EnumTweak
 
     private final Translation title;
 
-    PauseLayout(Translation title)
-    {
+    PauseLayout(Translation title) {
         this.title = title;
     }
 
     @Override
-    public Translation getTitle()
-    {
+    public Translation getTitle() {
         return this.title;
     }
 }
