@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.client.gui.widget.scrollbar;
 
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
+import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.timer.PartialTick;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.data.CacheValue;
@@ -312,9 +313,9 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
             return false;
         else {
             this.isVertical();
-            if (false/*Screen.hasShiftDown()*/) //TODO
+            if (GuiUtil.hasShiftDown())
                 return false;
-            else if (this.isHorizontal() && true/*!Screen.hasShiftDown()*/) //TODO
+            else if (this.isHorizontal() && !GuiUtil.hasShiftDown())
                 return false;
         }
 

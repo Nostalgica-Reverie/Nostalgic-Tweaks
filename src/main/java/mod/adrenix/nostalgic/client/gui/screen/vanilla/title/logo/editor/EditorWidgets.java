@@ -36,6 +36,7 @@ import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import mod.adrenix.nostalgic.util.common.world.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Direction;
@@ -750,8 +751,8 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Check if a valid canvas tool is active and if the canvas is being mouse dragged.
      * <p>
-     * TODO
      *
+     * @param event The {@link MouseButtonEvent} of the mouse click.
      * @return Whether the canvas is being mouse dragged.
      */
     boolean isCanvasDragged(MouseButtonEvent event) {
@@ -857,8 +858,8 @@ public class EditorWidgets implements WidgetManager {
      *
      * @return Whether this manager handled the key press event.
      */
-    boolean keyPressed(int keyCode) {
-        return switch (keyCode) {
+    boolean keyPressed(KeyEvent event) {
+        return switch (event.key()) {
             case InputConstants.KEY_Q -> {
                 if (this.canvas.isFocused())
                     this.canvas.setOverrideFocused(false);
@@ -874,7 +875,7 @@ public class EditorWidgets implements WidgetManager {
                 yield true;
             }
             case InputConstants.KEY_Z -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     this.history.goBack();
                     yield true;
                 }
@@ -882,7 +883,7 @@ public class EditorWidgets implements WidgetManager {
                 yield false;
             }
             case InputConstants.KEY_Y -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     this.history.goForward();
                     yield true;
                 }
@@ -898,7 +899,7 @@ public class EditorWidgets implements WidgetManager {
                 yield true;
             }
             case InputConstants.KEY_S -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     if (this.editorScreen.hasChanges())
                         this.editorScreen.save();
                 } else
@@ -919,7 +920,7 @@ public class EditorWidgets implements WidgetManager {
                 yield true;
             }
             case InputConstants.KEY_O -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     Util.getPlatform().openFile(PathUtil.getLogoPath().toFile());
                     yield true;
                 }
@@ -927,7 +928,7 @@ public class EditorWidgets implements WidgetManager {
                 yield false;
             }
             case InputConstants.KEY_U -> {
-                if (false/*Screen.hasControlDown()*/) //TODO
+                if (event.hasControlDown())
                     this.uploadFileToCanvas();
                 else
                     this.soundToggle.runIfPossible(true);
@@ -935,7 +936,7 @@ public class EditorWidgets implements WidgetManager {
                 yield true;
             }
             case InputConstants.KEY_C -> {
-                if (false/*Screen.hasControlDown()*/) //TODO
+                if (event.hasControlDown())
                     this.copyCanvasToFile();
                 else
                     this.colorPicker.runIfPossible(false);
@@ -963,7 +964,7 @@ public class EditorWidgets implements WidgetManager {
                 yield true;
             }
             case InputConstants.KEY_EQUALS, InputConstants.KEY_ADD -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     this.scaleSlider.incrementIfPossible();
                     yield true;
                 }
@@ -971,7 +972,7 @@ public class EditorWidgets implements WidgetManager {
                 yield false;
             }
             case InputConstants.KEY_MINUS -> {
-                if (false/*Screen.hasControlDown()*/) { //TODO
+                if (event.hasControlDown()) {
                     this.scaleSlider.decrementIfPossible();
                     yield true;
                 }

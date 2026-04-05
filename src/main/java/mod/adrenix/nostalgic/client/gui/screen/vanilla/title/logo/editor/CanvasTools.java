@@ -84,8 +84,8 @@ public enum CanvasTools {
     /**
      * Cycle to the next canvas tool.
      * <p>
-     * TODO
      *
+     * @param input The {@link InputWithModifiers} instance for this input.
      * @return The next {@link CanvasTools} instance.
      */
     public static CanvasTools cycle(InputWithModifiers input) {

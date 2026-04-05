@@ -95,7 +95,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
      */
     @Override
     public boolean keyPressed(KeyEvent event) {
-        return this.editorWidgets.keyPressed(event.key()) || super.keyPressed(event);
+        return this.editorWidgets.keyPressed(event) || super.keyPressed(event);
     }
 
     /**

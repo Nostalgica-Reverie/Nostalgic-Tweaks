@@ -146,7 +146,7 @@ public abstract class Tooltip {
         tooltip.add(Lang.Tooltip.HIDE.withStyle(ChatFormatting.GRAY));
 
         if (Tooltip.info != null) {
-            if (false/*Screen.hasShiftDown()*/) { //TODO
+            if (GuiUtil.hasShiftDown()) {
                 tooltip.removeLast();
                 tooltip.addAll(Tooltip.info);
             } else
@@ -167,7 +167,7 @@ public abstract class Tooltip {
 
         boolean isNotManager = ClassUtil.isNotInstanceOf(screen, TooltipManager.class);
 
-        if (/*Screen.hasControlDown()*/false || isNotManager) { //TODO
+        if (GuiUtil.hasControlDown() || isNotManager) {
             if (isNotManager)
                 Tooltip.focused = null;
 

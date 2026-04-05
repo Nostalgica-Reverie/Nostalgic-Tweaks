@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.util.client.gui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.services.NostalgicServices;
@@ -11,11 +12,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.InputQuirks;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.Optional;
@@ -212,6 +215,51 @@ public abstract class GuiUtil {
         double scaledHeight = minecraft.mouseHandler.ypos() * (double) getGuiHeight();
 
         return (int) (scaledHeight / (double) minecraft.getWindow().getScreenHeight());
+    }
+
+    /**
+     * Checks if a given key is held down.
+     *
+     * @param key Key to check.
+     * @return Boolean on if the key is being held.
+     */
+    @PublicAPI
+    public static boolean isKeyDown(int key) {
+        return InputConstants.isKeyDown(getWindow(), key);
+    }
+
+    /**
+     * Checks if either of the Control (or Command on macOS) keys are being held.
+     *
+     * @return Boolean on if either of the keys are being held.
+     */
+    @PublicAPI
+    public static boolean hasControlDown() {
+        if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY) {
+            return isKeyDown(GLFW.GLFW_KEY_LEFT_SUPER) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SUPER);
+        } else {
+            return isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
+        }
+    }
+
+    /**
+     * Checks if either of the Shift keys are being held.
+     *
+     * @return Boolean on if either of the keys are being held.
+     */
+    @PublicAPI
+    public static boolean hasShiftDown() {
+        return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+    }
+
+    /**
+     * Checks if either of the Alt keys are being held.
+     *
+     * @return Boolean on if either of the keys are being held.
+     */
+    @PublicAPI
+    public static boolean hasAltDown() {
+        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
     }
 
     /* --- Components */
