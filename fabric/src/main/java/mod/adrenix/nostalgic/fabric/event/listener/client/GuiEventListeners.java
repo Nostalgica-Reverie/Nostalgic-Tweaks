@@ -5,7 +5,7 @@ import mod.adrenix.nostalgic.event.callback.client.GuiEventCallbacks;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screens.Screen;
 
-public class GuiEventListeners {
+public abstract class GuiEventListeners {
     /**
      * Registers the event listeners
      */
