@@ -7,7 +7,6 @@ import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
 import mod.adrenix.nostalgic.client.gui.widget.button.ButtonWidget;
 import mod.adrenix.nostalgic.client.gui.widget.list.RowList;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
-import mod.adrenix.nostalgic.util.client.renderer.InternetTexture;
 import mod.adrenix.nostalgic.util.common.LinkLocation;
 import mod.adrenix.nostalgic.util.common.ThreadMaker;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
@@ -38,7 +37,6 @@ public class SupporterOverlay {
     /* Static */
     static final HashSet<String> NAME_KEYS = new HashSet<>();
     static final HashMap<String, Color> NAMES = new HashMap<>();
-    static final HashMap<String, PlayerFace> FACES = new HashMap<>();
     /**
      * Version tracking for supporter json data. This will ensure the mod doesn't use a downloaded json that will not
      * work on this version of the mod.
@@ -151,21 +149,6 @@ public class SupporterOverlay {
                 isVersionWrong = true;
                 return;
             }
-
-            Map<String, GithubJson.Supporter> fromJson = cache.supporters;
-
-            for (Map.Entry<String, GithubJson.Supporter> supporter : fromJson.entrySet()) {
-                String name = supporter.getKey();
-                String uuid = supporter.getValue().uuid;
-
-                if (uuid == null)
-                    continue;
-
-                Identifier location = ModAsset.supporter(name);
-                InternetTexture texture = new InternetTexture(LinkLocation.getSupporterFace(uuid), location);
-
-                FACES.putIfAbsent(name, new PlayerFace(location, texture));
-            }
         } catch (Exception exception) {
             NostalgicTweaks.LOGGER.error("Could not gather needed supporter data\n%s", exception);
             isDataInvalid = true;
@@ -195,8 +178,6 @@ public class SupporterOverlay {
         cache = null;
         isVersionWrong = false;
         isDataInvalid = false;
-
-        FACES.clear();
 
         this.rowList.clear();
         this.connect();
@@ -268,8 +249,6 @@ public class SupporterOverlay {
     private void build() {
         if (cache == null || isVersionWrong || isDataInvalid)
             return;
-
-        FACES.forEach((username, face) -> face.register());
 
         for (Map.Entry<String, GithubJson.Supporter> entry : cache.supporters.entrySet())
             new SupporterRow(this, entry.getKey(), entry.getValue());

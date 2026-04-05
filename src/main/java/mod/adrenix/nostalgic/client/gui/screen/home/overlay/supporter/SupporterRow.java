@@ -1,9 +1,9 @@
 package mod.adrenix.nostalgic.client.gui.screen.home.overlay.supporter;
 
-import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.GearSpinner;
 import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
 import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
+import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicBuilder;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
 import mod.adrenix.nostalgic.client.gui.widget.icon.IconWidget;
 import mod.adrenix.nostalgic.client.gui.widget.list.Row;
@@ -14,7 +14,6 @@ import mod.adrenix.nostalgic.util.client.animate.Animation;
 import mod.adrenix.nostalgic.util.client.gui.DrawText;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.client.gui.LinkUtil;
-import mod.adrenix.nostalgic.util.client.renderer.InternetTexture;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.array.CycleIndex;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
@@ -25,14 +24,21 @@ import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.function.FloatSupplier;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.PlayerFaceExtractor;
+import net.minecraft.client.renderer.PlayerSkinRenderCache;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
+import net.minecraft.world.item.component.ResolvableProfile;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 class SupporterRow {
     /* Fields */
@@ -42,7 +48,7 @@ class SupporterRow {
     private final Row row;
     private final RowList rowList;
     private final Overlay overlay;
-    private final IconWidget face;
+    private final DynamicWidget<?, ?> face;
     private final PlayerText text;
     private final String name;
 
@@ -56,9 +62,30 @@ class SupporterRow {
         this.row = Row.create(overlay.rowList).build();
         this.widgets = new LinkedHashSet<>();
 
-        this.face = IconWidget.create(this::getFaceIcon)
-                .size(8)
-                .emptySize(8)
+        DynamicBuilder<?, ?> builder;
+
+        //TODO: tidy this up, and maybe move this (or parts of this) elsewhere?
+        if (supporter.uuid != null) {
+            BigInteger uuidVal = new BigInteger(supporter.uuid, 16);
+            long lsb = uuidVal.longValue();
+            long msb = uuidVal.shiftRight(Long.SIZE).longValue();
+
+            UUID playerUUID = new UUID(msb, lsb);
+
+            PlayerSkinRenderCache skinCache = Minecraft.getInstance().playerSkinRenderCache();
+            ResolvableProfile profile = ResolvableProfile.createUnresolved(playerUUID);
+            Supplier<PlayerSkinRenderCache.RenderInfo> renderInfo = skinCache.createLookup(profile);
+
+            builder = BlankWidget.create()
+                    .size(8)
+                    .renderer((widget, graphics, mouseX, mouseY, partialTick) ->
+                            PlayerFaceExtractor.extractRenderState(graphics, renderInfo.get().playerSkin(),
+                                    widget.getX(), widget.getY(), 8));
+        } else {
+            builder = IconWidget.create(Icons.STEVE).size(8).emptySize(8);
+        }
+
+        this.face = builder
                 .build(List.of(this.row::addWidget, this.widgets::add));
 
         this.text = new PlayerText(Holder.create(this.face), NullableHolder.empty(), NullableHolder.empty());
@@ -119,21 +146,6 @@ class SupporterRow {
                 .onPress(LinkUtil.onPress(link), Color.FRENCH_SKY_BLUE)
                 .useTextWidth(this.rowList::getRowEndX)
                 .build(List.of(this.row::addWidget, this.widgets::add));
-    }
-
-    /**
-     * @return The {@link TextureIcon} of a supporter's player-skin face.
-     */
-    private TextureIcon getFaceIcon() {
-        if (SupporterOverlay.FACES.containsKey(this.name)) {
-            try (InternetTexture face = SupporterOverlay.FACES.get(this.name).texture()) {
-                return face.getTextureLocation().map(TextureIcon::fromTexture).orElse(Icons.STEVE);
-            } catch (Exception exception) {
-                NostalgicTweaks.LOGGER.error("[Internet Texture] Could not retrieve texture\n%s", exception);
-            }
-        }
-
-        return Icons.STEVE;
     }
 
     /* Name Renderers */
