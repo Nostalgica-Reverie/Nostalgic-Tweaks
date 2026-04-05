@@ -169,13 +169,14 @@ public class NostalgicProgressScreen extends ProgressScreen implements ProgressL
         if (this.header == null && this.stage == null)
             return;
 
-        if (false/*CandyTweak.OLD_DIRT_SCREEN_BACKGROUND.get()*/) //TODO
-            GuiUtil.extractDirtBackground(graphics);
-        else {
-            this.extractPanorama(graphics, partialTick);
-            this.extractBlurredBackground(graphics);
-            this.extractMenuBackground(graphics);
-        }
+        //TODO, might be broken
+//        if (false/*CandyTweak.OLD_DIRT_SCREEN_BACKGROUND.get()*/) //TODO
+//            GuiUtil.extractDirtBackground(graphics);
+//        else {
+//            this.extractPanorama(graphics, partialTick);
+//            this.extractBlurredBackground(graphics);
+//            this.extractMenuBackground(graphics);
+//        }
 
         ProgressBarExtractor.extractProgressWithInt(graphics, this.progress);
 

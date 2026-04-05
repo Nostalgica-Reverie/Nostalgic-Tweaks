@@ -19,6 +19,8 @@ import net.minecraft.util.Util;
 import net.minecraft.world.level.storage.LevelSummary;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -78,7 +80,8 @@ class WorldRow extends AbstractRow<WorldRowMaker, WorldRow> {
 
         final Supplier<String> levelSize = this.getLevelSize.apply(this.summary);
         long lastPlayed = this.summary.getLastPlayed();
-        final String date = WorldSelectionList.DATE_FORMAT.format(Instant.ofEpochMilli(lastPlayed));
+        ZonedDateTime lastPlayedTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(lastPlayed), ZoneId.systemDefault());
+        final String date = WorldSelectionList.DATE_FORMAT.format(lastPlayedTime);
         final String unknown = Lang.Worlds.BETA_UNKNOWN_LAST_PLAYED.getString();
         final String time = String.format("%s (%s, ", this.summary.getLevelId(), lastPlayed != -1L ? date : unknown);
 

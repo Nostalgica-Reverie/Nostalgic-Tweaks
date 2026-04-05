@@ -315,8 +315,8 @@ public abstract class GuiUtil {
         graphics.pose().scale(0.5F, 0.5F);
         graphics.pose().translate(1.0F, 2.0F);
 
-        int nextX = DrawText.begin(graphics, "DEBUG: ").color(0xFFFF00).draw();
-        int color = isDebugging ? 0x00FF00 : 0xFF0000;
+        int nextX = DrawText.begin(graphics, "DEBUG: ").color(0xFFFFFF00).draw();
+        int color = isDebugging ? 0xFF00FF00 : 0xFFFF0000;
         String state = isDebugging ? "ON" : "OFF";
 
         DrawText.begin(graphics, state).posX(nextX).color(color).draw();

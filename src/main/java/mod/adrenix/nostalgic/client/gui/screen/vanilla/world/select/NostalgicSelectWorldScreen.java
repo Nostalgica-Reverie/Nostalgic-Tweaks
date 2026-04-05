@@ -239,8 +239,6 @@ public class NostalgicSelectWorldScreen extends SelectWorldScreen implements Dyn
         if (worldList != worldListAccess.nt$getCurrentlyDisplayedLevels())
             worldListAccess.nt$handleNewLevels(worldList);
 
-        this.extractBackground(graphics, mouseX, mouseY, partialTick);
-
         if (this.selectionList.children().contains(this.getAccessToSelectionList().nt$getLoadingHeader())) {
             int y = this.height / 2 - 20;
 

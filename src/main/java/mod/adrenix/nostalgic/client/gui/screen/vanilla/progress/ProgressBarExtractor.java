@@ -5,6 +5,7 @@ import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.LevelLoadTracker;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.progress.LevelLoadProgressTracker;
 
@@ -17,7 +18,7 @@ public abstract class ProgressBarExtractor {
      * @param width    The width of the current {@link Screen}.
      */
     public static void drawHeaderText(GuiGraphicsExtractor graphics, Component header, int width) {
-        graphics.centeredText(GuiUtil.font(), header, width / 2, GuiUtil.getGuiHeight() / 2 - 4 - 16, 16777215);
+        graphics.centeredText(GuiUtil.font(), header, width / 2, GuiUtil.getGuiHeight() / 2 - 4 - 16, 0xFFFFFFFF);
     }
 
     /**
@@ -28,7 +29,7 @@ public abstract class ProgressBarExtractor {
      * @param width    The width of the current {@link Screen}.
      */
     public static void drawStageText(GuiGraphicsExtractor graphics, Component stage, int width) {
-        graphics.centeredText(GuiUtil.font(), stage, width / 2, GuiUtil.getGuiHeight() / 2 - 4 + 8, 16777215);
+        graphics.centeredText(GuiUtil.font(), stage, width / 2, GuiUtil.getGuiHeight() / 2 - 4 + 8, 0xFFFFFFFF);
     }
 
     /**
@@ -36,10 +37,10 @@ public abstract class ProgressBarExtractor {
      * <p>
      *
      * @param graphics         A {@link GuiGraphicsExtractor} instance.
-     * @param progressListener A {@link LevelLoadProgressTracker} instance.
+     * @param progressListener A {@link LevelLoadTracker} instance.
      */
-    public static void extractProgressWithChunks(GuiGraphicsExtractor graphics, LevelLoadProgressTracker progressListener) {
-        ProgressBarExtractor.extract(graphics, (int) (progressListener.get() * 100.0F));
+    public static void extractProgressWithChunks(GuiGraphicsExtractor graphics, LevelLoadTracker progressListener) {
+        ProgressBarExtractor.extract(graphics, (int) (progressListener.serverProgress() * 100.0F));
     }
 
     /**
