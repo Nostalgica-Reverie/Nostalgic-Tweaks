@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.screen.home;
 
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.client.gui.screen.WidgetManager;
 import mod.adrenix.nostalgic.client.gui.screen.home.overlay.DebugOverlay;
 import mod.adrenix.nostalgic.client.gui.screen.home.overlay.SodiumOverlay;
@@ -257,6 +258,7 @@ public class HomeWidgets implements WidgetManager {
                 .centerInScreenX()
                 .fromScreenEndY(1)
                 .tabOrderGroup(tabOrder.getAndDecrement())
+                .hoverCursor(CursorTypes.POINTING_HAND) //TODO, maybe should be part of TextWidget?
                 .build(this.homeScreen::addWidget);
     }
 

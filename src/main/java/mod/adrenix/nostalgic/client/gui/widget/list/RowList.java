@@ -748,7 +748,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
 
         this.scrollbar.mouseClicked(event, doubleClick);
 
-        if (this.scrollbar.isDragging())
+        if (this.scrollbar.isMouseHeld())
             return true;
 
         if (this.isMouseOver(mouseX, mouseY)) {
@@ -802,9 +802,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
         double mouseX = event.x();
         double mouseY = event.y();
 
-        int button = event.button();
-
-        if (this.isInvalidPoint(mouseX, mouseY) && !this.scrollbar.isDragging())
+        if (this.isInvalidPoint(mouseX, mouseY) && !this.scrollbar.isMouseHeld())
             return false;
 
         if (this.scrollbar.mouseDragged(event, dragX, dragY))

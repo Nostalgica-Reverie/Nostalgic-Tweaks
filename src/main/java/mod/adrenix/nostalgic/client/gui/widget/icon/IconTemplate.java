@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.icon;
 
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
@@ -18,7 +19,11 @@ public abstract class IconTemplate {
      */
     @PublicAPI
     public static IconFactory button(TextureIcon icon, TextureIcon hover, TextureIcon pressed) {
-        return IconWidget.create(icon).hoverIcon(hover).disabledIcon(pressed).pressIcon(pressed);
+        return IconWidget.create(icon)
+                .hoverCursor(CursorTypes.POINTING_HAND)
+                .hoverIcon(hover)
+                .disabledIcon(pressed)
+                .pressIcon(pressed);
     }
 
     /**
@@ -33,7 +38,11 @@ public abstract class IconTemplate {
      */
     @PublicAPI
     public static IconFactory button(Supplier<TextureIcon> icon, Supplier<TextureIcon> hover, Supplier<TextureIcon> pressed) {
-        return IconWidget.create(icon).hoverIcon(hover).disabledIcon(pressed).pressIcon(pressed);
+        return IconWidget.create(icon)
+                .hoverCursor(CursorTypes.POINTING_HAND)
+                .hoverIcon(hover)
+                .disabledIcon(pressed)
+                .pressIcon(pressed);
     }
 
     /**
@@ -44,6 +53,7 @@ public abstract class IconTemplate {
     @PublicAPI
     public static IconFactory close() {
         return IconWidget.create(Icons.GENERIC_CLOSE)
+                .hoverCursor(CursorTypes.POINTING_HAND)
                 .hoverIcon(Icons.GENERIC_CLOSE_HOVER)
                 .disabledIcon(Icons.GENERIC_CLOSE_OFF)
                 .pressIcon(Icons.GENERIC_CLOSE_OFF);
@@ -57,6 +67,7 @@ public abstract class IconTemplate {
     @PublicAPI
     public static IconFactory info() {
         return IconWidget.create(Icons.GENERIC_INFO)
+                .hoverCursor(CursorTypes.POINTING_HAND)
                 .hoverIcon(Icons.GENERIC_INFO_HOVER)
                 .disabledIcon(Icons.GENERIC_INFO_OFF)
                 .pressIcon(Icons.GENERIC_INFO_OFF);
@@ -70,6 +81,7 @@ public abstract class IconTemplate {
     @PublicAPI
     public static IconFactory help() {
         return IconWidget.create(Icons.SMALL_INFO)
+                .hoverCursor(CursorTypes.POINTING_HAND)
                 .hoverIcon(Icons.SMALL_INFO_HOVER)
                 .disabledIcon(Icons.SMALL_INFO_OFF)
                 .pressIcon(Icons.SMALL_INFO_OFF);
@@ -83,6 +95,7 @@ public abstract class IconTemplate {
     @PublicAPI
     public static IconFactory menu() {
         return IconWidget.create(Icons.THREE_DOTS)
+                .hoverCursor(CursorTypes.POINTING_HAND)
                 .hoverIcon(Icons.THREE_DOTS_HOVER)
                 .disabledIcon(Icons.THREE_DOTS_OFF)
                 .pressIcon(Icons.THREE_DOTS_OFF);

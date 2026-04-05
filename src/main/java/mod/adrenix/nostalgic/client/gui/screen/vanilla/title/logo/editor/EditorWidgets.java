@@ -513,7 +513,7 @@ public class EditorWidgets implements WidgetManager {
      */
     @Override
     public void tick() {
-        if (this.scaling.isEmpty() || this.scaleSlider.isDragging())
+        if (this.scaling.isEmpty() || this.scaleSlider.isMouseHeld())
             return;
 
         if (this.scaling.getOrThrow().equals(this.history.peekLastOrFirst().scale))

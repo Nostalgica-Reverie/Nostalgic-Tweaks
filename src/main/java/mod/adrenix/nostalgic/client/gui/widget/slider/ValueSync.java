@@ -16,7 +16,7 @@ record ValueSync<Builder extends AbstractSliderMaker<Builder, Slider>, Slider ex
 
     @Override
     public void apply(Slider slider, Builder builder) {
-        if (!slider.dragging)
+        if (!slider.isMouseHeld())
             slider.setValue(slider.getValue());
 
         slider.applyTitle();

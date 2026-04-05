@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.scrollbar;
 
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicBuilder;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.LayoutBuilder;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.VisibleBuilder;
@@ -39,6 +40,9 @@ public class ScrollbarBuilder extends DynamicBuilder<ScrollbarBuilder, Scrollbar
         this.contentSize = contentSize;
         this.averageScrollAmount = averageScrollAmount;
         this.canFocus = BooleanSupplier.NEVER;
+
+        this.hoverCursor(CursorTypes.POINTING_HAND);
+        this.heldCursor(scrollbarType == ScrollbarType.VERTICAL ? CursorTypes.RESIZE_NS : CursorTypes.RESIZE_EW);
     }
 
     /* Methods */

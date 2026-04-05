@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.dynamic;
 
+import com.mojang.blaze3d.platform.cursor.CursorType;
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.MouseManager;
 import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
@@ -53,6 +54,11 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     protected boolean visible = true;
     protected boolean focused = false;
     protected boolean overrideFocus = false;
+    protected boolean mouseHeld = false;
+    @Nullable
+    protected CursorType hoverCursor;
+    @Nullable
+    protected CursorType heldCursor;
     @Nullable
     protected Screen screen;
 
@@ -426,6 +432,7 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        this.mouseHeld = this.isMouseOver(event.x(), event.y());
         return GuiEventListener.super.mouseClicked(event, doubleClick);
     }
 
@@ -438,6 +445,7 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      */
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+        this.mouseHeld = false;
         return GuiEventListener.super.mouseReleased(event);
     }
 
@@ -622,6 +630,14 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     @PublicAPI
     public boolean isUnfocused() {
         return !this.isFocused();
+    }
+
+    /**
+     * @return Whether the mouse is currently holding this scrollbar.
+     */
+    @PublicAPI
+    public boolean isMouseHeld() {
+        return this.mouseHeld;
     }
 
     /**
@@ -985,6 +1001,46 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     }
 
     /**
+     * Sets this widget's {@link CursorType} for hovering.
+     *
+     * @param cursorType The {@link CursorType} to set.
+     */
+    @PublicAPI
+    public void setHoverCursor(@Nullable CursorType cursorType) {
+        this.hoverCursor = cursorType;
+    }
+
+    /**
+     * Gets this widget's {@link CursorType} for hovering.
+     *
+     * @return This widget's {@link CursorType} for hovering.
+     */
+    @PublicAPI
+    public @Nullable CursorType getHoverCursor() {
+        return this.hoverCursor;
+    }
+
+    /**
+     * Sets this widget's {@link CursorType} for when the mouse is held.
+     *
+     * @param cursorType The {@link CursorType} to set.
+     */
+    @PublicAPI
+    public void setHeldCursor(@Nullable CursorType cursorType) {
+        this.heldCursor = cursorType;
+    }
+
+    /**
+     * Gets this widget's {@link CursorType} for when the mouse is held.
+     *
+     * @return This widget's {@link CursorType} for when the mouse is held.
+     */
+    @PublicAPI
+    public @Nullable CursorType getHeldCursor() {
+        return this.heldCursor;
+    }
+
+    /**
      * If the predicate was never set using the builder, then the current {@code visible} flag is returned.
      *
      * @return Whether the widget should be visible or invisible.
@@ -1069,6 +1125,16 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      */
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        //TODO, is this a good place to put the cursor changers?
+        if (this.isMouseOver(mouseX, mouseY)) {
+            //TODO: fix the mouse held logic. for some reason it only works sometimes,
+            //  and I don't know why.
+            if (this.mouseHeld && this.heldCursor != null) {
+                graphics.requestCursor(this.heldCursor);
+            } else if (this.hoverCursor != null) {
+                graphics.requestCursor(this.hoverCursor);
+            }
+        }
     }
 
     /**

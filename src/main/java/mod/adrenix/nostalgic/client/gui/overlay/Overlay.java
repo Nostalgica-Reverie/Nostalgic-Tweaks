@@ -750,7 +750,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     @PublicAPI
     public boolean isScrollbarHeld() {
-        return this.verticalScrollbar.isDragging() || this.horizontalScrollbar.isDragging();
+        return this.verticalScrollbar.isMouseHeld() || this.horizontalScrollbar.isMouseHeld();
     }
 
     /**

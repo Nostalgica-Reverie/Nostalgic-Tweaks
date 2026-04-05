@@ -35,7 +35,6 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     protected final Animation scrollAnimator;
     protected double value;
     protected Component title;
-    protected boolean dragging;
 
     /* Constructor */
 
@@ -87,14 +86,6 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
     @PublicAPI
     public double getMax() {
         return this.builder.maxValue.doubleValue();
-    }
-
-    /**
-     * @return Whether the slider is currently being dragged.
-     */
-    @PublicAPI
-    public boolean isDragging() {
-        return this.dragging;
     }
 
     /**
@@ -232,7 +223,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
         if (this.isInvalidClick(event))
             return false;
         else {
-            this.dragging = true;
+            this.mouseHeld = true;
             this.setFromMouse(event.x());
         }
 
@@ -244,8 +235,8 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      */
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
-        if (this.dragging) {
-            this.dragging = false;
+        if (this.mouseHeld) {
+            this.mouseHeld = false;
 
             if (this.builder.clickSoundOnRelease)
                 GuiUtil.playClick();
@@ -261,7 +252,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      */
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
-        if (!this.dragging)
+        if (!this.mouseHeld)
             return false;
 
         this.setFromMouse(event.x());

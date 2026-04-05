@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.client.gui.widget.input;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.client.gui.tooltip.TooltipManager;
 import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
@@ -51,7 +52,6 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
     protected final RecursionAvoidance changingInput;
     protected final NullableHolder<TickTimer> responseTimer;
     protected InputModule<Builder, Input> module;
-    protected boolean dragging;
     protected boolean editable;
     protected long focusedTime;
     protected int minCursorPos;
@@ -119,6 +119,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
                 .height(GuiUtil.textHeight())
                 .extendWidthTo(this.controls, 4)
                 .renderer(this::renderText)
+                .hoverCursor(CursorTypes.IBEAM)
                 .build(this.internal::add);
 
         this.getBuilder().addFunction(new ActiveSync<>());
@@ -621,6 +622,19 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
     }
 
     /**
+     * Selects a word where the mouse has clicked.
+     *
+     * @param event The {@link MouseButtonEvent} for the click.
+     */
+    private void selectWord(MouseButtonEvent event) {
+        int clickedPosition = this.findClickedPositionInText(event);
+        int wordStart = this.getWordPosition(-1, clickedPosition);
+        int wordEnd = this.getWordPosition(1, clickedPosition);
+        this.moveCursorTo(wordStart, false);
+        this.moveCursorTo(wordEnd, true);
+    }
+
+    /**
      * Move the cursor to the start of the input text.
      *
      * @param highlight Whether to highlight text to the new position.
@@ -636,6 +650,18 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      */
     public void moveCursorToEnd(boolean highlight) {
         this.moveCursorTo(this.input.length(), highlight);
+    }
+
+    /**
+     * Finds the position in the text where the mouse clicked occurred.
+     *
+     * @param event The {@link MouseButtonEvent} for the click.
+     * @return The position in the text.
+     */
+    private int findClickedPositionInText(MouseButtonEvent event) {
+        String text = GuiUtil.font().plainSubstrByWidth(this.input.substring(this.displayPos), this.getPrinterWidth());
+        int offset = Mth.floor(event.x()) - this.getX() - this.getIconWidth();
+        return GuiUtil.font().plainSubstrByWidth(text, offset).length() + this.displayPos;
     }
 
     /**
@@ -676,7 +702,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
         if (this.isInvalidClick(event))
             return false;
 
-        this.dragging = true;
+        this.mouseHeld = true;
 
         if (this.controls.mouseClicked(event, doubleClick))
             return true;
@@ -689,12 +715,11 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
         if (this.icon.get().isMouseOver(event.x(), event.y()))
             this.setInput("");
 
-        String text = GuiUtil.font().plainSubstrByWidth(this.input.substring(this.displayPos), this.getPrinterWidth());
-        int maxWidth = Mth.floor(event.x()) - this.printer.getX();
-        int cursorPos = GuiUtil.font().plainSubstrByWidth(text, maxWidth).length() + this.displayPos;
-
-        this.moveCursorTo(cursorPos, event.hasShiftDown());
-        this.setHighlightPos(this.cursorPos);
+        if (doubleClick) {
+            this.selectWord(event);
+        } else {
+            this.moveCursorTo(this.findClickedPositionInText(event), event.hasShiftDown());
+        }
 
         return true;
     }
@@ -704,7 +729,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      */
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
-        this.dragging = false;
+        this.mouseHeld = false;
 
         return this.controls.mouseReleased(event);
     }
@@ -714,13 +739,10 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      */
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
-        if (!this.dragging)
+        if (!this.mouseHeld)
             return false;
 
-        int offset = Mth.floor(event.x()) - this.getX() - this.getIconWidth();
-        String text = GuiUtil.font().plainSubstrByWidth(this.input.substring(this.displayPos), this.getPrinterWidth());
-
-        this.setHighlightPos(GuiUtil.font().plainSubstrByWidth(text, offset).length() + this.displayPos);
+        this.moveCursorTo(this.findClickedPositionInText(event), true);
 
         return true;
     }

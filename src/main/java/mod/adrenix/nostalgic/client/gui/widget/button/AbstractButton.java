@@ -97,7 +97,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         int color = this.active ? isOldHover ? 0xFFE0E0E0 : 0xFFFFFFFF : 0xFFA0A0A0;
 
         if (this.isHoveredOrFocused() && this.active && isOldHover)
-            color = 0xFFFFA0;
+            color = 0xFFFFFFA0;
 
         if (this.builder.useTextColors && this.active)
             color = this.isHoveredOrFocused() ? this.builder.hoverColor.get() : this.builder.textColor.get();

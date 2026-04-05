@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.slider;
 
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.*;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.lang.Translation;
@@ -42,7 +43,13 @@ public abstract class AbstractSliderMaker<Builder extends AbstractSliderMaker<Bu
 
     /* Constructor */
 
+    private AbstractSliderMaker() {
+        this.hoverCursor(CursorTypes.POINTING_HAND);
+        this.heldCursor(CursorTypes.RESIZE_EW);
+    }
+
     protected AbstractSliderMaker(Number minValue, Number maxValue, Consumer<Number> valueConsumer, Supplier<Number> valueSupplier) {
+        this();
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.valueConsumer = valueConsumer;
@@ -50,6 +57,7 @@ public abstract class AbstractSliderMaker<Builder extends AbstractSliderMaker<Bu
     }
 
     protected AbstractSliderMaker(Number minValue, Number maxValue) {
+        this();
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.valueConsumer = (number) -> {

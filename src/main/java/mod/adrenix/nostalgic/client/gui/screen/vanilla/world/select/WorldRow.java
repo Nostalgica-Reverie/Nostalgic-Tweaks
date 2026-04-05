@@ -107,6 +107,7 @@ class WorldRow extends AbstractRow<WorldRowMaker, WorldRow> {
                 .backgroundRenderer(ButtonRenderer.EMPTY)
                 .whenFocused(() -> this.selected.set(this))
                 .onPress(this::onPress)
+                .hoverCursor(null)
                 .pos(this::getX, this::getY)
                 .size(this::getWidth, this::getHeight)
                 .build(this::addWidget);

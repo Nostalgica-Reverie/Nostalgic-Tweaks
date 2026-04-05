@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.button;
 
+import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.*;
 import mod.adrenix.nostalgic.util.client.timer.ClientTimer;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
@@ -57,6 +58,8 @@ public abstract class AbstractButtonMaker<Builder extends AbstractButtonMaker<Bu
     protected AbstractButtonMaker(Component title) {
         this.title = title;
         this.brightenOnHover = true;
+
+        this.hoverCursor(CursorTypes.POINTING_HAND);
 
         this.addFunction(new Cooldown.Disable<>());
         this.addFunction(new Cooldown.Enable<>());

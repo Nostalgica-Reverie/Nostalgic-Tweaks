@@ -589,7 +589,7 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
      */
     @PublicAPI
     public boolean isScrollbarHeld() {
-        return this.verticalScrollbar.isDragging() || this.horizontalScrollbar.isDragging();
+        return this.verticalScrollbar.isMouseHeld() || this.horizontalScrollbar.isMouseHeld();
     }
 
     /**

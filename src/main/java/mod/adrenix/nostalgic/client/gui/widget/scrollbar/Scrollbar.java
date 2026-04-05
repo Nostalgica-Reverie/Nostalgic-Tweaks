@@ -24,7 +24,6 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
     /* Fields */
     private double scrollTo = 0.0D;
     private double lastScrollTo = 0.0D;
-    private boolean dragging = false;
     private boolean smoothScroll = false;
 
     protected Scrollbar(ScrollbarBuilder builder) {
@@ -91,14 +90,6 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
     @PublicAPI
     public boolean isHorizontal() {
         return this.getBuilder().scrollbarType == ScrollbarType.HORIZONTAL;
-    }
-
-    /**
-     * @return Whether the mouse is currently holding this scrollbar.
-     */
-    @PublicAPI
-    public boolean isDragging() {
-        return this.dragging;
     }
 
     /**
@@ -230,18 +221,18 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
                 int width = this.getBuilder().size;
                 int height = this.getScrollLength();
 
-                this.dragging = MathUtil.isWithinBox(event.x(), event.y(), this.x, startY, width, height);
+                this.mouseHeld = MathUtil.isWithinBox(event.x(), event.y(), this.x, startY, width, height);
             }
             case HORIZONTAL -> {
                 int startX = this.x + Math.round(this.getScrollStart());
                 int width = this.getScrollLength();
                 int height = this.getBuilder().size;
 
-                this.dragging = MathUtil.isWithinBox(event.x(), event.y(), startX, this.y, width, height);
+                this.mouseHeld = MathUtil.isWithinBox(event.x(), event.y(), startX, this.y, width, height);
             }
         }
 
-        if (!this.dragging && MathUtil.isWithinBox(event.x(), event.y(), this.x, this.y, this.width, this.height)) {
+        if (!this.mouseHeld && MathUtil.isWithinBox(event.x(), event.y(), this.x, this.y, this.width, this.height)) {
             double clickAmount = this.getMaxScrollAmount() * switch (this.getBuilder().scrollbarType) {
                 case VERTICAL -> 1.0D - ((this.getEndY() - event.y()) / (double) this.height);
                 case HORIZONTAL -> 1.0D - ((this.getEndX() - event.x()) / (double) this.width);
@@ -252,7 +243,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
             else
                 this.setScrollAmount(clickAmount);
 
-            this.dragging = true;
+            this.mouseHeld = true;
         }
 
         return false;
@@ -262,18 +253,8 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      * {@inheritDoc}
      */
     @Override
-    public boolean mouseReleased(MouseButtonEvent event) {
-        this.dragging = false;
-
-        return super.mouseReleased(event);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
-        if (this.dragging) {
+        if (this.mouseHeld) {
             this.onDrag(event, dragX, dragY);
 
             return true;
@@ -307,7 +288,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      */
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-        if (this.dragging)
+        if (this.mouseHeld)
             return false;
         else if (this.isInactive() || this.isInvisible())
             return false;
@@ -339,7 +320,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      * Move the animation if applicable.
      */
     private void animate(float partialTick) {
-        if (this.dragging)
+        if (this.mouseHeld)
             return;
 
         if (this.getBuilder().animation.isNotFinished())

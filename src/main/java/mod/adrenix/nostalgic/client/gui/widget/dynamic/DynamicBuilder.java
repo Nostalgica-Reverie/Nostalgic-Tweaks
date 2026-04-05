@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.dynamic;
 
+import com.mojang.blaze3d.platform.cursor.CursorType;
 import mod.adrenix.nostalgic.util.client.renderer.RenderPass;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
@@ -47,6 +48,10 @@ public abstract class DynamicBuilder<Builder extends DynamicBuilder<Builder, Wid
     protected BooleanSupplier canFocus = BooleanSupplier.ALWAYS;
     protected RenderPass renderPass = RenderPass.MIDDLE;
     protected boolean focusOnClick = true;
+    @Nullable
+    protected CursorType hoverCursor = null;
+    @Nullable
+    protected CursorType heldCursor = null;
     protected int tabOrderGroup = 0;
     @Nullable
     protected ToIntFunction<Widget> x = null;
@@ -292,6 +297,30 @@ public abstract class DynamicBuilder<Builder extends DynamicBuilder<Builder, Wid
     }
 
     /**
+     * Sets the cursor to use for this widget when hovering.
+     *
+     * @param type The {@link CursorType} to use when hovering.
+     */
+    @PublicAPI
+    public Builder hoverCursor(@Nullable CursorType type) {
+        this.hoverCursor = type;
+
+        return this.self();
+    }
+
+    /**
+     * Sets the cursor to use for this widget when mouse is held.
+     *
+     * @param type The {@link CursorType} to use when mouse is held.
+     */
+    @PublicAPI
+    public Builder heldCursor(@Nullable CursorType type) {
+        this.heldCursor = type;
+
+        return this.self();
+    }
+
+    /**
      * Define the tab order group for this widget. The game categorizes groups of widgets by their tab order group
      * number. Groups of widgets with lower group numbers are selected first. The order within the group is defined by
      * when the widget was subscribed to the screen. Any widget that does not define their tab order group number is
@@ -409,6 +438,10 @@ public abstract class DynamicBuilder<Builder extends DynamicBuilder<Builder, Wid
         widget.setY(this.defaultY);
         widget.setWidth(this.defaultWidth);
         widget.setHeight(this.defaultHeight);
+
+        // Set up cursor for hovering.
+        widget.setHoverCursor(this.hoverCursor);
+        widget.setHeldCursor(this.heldCursor);
 
         // Set the last known widget state
         this.lastActive = widget.active;
