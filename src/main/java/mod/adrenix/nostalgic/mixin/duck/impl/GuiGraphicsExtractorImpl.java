@@ -2,11 +2,11 @@ package mod.adrenix.nostalgic.mixin.duck.impl;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import mod.adrenix.nostalgic.mixin.duck.RenderUtil;
+import mod.adrenix.nostalgic.util.client.renderer.state.HorizontalColoredRectangleRenderState;
 import mod.adrenix.nostalgic.util.common.color.Gradient;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.state.gui.ColoredRectangleRenderState;
 import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
@@ -65,7 +65,7 @@ public abstract class GuiGraphicsExtractorImpl implements RenderUtil {
         int color1,
         @Nullable Integer color2
     ) {
-        this.guiRenderState.addGuiElement(new ColoredRectangleRenderState(
+        this.guiRenderState.addGuiElement(new HorizontalColoredRectangleRenderState(
                 renderPipeline, textureSetup, new Matrix3x2f(this.pose),
                 x0, y0, x1, y1, color1, color2 != null ? color2 : color1, this.scissorStack.peek()));
     }
