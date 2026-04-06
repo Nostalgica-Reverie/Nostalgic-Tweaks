@@ -33,6 +33,7 @@
   },
   "mixins": [
     "mixin.nostalgic_tweaks-access.json",
+    "mixin.nostalgic_tweaks-duck.json",
     "mixin.nostalgic_tweaks-required.json"
   ],
   "depends": {
