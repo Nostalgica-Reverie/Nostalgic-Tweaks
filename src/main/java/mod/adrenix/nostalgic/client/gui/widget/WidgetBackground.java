@@ -72,10 +72,7 @@ public record WidgetBackground(Identifier background, Identifier highlighted, Id
      */
     @PublicAPI
     public void extractRenderState(GuiGraphicsExtractor graphics, Identifier sprite, int x, int y, int width, int height) {
-        //TODO
-//        RenderUtil.pushLayer(LAYER);
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height);
-//        RenderUtil.popLayer();
     }
 
     /**

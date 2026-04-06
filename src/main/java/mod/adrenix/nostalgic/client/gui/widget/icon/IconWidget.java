@@ -12,6 +12,8 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import org.joml.Matrix3x2f;
@@ -216,10 +218,15 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
     }
 
     /**
-     * {@inheritDoc}
+     * Render instructions for the widget.
+     *
+     * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
+     * @param mouseX      The x-coordinate of the mouse cursor.
+     * @param mouseY      The y-coordinate of the mouse cursor.
+     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param brightness  The brightness of the icon.
      */
-    @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, float brightness) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
         if (this.isEmpty() || this.isInvisible())
@@ -231,52 +238,65 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
         boolean isHoverEmpty = hoverIcon == TextureIcon.EMPTY;
         boolean isDisabledEmpty = disabledIcon == TextureIcon.EMPTY;
 
-        //TODO
-//        if (RenderSystem.getShaderColor()[0] == 1.0F) {
-//            float brightness = 1.0F;
-//
-//            if (isHoverEmpty)
-//                brightness = IconManager.getLightenAmount(this, brightness);
-//
-//            if (isDisabledEmpty)
-//                brightness = IconManager.getDarkenAmount(this, brightness);
-//
-//            RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
-//        }
+        if (brightness == 1.0F) {
+            if (isHoverEmpty)
+                brightness = IconManager.getLightenAmount(this, brightness);
+
+            if (isDisabledEmpty)
+                brightness = IconManager.getDarkenAmount(this, brightness);
+        }
 
         if (this.holding && this.pressIcon != null)
-            this.renderIcon(this.pressIcon.get(), graphics);
+            this.renderIcon(this.pressIcon.get(), graphics, brightness);
         else if (this.isHoveredOrFocused() && this.isActive() && !isHoverEmpty)
-            this.renderIcon(hoverIcon, graphics);
+            this.renderIcon(hoverIcon, graphics, brightness);
         else if (this.isInactive() && !isDisabledEmpty)
-            this.renderIcon(disabledIcon, graphics);
+            this.renderIcon(disabledIcon, graphics, brightness);
         else
-            this.renderIcon(this.getIcon(), graphics);
-
-        //TODO
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            this.renderIcon(this.getIcon(), graphics, brightness);
 
         this.renderDebug(graphics);
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        this.extractRenderState(graphics, mouseX, mouseY, partialTick, 1.0F);
+    }
+
+    /**
      * Render an icon.
      *
-     * @param icon     The icon instance to render.
-     * @param graphics A {@link GuiGraphicsExtractor} instance.
+     * @param icon       The icon instance to render.
+     * @param graphics   A {@link GuiGraphicsExtractor} instance.
+     * @param brightness The brightness to use for the icon.
      */
-    private void renderIcon(TextureIcon icon, GuiGraphicsExtractor graphics) {
+    private void renderIcon(TextureIcon icon, GuiGraphicsExtractor graphics, float brightness) {
         float scale = this.getTextureScale(icon);
         int x = this.x;
         int y = this.y;
 
+        float normalBrightness = Mth.clamp(brightness, 0.0F, 1.0F);
+        int color = ARGB.colorFromFloat(1.0F, normalBrightness, normalBrightness, normalBrightness);
+
         if (icon.getTextureLocation().isPresent()) {
             TextureLocation location = icon.getTextureLocation().get();
-
             graphics.pose().pushMatrix();
             graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
+
+            //TODO: maybe deduplicate this, and clean it up, also unsure about values >2
+            if (brightness > 1.0F) {
+                int base = (int)brightness;
+                float fraction = brightness - base;
+
+                color = ARGB.colorFromFloat(1.0F, fraction, fraction, fraction);
+                graphics.blit(RenderPipelines.GUI_NAUSEA_OVERLAY, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
+            }
+
             graphics.pose().popMatrix();
 
             this.renderDebug(graphics);
@@ -291,7 +311,17 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             graphics.pose().pushMatrix();
             graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon.getSpriteLocation().get(), 0, 0, width, height);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon.getSpriteLocation().get(), 0, 0, width, height, color);
+
+            //TODO: maybe deduplicate this, and clean it up, also unsure about values >2
+            if (brightness > 1.0F) {
+                int base = (int)brightness;
+                float fraction = brightness - base;
+
+                color = ARGB.colorFromFloat(1.0F, fraction, fraction, fraction);
+                graphics.blitSprite(RenderPipelines.GUI_NAUSEA_OVERLAY, icon.getSpriteLocation().get(), 0, 0, width, height, color);
+            }
+
             graphics.pose().popMatrix();
 
             this.renderDebug(graphics);
@@ -299,14 +329,12 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             return;
         }
 
-        float[] color = {1.0f, 1.0f, 1.0f};//RenderSystem.getShaderColor(); //TODO
-        float brightness = (color[0] + color[1] + color[2]) / 3.0F;
         Item item = icon.getItem().orElse(icon.getBlock().orElse(Blocks.AIR).asItem());
 
         graphics.pose().pushMatrix();
         graphics.pose().translate(x, y);
         graphics.pose().scale(scale, scale);
-        graphics.item(item.getDefaultInstance(), 0, 0); //TODO, BRIGHTNESS
+        graphics.fakeItem(item.getDefaultInstance(), 0, 0); //TODO, BRIGHTNESS
         graphics.pose().popMatrix();
     }
 

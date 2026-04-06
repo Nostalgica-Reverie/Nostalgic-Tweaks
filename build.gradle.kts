@@ -4,7 +4,7 @@
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/nostalgic_tweaks.accesswidener")
+    accessWidenerPath = file("src/main/resources/nostalgic_tweaks.classtweaker")
 
     mixin {
         useLegacyMixinAp = false

@@ -5,7 +5,6 @@ import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.*;
 import mod.adrenix.nostalgic.client.gui.widget.scrollbar.Scrollbar;
 import mod.adrenix.nostalgic.util.client.animate.Animate;
-import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
@@ -1253,14 +1252,11 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
         if (this.builder.backgroundGradient == null) {
             graphics.fill(startX, startY, endX, endY, this.builder.backgroundColor.get());
         } else {
-            int from = this.builder.backgroundGradient.from().get();
-            int to = this.builder.backgroundGradient.to().get();
-
-            graphics.fillGradient(startX, startY, endX, endY, from, to);
+            graphics.nt$fillGradient(this.builder.backgroundGradient, startX, startY, endX, endY);
         }
 
         if (this.builder.borderColor.isPresent())
-            RenderUtil.outline(graphics, this.x, this.y, this.width, this.height, this.builder.borderThickness, this.builder.borderColor.get());
+            graphics.nt$outline(this.x, this.y, this.width, this.height, this.builder.borderThickness, this.builder.borderColor.get());
     }
 
     /**

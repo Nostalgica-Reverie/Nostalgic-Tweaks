@@ -91,40 +91,36 @@ public class ColorSlider extends AbstractSlider<ColorSliderBuilder, ColorSlider>
         };
 
         switch (this.element) {
-            //TODO: Horizontal gradient support.
-            //  To add these we'd need to probably mixing into GuiGraphicsExtractor so we
-            //  could either access the GUI state, or do interface injection to add those and RenderUtil#outline
-            //  extensions.
             case HUE -> {
                 int diff = (int) (innerW / 6.0F);
                 int last = (diff * 6) + Math.abs(innerW - (diff * 6));
 
-                graphics.fillGradient(0, 0, diff, innerH, Color.RED.get(), Color.YELLOW.get());
-                graphics.fillGradient(diff, 0, diff * 2, innerH, Color.YELLOW.get(), Color.GREEN.get());
-                graphics.fillGradient(diff * 2, 0, diff * 3, innerH, Color.GREEN.get(), Color.CYAN.get());
-                graphics.fillGradient(diff * 3, 0, diff * 4, innerH, Color.CYAN.get(), Color.BLUE.get());
-                graphics.fillGradient(diff * 4, 0, diff * 5, innerH, Color.BLUE.get(), Color.PINK.get());
-                graphics.fillGradient(diff * 5, 0, last, innerH, Color.PINK.get(), Color.RED.get());
+                graphics.nt$fillHorizontalGradient(0, 0, diff, innerH, Color.RED.get(), Color.YELLOW.get());
+                graphics.nt$fillHorizontalGradient(diff, 0, diff * 2, innerH, Color.YELLOW.get(), Color.GREEN.get());
+                graphics.nt$fillHorizontalGradient(diff * 2, 0, diff * 3, innerH, Color.GREEN.get(), Color.CYAN.get());
+                graphics.nt$fillHorizontalGradient(diff * 3, 0, diff * 4, innerH, Color.CYAN.get(), Color.BLUE.get());
+                graphics.nt$fillHorizontalGradient(diff * 4, 0, diff * 5, innerH, Color.BLUE.get(), Color.PINK.get());
+                graphics.nt$fillHorizontalGradient(diff * 5, 0, last, innerH, Color.PINK.get(), Color.RED.get());
             }
-            case SATURATION -> graphics.fillGradient(0, 0, innerW, innerH, Color.WHITE.get(), sbColor.get());
-            case BRIGHTNESS -> graphics.fillGradient(0, 0, innerW, innerH, Color.BLACK.get(), sbColor.get());
+            case SATURATION -> graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, Color.WHITE.get(), sbColor.get());
+            case BRIGHTNESS -> graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, Color.BLACK.get(), sbColor.get());
             case RED -> {
                 Color from = new Color(0, this.color.getGreen(), this.color.getBlue());
                 Color to = new Color(255, this.color.getGreen(), this.color.getBlue());
 
-                graphics.fillGradient(0, 0, innerW, innerH, from.get(), to.get());
+                graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, from.get(), to.get());
             }
             case GREEN -> {
                 Color from = new Color(this.color.getRed(), 0, this.color.getBlue());
                 Color to = new Color(this.color.getRed(), 255, this.color.getBlue());
 
-                graphics.fillGradient(0, 0, innerW, innerH, from.get(), to.get());
+                graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, from.get(), to.get());
             }
             case BLUE -> {
                 Color from = new Color(this.color.getRed(), this.color.getGreen(), 0);
                 Color to = new Color(this.color.getRed(), this.color.getGreen(), 255);
 
-                graphics.fillGradient(0, 0, innerW, innerH, from.get(), to.get());
+                graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, from.get(), to.get());
             }
             case ALPHA -> {
                 int size = 3;
@@ -137,7 +133,7 @@ public class ColorSlider extends AbstractSlider<ColorSliderBuilder, ColorSlider>
                         graphics.fill(i, (row - 1) * size, i + size, row * size, MathUtil.isEven(i) ? primary.get() : secondary.get());
                 }
 
-                graphics.fillGradient(0, 0, innerW, innerH, this.color.fromAlpha(0.0D).get(), this.color.fromAlpha(1.0D).get());
+                graphics.nt$fillHorizontalGradient(0, 0, innerW, innerH, this.color.fromAlpha(0.0D).get(), this.color.fromAlpha(1.0D).get());
             }
         }
 

@@ -267,9 +267,6 @@ public class IconManager<Widget extends DynamicWidget<?, Widget>> {
         if (this.getDisabled().isEmpty())
             brightness = getDarkenAmount(this.widget, brightness);
 
-        //TODO
-//        RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0F);
-        this.get().extractRenderState(graphics, mouseX, mouseY, partialTick);
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        this.get().extractRenderState(graphics, mouseX, mouseY, partialTick, brightness);
     }
 }

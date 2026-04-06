@@ -8,7 +8,6 @@ import mod.adrenix.nostalgic.client.gui.widget.icon.IconTemplate;
 import mod.adrenix.nostalgic.client.gui.widget.icon.IconWidget;
 import mod.adrenix.nostalgic.util.client.gui.DrawText;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
-import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.CollectionUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
@@ -225,7 +224,7 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
             Color color = this.builder.outlineColor;
             int thickness = this.builder.outlineThickness;
 
-            RenderUtil.outline(graphics, this.x, this.y, this.width, this.height, thickness, color.get());
+            graphics.nt$outline(this.x, this.y, this.width, this.height, thickness, color.get());
         } else if (this.builder.groupTitle != null) {
             int textX = this.x;
             int textY = this.y;

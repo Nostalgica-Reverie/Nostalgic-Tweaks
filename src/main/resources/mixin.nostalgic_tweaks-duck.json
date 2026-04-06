@@ -1,0 +1,10 @@
+{
+  "package": "mod.adrenix.nostalgic.mixin.duck.impl",
+  "compatibilityLevel": "JAVA_25",
+  "minVersion": "0.8",
+  "client": [
+    "GuiGraphicsExtractorImpl"
+  ],
+  "mixins": [
+  ]
+}

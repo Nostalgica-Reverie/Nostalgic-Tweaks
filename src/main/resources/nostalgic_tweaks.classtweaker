@@ -1,4 +1,4 @@
-accessWidener v2 official
+classTweaker v1 official
 
 # Screen
 
@@ -9,3 +9,7 @@ accessible field net/minecraft/client/gui/screens/Screen narratables Ljava/util/
 accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
 accessible field net/minecraft/client/gui/screens/Screen minecraft Lnet/minecraft/client/Minecraft;
 accessible field net/minecraft/client/gui/screens/Screen font Lnet/minecraft/client/gui/Font;
+
+accessible class net/minecraft/client/gui/GuiGraphicsExtractor$ScissorStack
+
+inject-interface net/minecraft/client/gui/GuiGraphicsExtractor mod/adrenix/nostalgic/mixin/duck/RenderUtil

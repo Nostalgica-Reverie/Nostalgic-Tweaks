@@ -1351,14 +1351,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
         if (this.builder.backgroundGradient == null) {
             graphics.fill(startX, startY, endX, endY, this.builder.backgroundColor.get());
         } else {
-            //TODO: Horizontal gradient support.
-            //  To add these we'd need to probably mixing into GuiGraphicsExtractor so we
-            //  could either access the GUI state, or do interface injection to add those and RenderUtil#outline
-            //  extensions.
-            int from = this.builder.backgroundGradient.from().get();
-            int to = this.builder.backgroundGradient.to().get();
-
-            graphics.fillGradient(startX, startY, endX, endY, from, to);
+            graphics.nt$fillGradient(this.builder.backgroundGradient, startX, startY, endX, endY);
         }
 
         if (this.borderless() && !this.builder.outlineColor.isEmpty()) {

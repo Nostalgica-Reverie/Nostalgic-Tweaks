@@ -17,7 +17,7 @@ dependencies {
     neoForge("net.neoforged:neoforge:${rootProject.mod.prop("neoforge_version")}")
 }
 
-loom.convertAw2At(tasks.jar, listOf("nostalgic_tweaks.accesswidener"))
+loom.convertAw2At(tasks.jar, listOf("nostalgic_tweaks.classtweaker"))
 
 /*
 publishMods {
