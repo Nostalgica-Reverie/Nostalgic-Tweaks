@@ -1,10 +1,5 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
     id "org.relativitymc.neo-loom-remap" version "1.16-SNAPSHOT" apply false
-}
-
-architectury {
-    minecraft = rootProject.minecraft_version
 }
 
 subprojects {
@@ -31,7 +26,6 @@ subprojects {
 
 allprojects {
     apply plugin: "java"
-    apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
     base {

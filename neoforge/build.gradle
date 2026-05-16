@@ -19,6 +19,10 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
+repositories {
+    maven { url "https://maven.architectury.dev/" }
+}
+
 dependencies {
     forgeUserdev "net.neoforged:neoforge:${rootProject.neoforge_version}:userdev"
 
