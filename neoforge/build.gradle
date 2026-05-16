@@ -3,6 +3,8 @@ plugins {
 }
 
 loom {
+    useIntermediateMappings = false
+    productionNamespace = "official"
     accessWidenerPath = file("src/main/resources/nostalgic_tweaks.accesswidener")
 
     runConfigs.all {
