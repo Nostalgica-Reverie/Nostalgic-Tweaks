@@ -64,6 +64,6 @@ side = "BOTH"
 [[dependencies.nostalgic_tweaks]]
 modId = "sodium"
 type = "optional"
-versionRange = "[0.6,0.7-alpha)"
+versionRange = "[0.6,0.9-alpha)"
 ordering = "NONE"
 side = "CLIENT"

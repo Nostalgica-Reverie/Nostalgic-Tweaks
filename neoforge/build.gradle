@@ -1,10 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-}
-
-architectury {
-    platformSetupLoomIde()
-    neoForge()
+    id "com.gradleup.shadow" version "9.4.1"
 }
 
 loom {
@@ -20,7 +15,7 @@ configurations {
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+    forgeUserdev "net.neoforged:neoforge:${rootProject.neoforge_version}:userdev"
 
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
@@ -60,6 +55,10 @@ processResources {
     }
 }
 
+base {
+    archivesName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-NeoForge"
+}
+
 shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
@@ -81,7 +80,6 @@ sourcesJar {
 }
 
 jar {
-    archivesBaseName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-NeoForge"
     archiveClassifier = "dev"
 }
 

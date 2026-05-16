@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "org.relativitymc.neo-loom-remap" version "1.16-SNAPSHOT" apply false
 }
 
 architectury {
@@ -8,11 +8,7 @@ architectury {
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
-
-    loom {
-        silentMojangMappingsLicense()
-    }
+    apply plugin: "org.relativitymc.neo-loom-remap"
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"

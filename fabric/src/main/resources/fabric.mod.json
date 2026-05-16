@@ -51,7 +51,7 @@
     ]
   },
   "breaks": {
-    "sodium": "<0.6-alpha >0.7-alpha"
+    "sodium": "<0.6-alpha >0.9-alpha"
   },
   "custom": {
     "modmenu": {
