@@ -4,6 +4,11 @@ plugins {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    runConfigs.all {
+        ideConfigGenerated(true)
+        runDir = "../run"
+    }
 }
 
 configurations {
