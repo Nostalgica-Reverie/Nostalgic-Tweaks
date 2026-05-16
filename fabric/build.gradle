@@ -1,7 +1,3 @@
-plugins {
-    id "com.gradleup.shadow" version "9.4.1"
-}
-
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -12,8 +8,10 @@ loom {
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+    commonResources {
+        canBeResolved = true
+    }
+
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
@@ -30,8 +28,8 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    common(project(path: ':common', configuration: 'namedElements'))
+    commonResources(project(path: ':common', configuration: 'commonResources'))
 
     // Mod Menu
     modImplementation "com.terraformersmc:modmenu:${rootProject.fabric_modmenu_version}"
@@ -44,6 +42,9 @@ dependencies {
 }
 
 processResources {
+    dependsOn(configurations.commonResources)
+    from(configurations.commonResources)
+
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
@@ -69,33 +70,16 @@ base {
     archivesName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-Fabric"
 }
 
-shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
-}
-
-remapJar {
-    //injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
 sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
+    dependsOn(configurations.commonResources)
+    from(configurations.commonResources)
 }
 
 jar {
     archiveClassifier = "dev"
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
 }
 
 publishing {
