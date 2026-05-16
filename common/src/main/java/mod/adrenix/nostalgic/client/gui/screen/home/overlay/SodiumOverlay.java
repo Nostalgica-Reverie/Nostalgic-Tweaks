@@ -1,6 +1,5 @@
 package mod.adrenix.nostalgic.client.gui.screen.home.overlay;
 
-import dev.architectury.platform.Platform;
 import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
 import mod.adrenix.nostalgic.client.gui.overlay.types.info.MessageOverlay;
 import mod.adrenix.nostalgic.client.gui.overlay.types.info.MessageType;
@@ -10,6 +9,7 @@ import mod.adrenix.nostalgic.client.gui.widget.grid.Grid;
 import mod.adrenix.nostalgic.client.gui.widget.group.Group;
 import mod.adrenix.nostalgic.client.gui.widget.separator.SeparatorWidget;
 import mod.adrenix.nostalgic.client.gui.widget.text.TextWidget;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
@@ -118,14 +118,14 @@ public abstract class SodiumOverlay
      */
     private static void openSodiumMixinConfig()
     {
-        Path properties = Platform.getConfigFolder().resolve("sodium-mixins.properties");
+        Path properties = NostalgicServices.PLATFORM.getConfigFolder().resolve("sodium-mixins.properties");
 
         if (Files.exists(properties))
             Util.getPlatform().openPath(properties);
         else
         {
             MessageOverlay.create(MessageType.ERROR, Lang.Home.SODIUM_MISSING_FILE_HEADER, Lang.Home.SODIUM_MISSING_FILE_BODY)
-                .addButton(ButtonTemplate.openFolder(Platform.getConfigFolder()))
+                .addButton(ButtonTemplate.openFolder(NostalgicServices.PLATFORM.getConfigFolder()))
                 .setResizePercentage(0.7D)
                 .build()
                 .open();

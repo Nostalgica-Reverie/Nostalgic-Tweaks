@@ -2,8 +2,8 @@ package mod.adrenix.nostalgic.util.client.gui;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.architectury.platform.Platform;
 import mod.adrenix.nostalgic.NostalgicTweaks;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.util.client.renderer.RenderUtil;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
@@ -323,7 +323,7 @@ public abstract class GuiUtil
     /**
      * Framerate viewing flag.
      */
-    private static boolean showFps = Platform.isDevelopmentEnvironment();
+    private static boolean showFps = NostalgicServices.PLATFORM.isDevEnvironment();
 
     /**
      * @return Whether the framerate viewing window is visible.

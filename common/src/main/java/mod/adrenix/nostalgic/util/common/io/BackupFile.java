@@ -1,7 +1,7 @@
 package mod.adrenix.nostalgic.util.common.io;
 
-import dev.architectury.platform.Platform;
 import mod.adrenix.nostalgic.NostalgicTweaks;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public abstract class BackupFile
      * This field contains the current environment (client/server) in lower case format. This helps differentiate the
      * content within the file without opening it.
      */
-    private static final String LOGICAL_SIDE = Platform.getEnv().toString().toLowerCase(Locale.ROOT);
+    private static final String LOGICAL_SIDE = NostalgicServices.PLATFORM.isClient() ? "client" : "server";
 
     /**
      * This field contains the unique backup filename formatting that will inform the backup utility cleaner which files

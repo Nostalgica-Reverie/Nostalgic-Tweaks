@@ -1,6 +1,6 @@
 package mod.adrenix.nostalgic.mixin.plugin;
 
-import mod.adrenix.nostalgic.ModFinderPlatform;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -37,7 +37,7 @@ public class MixinSodiumPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        return ModFinderPlatform.isInstalled("sodium");
+        return NostalgicServices.PLATFORM.isModPresent("sodium");
     }
 
     /**

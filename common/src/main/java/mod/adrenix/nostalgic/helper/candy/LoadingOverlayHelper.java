@@ -1,7 +1,7 @@
 package mod.adrenix.nostalgic.helper.candy;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.architectury.platform.Platform;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import mod.adrenix.nostalgic.tweak.enums.Overlay;
 import mod.adrenix.nostalgic.util.ModTracker;
@@ -49,7 +49,7 @@ public abstract class LoadingOverlayHelper
         else if (CandyTweak.OLD_LOADING_OVERLAY.get() == Overlay.ALPHA)
             color = Color.MOJANG_PURPLE.get();
 
-        if (Platform.isDevelopmentEnvironment())
+        if (NostalgicServices.PLATFORM.isDevEnvironment())
         {
             background = TextureLocation.DEV_MODE;
             color = Color.BLACK.get();
@@ -77,7 +77,7 @@ public abstract class LoadingOverlayHelper
     {
         int height = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        if (Platform.isDevelopmentEnvironment())
+        if (NostalgicServices.PLATFORM.isDevEnvironment())
             return (int) (height * 0.85D);
 
         return switch (CandyTweak.OLD_LOADING_OVERLAY.get())
@@ -93,7 +93,7 @@ public abstract class LoadingOverlayHelper
      */
     public static int getOutlineProgressBarColor()
     {
-        if (Platform.isDevelopmentEnvironment())
+        if (NostalgicServices.PLATFORM.isDevEnvironment())
             return FastColor.ARGB32.color(255, 255, 255, 255);
 
         if (CandyTweak.CUSTOM_LOADING_PROGRESS_BAR.get())
@@ -125,7 +125,7 @@ public abstract class LoadingOverlayHelper
      */
     public static int getInsideProgressBarColor()
     {
-        if (Platform.isDevelopmentEnvironment())
+        if (NostalgicServices.PLATFORM.isDevEnvironment())
             return FastColor.ARGB32.color(255, 0, 255, 0);
 
         if (CandyTweak.CUSTOM_LOADING_PROGRESS_BAR.get())

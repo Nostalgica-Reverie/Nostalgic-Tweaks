@@ -1,7 +1,7 @@
 package mod.adrenix.nostalgic.util.common.log;
 
-import dev.architectury.platform.Platform;
 import mod.adrenix.nostalgic.NostalgicTweaks;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.tweak.config.ModTweak;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +24,7 @@ public record ModLogger(String prefix)
     /**
      * Whether the mod is in debugging mode.
      */
-    private static boolean isDebugging = Platform.isDevelopmentEnvironment();
+    private static boolean isDebugging = NostalgicServices.PLATFORM.isDevEnvironment();
 
     /**
      * Checks if the mod is in debug mode.

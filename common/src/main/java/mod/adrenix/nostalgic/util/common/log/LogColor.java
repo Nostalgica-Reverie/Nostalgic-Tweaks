@@ -1,6 +1,6 @@
 package mod.adrenix.nostalgic.util.common.log;
 
-import dev.architectury.platform.Platform;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 
 /**
  * This enumeration is only used in development environments since the terminal supports ANSI coloring. Production
@@ -77,7 +77,7 @@ public enum LogColor
      */
     public String convert(String in)
     {
-        return Platform.isDevelopmentEnvironment() ? in.replaceAll("§" + this.mc, this.ansi) : in;
+        return NostalgicServices.PLATFORM.isDevEnvironment() ? in.replaceAll("§" + this.mc, this.ansi) : in;
     }
 
     /**
@@ -89,6 +89,6 @@ public enum LogColor
     @Override
     public String toString()
     {
-        return Platform.isDevelopmentEnvironment() ? this.ansi : "";
+        return NostalgicServices.PLATFORM.isDevEnvironment() ? this.ansi : "";
     }
 }

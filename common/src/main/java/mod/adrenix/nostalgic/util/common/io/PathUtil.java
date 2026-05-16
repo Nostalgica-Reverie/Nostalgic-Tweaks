@@ -1,8 +1,8 @@
 package mod.adrenix.nostalgic.util.common.io;
 
 import com.google.common.collect.Lists;
-import dev.architectury.platform.Platform;
 import mod.adrenix.nostalgic.NostalgicTweaks;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import net.minecraft.Util;
 import org.jetbrains.annotations.Nullable;
@@ -420,7 +420,7 @@ public abstract class PathUtil
     {
         try
         {
-            return Files.createDirectories(Platform.getConfigFolder().resolve(path));
+            return Files.createDirectories(NostalgicServices.PLATFORM.getConfigFolder().resolve(path));
         }
         catch (IOException exception)
         {
@@ -440,14 +440,14 @@ public abstract class PathUtil
     {
         try
         {
-            return Files.createDirectories(Platform.getGameFolder().resolve("logs"));
+            return Files.createDirectories(NostalgicServices.PLATFORM.getGameDirectory().resolve("logs"));
         }
         catch (IOException exception)
         {
             NostalgicTweaks.LOGGER.error("Could not resolve game logs path\n%s", exception);
         }
 
-        return Platform.getGameFolder();
+        return NostalgicServices.PLATFORM.getGameDirectory();
     }
 
     /**

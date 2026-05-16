@@ -5,6 +5,7 @@ import dev.architectury.utils.EnvExecutor;
 import mod.adrenix.nostalgic.config.cache.ConfigCache;
 import mod.adrenix.nostalgic.init.ModInitializer;
 import mod.adrenix.nostalgic.network.ModConnection;
+import mod.adrenix.nostalgic.services.NostalgicServices;
 import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.client.GameUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
@@ -12,11 +13,10 @@ import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.log.LogColor;
 import mod.adrenix.nostalgic.util.common.log.ModLogger;
 import mod.adrenix.nostalgic.util.common.text.TextUtil;
-import net.fabricmc.api.EnvType;
+import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Locale;
 import java.util.Optional;
 
 public abstract class NostalgicTweaks
@@ -50,7 +50,7 @@ public abstract class NostalgicTweaks
      */
     public static boolean isClient()
     {
-        return Platform.getEnv() == EnvType.CLIENT;
+        return NostalgicServices.PLATFORM.isClient();
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class NostalgicTweaks
      */
     public static boolean isServer()
     {
-        return Platform.getEnv() == EnvType.SERVER;
+        return !NostalgicServices.PLATFORM.isClient();
     }
 
     /**
@@ -70,7 +70,7 @@ public abstract class NostalgicTweaks
      */
     public static boolean isFabric()
     {
-        return Platform.isFabric();
+        return NostalgicServices.PLATFORM.getPlatformName().equals("Fabric");
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class NostalgicTweaks
      */
     public static boolean isForge()
     {
-        return Platform.isNeoForge();
+        return NostalgicServices.PLATFORM.getPlatformName().equals("NeoForge");
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class NostalgicTweaks
      */
     public static String getLoader()
     {
-        return isFabric() ? "Fabric" : "NeoForge";
+        return NostalgicServices.PLATFORM.getPlatformName();
     }
 
     /* - Version */
@@ -101,13 +101,13 @@ public abstract class NostalgicTweaks
     private static final NullableHolder<String> SHORT_VERSION = NullableHolder.empty();
 
     /**
-     * Uses Architectury to retrieve the current Minecraft version.
+     * Retrieves the current Minecraft version.
      *
      * @return The current Minecraft version.
      */
     public static String getMinecraftVersion()
     {
-        return Platform.getMinecraftVersion();
+        return SharedConstants.getCurrentVersion().getName();
     }
 
     /**
@@ -313,7 +313,7 @@ public abstract class NostalgicTweaks
         modInitialized = true;
 
         String loader = LogColor.apply(LogColor.LIGHT_PURPLE, getLoader());
-        String environment = Platform.getEnv().toString().toLowerCase(Locale.ROOT);
+        String environment = isClient() ? "client" : "server";
 
         LOGGER.info("Loading mod in [%s] %s environment", loader, environment);
     }
@@ -335,7 +335,7 @@ public abstract class NostalgicTweaks
      */
     public static boolean isDeveloping()
     {
-        return Platform.isDevelopmentEnvironment();
+        return NostalgicServices.PLATFORM.isDevEnvironment();
     }
 
     /**
@@ -349,6 +349,6 @@ public abstract class NostalgicTweaks
     @PublicAPI
     public static boolean isEventTesting()
     {
-        return Platform.isDevelopmentEnvironment() && isEventTesting;
+        return NostalgicServices.PLATFORM.isDevEnvironment() && isEventTesting;
     }
 }
