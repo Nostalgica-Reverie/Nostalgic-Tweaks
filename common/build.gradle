@@ -1,3 +1,7 @@
+plugins {
+    id "org.relativitymc.neo-loom-remap" version "1.16-SNAPSHOT"
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/nostalgic_tweaks.accesswidener")
 }
@@ -18,6 +22,16 @@ artifacts {
 }
 
 dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
+    }
+
+    // Provides javax annotations.
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"

@@ -1,0 +1,21 @@
+accessWidener v2 official
+
+# Fog Renderer
+
+accessible class net/minecraft/client/renderer/FogRenderer$MobEffectFogFunction
+accessible class net/minecraft/client/renderer/FogRenderer$FogData
+
+# Inventory
+
+mutable field net/minecraft/world/inventory/Slot x I
+mutable field net/minecraft/world/inventory/Slot y I
+
+# Screen
+
+mutable field net/minecraft/client/gui/screens/Screen title Lnet/minecraft/network/chat/Component;
+accessible field net/minecraft/client/gui/screens/Screen title Lnet/minecraft/network/chat/Component;
+accessible field net/minecraft/client/gui/screens/Screen children Ljava/util/List;
+accessible field net/minecraft/client/gui/screens/Screen narratables Ljava/util/List;
+accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
+accessible field net/minecraft/client/gui/screens/Screen minecraft Lnet/minecraft/client/Minecraft;
+accessible field net/minecraft/client/gui/screens/Screen font Lnet/minecraft/client/gui/Font;

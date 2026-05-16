@@ -42,6 +42,7 @@
     "mixin.nostalgic_tweaks-required.json",
     "mixin.nostalgic_tweaks-sodium.json"
   ],
+  "accessWidener": "nostalgic_tweaks.accesswidener",
   "depends": {
     "fabric": "*",
     "fabric-api": ">=${fabric_api_version}",

@@ -1,5 +1,9 @@
+plugins {
+    id "org.relativitymc.neo-loom" version "1.16-SNAPSHOT"
+}
+
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = file("src/main/resources/nostalgic_tweaks.accesswidener")
 
     runConfigs.all {
         ideConfigGenerated(true)
@@ -22,27 +26,33 @@ repositories {
 }
 
 dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     forgeUserdev "net.neoforged:neoforge:${rootProject.neoforge_version}:userdev"
 
+    // Provides javax annotations.
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+
     // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+    api "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
     common(project(path: ':common', configuration: 'namedElements'))
     commonResources(project(path: ':common', configuration: 'commonResources'))
 
     // Embeddium Support
-    modCompileOnly "maven.modrinth:embeddium:${rootProject.neoforge_embeddium_version}"
+    compileOnly "maven.modrinth:embeddium:${rootProject.neoforge_embeddium_version}"
 
     // Sodium Support
-    modCompileOnly "maven.modrinth:sodium:${rootProject.neoforge_sodium_version}"
+    compileOnly "maven.modrinth:sodium:${rootProject.neoforge_sodium_version}"
 
     // Apple Skin Support
-    modCompileOnly "maven.modrinth:appleskin:${rootProject.neoforge_appleskin_version}"
+    compileOnly "maven.modrinth:appleskin:${rootProject.neoforge_appleskin_version}"
 }
 
 processResources {
     dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
+    from(configurations.commonResources) {
+        exclude("nostalgic_tweaks.accesswidener")
+    }
 
     inputs.property "version", project.version
 
@@ -69,21 +79,16 @@ base {
     archivesName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-NeoForge"
 }
 
-remapJar {
-    atAccessWideners.add("nostalgic_tweaks.accesswidener")
-}
-
 sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-    dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
+    from commonSources.archiveFile.map {
+        exclude("nostalgic_tweaks.accesswidener")
+        zipTree(it)
+    }
 }
 
-jar {
-    archiveClassifier = "dev"
-}
+loom.convertAw2At(tasks.named("jar"), ["nostalgic_tweaks.accesswidener"])
 
 publishing {
     publications {

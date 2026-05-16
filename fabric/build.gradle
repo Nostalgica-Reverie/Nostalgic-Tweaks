@@ -1,3 +1,7 @@
+plugins {
+    id "org.relativitymc.neo-loom-remap" version "1.16-SNAPSHOT"
+}
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -22,6 +26,16 @@ repositories {
 }
 
 dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
+    }
+
+    // Provides javax annotations.
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
@@ -74,8 +88,6 @@ sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
-    dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
 }
 
 jar {
