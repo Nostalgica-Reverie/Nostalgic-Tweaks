@@ -354,6 +354,26 @@
       "youtube": null,
       "twitch": null,
       "links": []
+    },
+    "Recko": {
+      "member": false,
+      "uuid": null,
+      "color": "#9B59AA",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
+    },
+    "emi": {
+      "member": false,
+      "uuid": null,
+      "color": "#9B59AA",
+      "description": null,
+      "twitter": null,
+      "youtube": null,
+      "twitch": null,
+      "links": []
     }
   }
 }
