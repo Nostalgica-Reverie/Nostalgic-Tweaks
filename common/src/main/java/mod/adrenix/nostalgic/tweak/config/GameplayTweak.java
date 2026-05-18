@@ -93,6 +93,7 @@ public interface GameplayTweak
 
     // Combat
 
+    TweakItemSet IGNORED_OLD_DAMAGE_ITEMS = TweakItemSet.server(new ItemSet(ItemRule.ONLY_TOOLS), GameplayGroup.COMBAT).ignoreNetworkCheck().newForUpdate().build();
     TweakFlag OLD_DAMAGE_VALUES = TweakFlag.server(false, GameplayGroup.COMBAT).build();
     TweakFlag DISABLE_COOLDOWN = TweakFlag.server(false, GameplayGroup.COMBAT).build();
     TweakFlag DISABLE_MISS_TIMER = TweakFlag.server(false, GameplayGroup.COMBAT).build();

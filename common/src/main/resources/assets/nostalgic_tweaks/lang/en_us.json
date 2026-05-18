@@ -1919,6 +1919,8 @@
   "gui.nostalgic_tweaks.config.gameplay.disableSweep.search": "Sword, Attack",
   "gui.nostalgic_tweaks.config.gameplay.oldDamageValues": "Old Damage Values",
   "gui.nostalgic_tweaks.config.gameplay.oldDamageValues.info": "Bring back the old damage values for swords and tool items.",
+  "gui.nostalgic_tweaks.config.gameplay.ignoredOldDamageItems": "Ignored Old Damage Value Items",
+  "gui.nostalgic_tweaks.config.gameplay.ignoredOldDamageItems.info": "Define tool items that are§c not§r allowed to change when the §7@decode{tweak=gameplay.oldDamageValues}§r tweak is§a enabled§r.",
 
   "gui.nostalgic_tweaks.config.gameplay.disableOrbSpawn": "Disable Orb Spawning",
   "gui.nostalgic_tweaks.config.gameplay.disableOrbSpawn.info": "Disables the spawning of experience orbs.",

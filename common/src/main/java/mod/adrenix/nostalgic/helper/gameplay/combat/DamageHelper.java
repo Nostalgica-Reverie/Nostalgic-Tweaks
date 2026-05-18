@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.helper.gameplay.combat;
 
+import mod.adrenix.nostalgic.tweak.config.GameplayTweak;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -45,6 +46,9 @@ public abstract class DamageHelper
      */
     public static boolean isApplicable(TieredItem tieredItem)
     {
+        if (GameplayTweak.IGNORED_OLD_DAMAGE_ITEMS.get().containsItem(tieredItem))
+            return false;
+
         return switch (tieredItem)
         {
             case SwordItem ignored -> true;

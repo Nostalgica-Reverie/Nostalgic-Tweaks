@@ -763,6 +763,7 @@ public class ClientConfig implements ConfigMeta
 
         // Combat
 
+        public ItemSet ignoredOldDamageItems = GameplayTweak.IGNORED_OLD_DAMAGE_ITEMS.register("ignoredOldDamageItems");
         public boolean oldDamageValues = GameplayTweak.OLD_DAMAGE_VALUES.register("oldDamageValues");
         public boolean disableCooldown = GameplayTweak.DISABLE_COOLDOWN.register("disableCooldown");
         public boolean disableMissTimer = GameplayTweak.DISABLE_MISS_TIMER.register("disableMissTimer");
