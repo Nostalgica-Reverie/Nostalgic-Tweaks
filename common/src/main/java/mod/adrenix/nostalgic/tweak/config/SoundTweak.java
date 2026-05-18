@@ -2,13 +2,11 @@ package mod.adrenix.nostalgic.tweak.config;
 
 import mod.adrenix.nostalgic.tweak.container.group.SoundGroup;
 import mod.adrenix.nostalgic.tweak.enums.MusicType;
-import mod.adrenix.nostalgic.tweak.factory.TweakBinding;
-import mod.adrenix.nostalgic.tweak.factory.TweakEnum;
-import mod.adrenix.nostalgic.tweak.factory.TweakFlag;
-import mod.adrenix.nostalgic.tweak.factory.TweakStringSet;
+import mod.adrenix.nostalgic.tweak.factory.*;
 import mod.adrenix.nostalgic.tweak.gui.KeybindingId;
 import mod.adrenix.nostalgic.tweak.listing.ListingSuggestion;
 import mod.adrenix.nostalgic.tweak.listing.StringSet;
+import mod.adrenix.nostalgic.util.common.lang.Lang;
 
 // @formatter:off
 public interface SoundTweak
@@ -28,6 +26,8 @@ public interface SoundTweak
     // Music
 
     TweakFlag PLAY_MUSIC_WHEN_PAUSED = TweakFlag.client(true, SoundGroup.MUSIC).build();
+    TweakFlag PLAY_MUSIC_CONTINUOUSLY = TweakFlag.client(false, SoundGroup.MUSIC).newForUpdate().build();
+    TweakNumber<Integer> CONTINUOUS_DELAY = TweakNumber.client(0, SoundGroup.MUSIC).slider(Lang.Slider.SECONDS, 0, 300).newForUpdate().build();
     TweakEnum<MusicType> MUSIC_FOR_MENU = TweakEnum.client(MusicType.ALPHA, SoundGroup.MUSIC).whenDisabled(MusicType.MODERN).build();
     TweakEnum<MusicType> MUSIC_FOR_CREATIVE = TweakEnum.client(MusicType.ALPHA, SoundGroup.MUSIC).whenDisabled(MusicType.MODERN).build();
     TweakFlag REPLACE_OVERWORLD_BIOME_MUSIC = TweakFlag.client(true, SoundGroup.MUSIC).build();
