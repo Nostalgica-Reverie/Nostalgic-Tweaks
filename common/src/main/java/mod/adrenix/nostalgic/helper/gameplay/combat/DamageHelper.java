@@ -32,7 +32,7 @@ public abstract class DamageHelper
             case SwordItem sword -> sword.getTier().getAttackDamageBonus() + 6.0F;
             case AxeItem axe -> axe.getTier().getAttackDamageBonus() + 2.0F;
             case PickaxeItem pickaxe -> pickaxe.getTier().getAttackDamageBonus() + 1.0F;
-            case ShovelItem shovel -> shovel.getTier().getAttackDamageBonus() + 0.0F;
+            case ShovelItem shovel -> shovel.getTier().getAttackDamageBonus() + 0.5F;
             default -> tieredItem.getTier().getAttackDamageBonus();
         };
     }
