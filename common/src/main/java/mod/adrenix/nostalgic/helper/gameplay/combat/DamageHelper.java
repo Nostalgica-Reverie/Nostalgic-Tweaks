@@ -29,10 +29,10 @@ public abstract class DamageHelper
     {
         return switch (tieredItem)
         {
-            case SwordItem sword -> sword.getTier().getAttackDamageBonus() + 4.0F;
-            case AxeItem axe -> axe.getTier().getAttackDamageBonus() + 3.0F;
-            case PickaxeItem pickaxe -> pickaxe.getTier().getAttackDamageBonus() + 2.0F;
-            case ShovelItem shovel -> shovel.getTier().getAttackDamageBonus() + 1.0F;
+            case SwordItem sword -> sword.getTier().getAttackDamageBonus() + 6.0F;
+            case AxeItem axe -> axe.getTier().getAttackDamageBonus() + 2.0F;
+            case PickaxeItem pickaxe -> pickaxe.getTier().getAttackDamageBonus() + 1.0F;
+            case ShovelItem shovel -> shovel.getTier().getAttackDamageBonus() + 0.0F;
             default -> tieredItem.getTier().getAttackDamageBonus();
         };
     }
@@ -65,22 +65,23 @@ public abstract class DamageHelper
      */
     public static ItemAttributeModifiers get(final TieredItem tieredItem, final ItemAttributeModifiers attributes)
     {
-        return DAMAGE_MODIFIERS.computeIfAbsent(tieredItem.getDescriptionId(), itemClass -> {
-            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        return DAMAGE_MODIFIERS.computeIfAbsent(
+            tieredItem.getDescriptionId(), itemClass -> {
+                ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 
-            attributes.modifiers().forEach(entry -> {
-                if (entry.attribute() != Attributes.ATTACK_DAMAGE)
-                    builder.add(entry.attribute(), entry.modifier(), entry.slot());
-                else
-                {
-                    if (tieredItem instanceof DiggerItem || tieredItem instanceof SwordItem)
-                        builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, getAttackDamage(tieredItem), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-                    else
+                attributes.modifiers().forEach(entry -> {
+                    if (entry.attribute() != Attributes.ATTACK_DAMAGE)
                         builder.add(entry.attribute(), entry.modifier(), entry.slot());
-                }
-            });
+                    else
+                    {
+                        if (tieredItem instanceof DiggerItem || tieredItem instanceof SwordItem)
+                            builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, getAttackDamage(tieredItem), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+                        else
+                            builder.add(entry.attribute(), entry.modifier(), entry.slot());
+                    }
+                });
 
-            return builder.build();
-        });
+                return builder.build();
+            });
     }
 }
