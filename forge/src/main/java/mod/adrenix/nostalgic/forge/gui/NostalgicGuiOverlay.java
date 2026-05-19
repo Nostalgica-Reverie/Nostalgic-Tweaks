@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mod.adrenix.nostalgic.helper.candy.hud.HudHelper;
 import mod.adrenix.nostalgic.helper.gameplay.stamina.StaminaRenderer;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.common.LocateResource;
 import mod.adrenix.nostalgic.util.common.data.NullableResult;
 import net.minecraft.resources.ResourceLocation;
@@ -20,15 +21,25 @@ public enum NostalgicGuiOverlay
 
         int supply = NullableResult.getOrElse(forgeGui.getMinecraft().player, 0, Player::getAirSupply);
         int maximum = NullableResult.getOrElse(forgeGui.getMinecraft().player, 0, Player::getMaxAirSupply);
+        int offsetLeft = screenWidth / 2 - 100;
 
         if (supply >= maximum)
             return;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            forgeGui.leftHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        HudHelper.renderAir(graphics, forgeGui.leftHeight, screenWidth / 2 - 100);
+        HudHelper.renderAir(graphics, forgeGui.leftHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            forgeGui.leftHeight += RaisedHandler.getHotbarY();
 
         forgeGui.leftHeight += 10;
 
@@ -38,11 +49,22 @@ public enum NostalgicGuiOverlay
         if (!CandyTweak.HIDE_HUNGER_BAR.get() || forgeGui.getMinecraft().options.hideGui || !forgeGui.shouldDrawSurvivalElements())
             return;
 
+        int offsetRight = screenWidth / 2 + 90;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            forgeGui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetRight += RaisedHandler.getHotbarX();
+        }
+
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        HudHelper.renderArmor(graphics, forgeGui.rightHeight, screenWidth / 2 + 90);
+        HudHelper.renderArmor(graphics, forgeGui.rightHeight, offsetRight);
+
+        if (ModTracker.RAISED.isInstalled())
+            forgeGui.rightHeight += RaisedHandler.getHotbarY();
 
         forgeGui.rightHeight += 10;
 
@@ -52,6 +74,14 @@ public enum NostalgicGuiOverlay
         if (!StaminaRenderer.isVisible() || !CandyTweak.HIDE_HUNGER_BAR.get())
             return;
 
+        int offsetLeft = 0;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            forgeGui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
+
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
@@ -59,7 +89,10 @@ public enum NostalgicGuiOverlay
         if (HudHelper.isArmorEmpty())
             forgeGui.rightHeight -= 10;
 
-        StaminaRenderer.render(graphics, forgeGui.rightHeight);
+        StaminaRenderer.render(graphics, forgeGui.rightHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            forgeGui.rightHeight += RaisedHandler.getHotbarY();
 
         forgeGui.rightHeight += 10;
 
@@ -69,11 +102,22 @@ public enum NostalgicGuiOverlay
         if (!StaminaRenderer.isVisible() || CandyTweak.HIDE_HUNGER_BAR.get())
             return;
 
+        int offsetLeft = 0;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            forgeGui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
+
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        StaminaRenderer.render(graphics, forgeGui.rightHeight);
+        StaminaRenderer.render(graphics, forgeGui.rightHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            forgeGui.rightHeight += RaisedHandler.getHotbarY();
 
         forgeGui.rightHeight += 10;
 

@@ -242,7 +242,7 @@ public abstract class HudHelper
                 if (AIR_LEVEL_PUSHED.ifEnabledThenDisable())
                     graphics.pose().popPose();
 
-                StaminaRenderer.render(graphics, getHeightOffsetForStamina());
+                StaminaRenderer.render(graphics, getHeightOffsetForStamina(), 0);
             }
         }
     }

@@ -69,8 +69,9 @@ public abstract class StaminaRenderer
      *
      * @param graphics    The {@link GuiGraphics} instance.
      * @param rightHeight The right side height offset of the heads-up display.
+     * @param offsetLeft  The amount to offset the stamina icons from the left side of the screen.
      */
-    public static void render(GuiGraphics graphics, int rightHeight)
+    public static void render(GuiGraphics graphics, int rightHeight, int offsetLeft)
     {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -83,7 +84,7 @@ public abstract class StaminaRenderer
         StaminaData data = StaminaHelper.get(player);
         int width = GuiUtil.getGuiWidth();
         int height = GuiUtil.getGuiHeight();
-        int left = width / 2 + 91;
+        int left = width / 2 + 91 + offsetLeft;
         int top = height - rightHeight;
         int stamina = data.getStaminaLevel();
         boolean isCooldown = data.isCooldown();
