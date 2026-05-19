@@ -4,7 +4,7 @@ import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.screen.home.HomeScreen;
 import mod.adrenix.nostalgic.neoforge.event.AppleSkinHandler;
 import mod.adrenix.nostalgic.neoforge.event.EmbeddiumHandler;
-import mod.adrenix.nostalgic.neoforge.gui.NostalgicGuiOverlay;
+import mod.adrenix.nostalgic.neoforge.gui.NostalgicGuiLayer;
 import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import net.neoforged.api.distmarker.Dist;
@@ -64,14 +64,14 @@ public abstract class ClientSetup
     }
 
     /**
-     * Register this mod's custom gui overlays.
+     * Register this mod's custom gui layers.
      *
      * @param event The {@link RegisterGuiLayersEvent} event instance.
      */
     @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiLayersEvent event)
+    public static void registerGuiLayers(RegisterGuiLayersEvent event)
     {
-        for (NostalgicGuiOverlay overlay : NostalgicGuiOverlay.values())
-            event.registerAbove(overlay.above(), overlay.id(), overlay.renderer());
+        for (NostalgicGuiLayer layer : NostalgicGuiLayer.values())
+            event.registerAbove(layer.above(), layer.id(), layer.renderer());
     }
 }

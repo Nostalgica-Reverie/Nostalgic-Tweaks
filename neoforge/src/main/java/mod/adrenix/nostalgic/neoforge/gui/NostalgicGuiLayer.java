@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
-public enum NostalgicGuiOverlay
+public enum NostalgicGuiLayer
 {
     AIR("air", VanillaGuiLayers.PLAYER_HEALTH, ((graphics, deltaTracker) -> {
         Minecraft minecraft = Minecraft.getInstance();
@@ -79,7 +79,7 @@ public enum NostalgicGuiOverlay
 
     /* Constructor */
 
-    NostalgicGuiOverlay(String id, ResourceLocation above, LayeredDraw.Layer renderer)
+    NostalgicGuiLayer(String id, ResourceLocation above, LayeredDraw.Layer renderer)
     {
         this.id = LocateResource.mod(id);
         this.above = above;

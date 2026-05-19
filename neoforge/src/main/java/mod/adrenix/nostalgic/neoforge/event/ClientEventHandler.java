@@ -33,14 +33,14 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 public abstract class ClientEventHandler
 {
     /**
-     * Prevents various gui overlays from rendering depending on tweak context.
+     * Prevents various gui layers from rendering depending on tweak context.
      *
      * @param event The {@link RenderGuiLayerEvent.Pre} event instance.
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void setupHighestGuiOverlayPre(RenderGuiLayerEvent.Pre event)
+    public static void setupHighestGuiLayerPre(RenderGuiLayerEvent.Pre event)
     {
-        ResourceLocation overlay = event.getName();
+        ResourceLocation layer = event.getName();
         LocalPlayer player = Minecraft.getInstance().player;
         Gui gui = Minecraft.getInstance().gui;
 
@@ -48,7 +48,7 @@ public abstract class ClientEventHandler
         boolean isFoodOff = CandyTweak.HIDE_HUNGER_BAR.get();
         boolean isMounted = NullableResult.getOrElse(player, false, local -> local.jumpableVehicle() != null);
 
-        if (overlay == VanillaGuiLayers.HOTBAR)
+        if (layer == VanillaGuiLayers.HOTBAR)
         {
             if (isExperienceOff)
             {
@@ -63,19 +63,19 @@ public abstract class ClientEventHandler
             }
         }
 
-        if (overlay == VanillaGuiLayers.EXPERIENCE_BAR && isExperienceOff)
+        if (layer == VanillaGuiLayers.EXPERIENCE_BAR && isExperienceOff)
             event.setCanceled(true);
 
-        if (overlay == VanillaGuiLayers.EXPERIENCE_LEVEL && isExperienceOff)
+        if (layer == VanillaGuiLayers.EXPERIENCE_LEVEL && isExperienceOff)
             event.setCanceled(true);
 
-        if (overlay == VanillaGuiLayers.FOOD_LEVEL && isFoodOff)
+        if (layer == VanillaGuiLayers.FOOD_LEVEL && isFoodOff)
             event.setCanceled(true);
 
-        if (overlay == VanillaGuiLayers.ARMOR_LEVEL && isFoodOff)
+        if (layer == VanillaGuiLayers.ARMOR_LEVEL && isFoodOff)
             event.setCanceled(true);
 
-        if (overlay == VanillaGuiLayers.AIR_LEVEL && isFoodOff)
+        if (layer == VanillaGuiLayers.AIR_LEVEL && isFoodOff)
             event.setCanceled(true);
     }
 
