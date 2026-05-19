@@ -53,12 +53,15 @@ public enum NostalgicGuiOverlay
 
         RenderSystem.disableBlend();
     })),
-    STAMINA("stamina", VanillaGuiLayers.EXPERIENCE_BAR, ((graphics, deltaTracker) -> {
+    STAMINA("stamina", VanillaGuiLayers.ARMOR_LEVEL, ((graphics, deltaTracker) -> {
         Minecraft minecraft = Minecraft.getInstance();
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
+
+        if (HudHelper.isArmorEmpty())
+            minecraft.gui.rightHeight -= 10;
 
         StaminaRenderer.render(graphics, minecraft.gui.rightHeight);
 

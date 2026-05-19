@@ -250,6 +250,16 @@ public abstract class HudHelper
     }
 
     /**
+     * Check if the player has no armor value.
+     *
+     * @return Whether the player's armor value is less than or equal to zero.
+     */
+    public static boolean isArmorEmpty()
+    {
+        return NullableResult.getOrElse(getPlayer(), 0, Player::getArmorValue) <= 0;
+    }
+
+    /**
      * Flips the half armor's u-texture coordinate so the icon goes from right to left.
      *
      * @param graphics The {@link GuiGraphics} instance.
