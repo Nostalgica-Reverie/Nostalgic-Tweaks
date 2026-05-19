@@ -1,23 +1,23 @@
 package mod.adrenix.nostalgic.mixin.tweak.candy.mip_map;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelManager;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.concurrent.CompletableFuture;
 
 @Mixin(ModelManager.class)
 public abstract class ModelManagerMixin
 {
     /* Shadows */
 
-    @Shadow private int maxMipmapLevels;
+    @Shadow public abstract void updateMaxMipLevel(int level);
 
     /* Injections */
 
@@ -28,28 +28,47 @@ public abstract class ModelManagerMixin
         method = "<init>",
         at = @At("RETURN")
     )
-    private void nt_mip_map$onInit(CallbackInfo callback)
+    private void nt_mip_map$onInit(CallbackInfo ci)
     {
-        CandyTweak.REMOVE_MIPMAP_TEXTURE.whenChanged(() -> {
-            if (CandyTweak.REMOVE_MIPMAP_TEXTURE.get())
-                this.maxMipmapLevels = 0;
-            else
-                this.maxMipmapLevels = Minecraft.getInstance().options.mipmapLevels().get();
-        });
+        CandyTweak.REMOVE_MIPMAP_TEXTURE.whenChanged(() ->
+            this.updateMaxMipLevel(Minecraft.getInstance().options.mipmapLevels().get()));
     }
 
     /**
-     * Updates the mipmap level when the model manager is reloaded.
+     * Changes the mipmap level on model manager initialization.
      */
-    @Inject(
-        method = "reload",
-        at = @At("HEAD")
+    @WrapOperation(
+        method = "<init>",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/client/resources/model/ModelManager;maxMipmapLevels:I",
+            opcode = Opcodes.PUTFIELD
+        )
     )
-    private void nt_mip_map$onReload(CallbackInfoReturnable<CompletableFuture<Void>> callback)
+    private void nt_mip_map$onMipmapLevelsInit(ModelManager instance, int value, Operation<Void> original)
     {
         if (CandyTweak.REMOVE_MIPMAP_TEXTURE.get())
-            this.maxMipmapLevels = 0;
-        else
-            this.maxMipmapLevels = Minecraft.getInstance().options.mipmapLevels().get();
+            value = 0;
+
+        original.call(instance, value);
+    }
+
+    /**
+     * Changes the mipmap level on when the mipmap level is updated.
+     */
+    @WrapOperation(
+        method = "updateMaxMipLevel",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/client/resources/model/ModelManager;maxMipmapLevels:I",
+            opcode = Opcodes.PUTFIELD
+        )
+    )
+    private void nt_mip_map$onUpdateMaxMipLevel(ModelManager instance, int value, Operation<Void> original)
+    {
+        if (CandyTweak.REMOVE_MIPMAP_TEXTURE.get())
+            value = 0;
+
+        original.call(instance, value);
     }
 }
