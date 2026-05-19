@@ -6,7 +6,9 @@
 This update adds support for Sodium 0.8, fixes reported issues, and adds a few tweaks.
 
 - Added Sodium 0.8 support.
-- Added Raised mod support for old HUD tweaks.
+- Added Raised 5.x mod support for old HUD tweaks.
+    - Raised 4.x is still supported.
+- Added `Old Style Bogged Skeleton Drops` modern mob drops tweak.
 - Added `Play Music Continuously` sound music tweak.
 - Added `Continuous Delay` sound music tweak to define delay between continuous music.
 - Added `Ignored Old Damage Value Items` combat gameplay list tweak.
