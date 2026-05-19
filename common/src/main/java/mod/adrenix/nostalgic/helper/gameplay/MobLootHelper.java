@@ -166,6 +166,7 @@ public abstract class MobLootHelper
         new EntityLoot(EntityType.CHICKEN, GameplayTweak.OLD_CHICKEN_DROPS, FEATHER_TABLE);
         new EntityLoot(EntityType.PIG, GameplayTweak.OLD_PIG_DROPS, PORK_CHOP_TABLE);
         new EntityLoot(EntityType.STRAY, GameplayTweak.OLD_STYLE_STRAY_DROPS, ARROW_BONE_TABLE);
+        new EntityLoot(EntityType.BOGGED, GameplayTweak.OLD_STYLE_BOGGED_DROPS, ARROW_BONE_TABLE);
     }
 
     /**

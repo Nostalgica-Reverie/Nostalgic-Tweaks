@@ -1879,6 +1879,8 @@
   "gui.nostalgic_tweaks.config.gameplay.oldStyleMooshroomDrops.info": "Mooshrooms will§6 only§r drop§6 0-2§r leather. Dropped loot§a respects§r enchantments, such as looting. This will§c override§r data packs and§c disable§e rare drops§r.",
   "gui.nostalgic_tweaks.config.gameplay.oldStyleDrownedDrops": "Old Style Drowned Zombie Drops",
   "gui.nostalgic_tweaks.config.gameplay.oldStyleDrownedDrops.info": "Drowned zombies will§6 only§r drop§6 0-2§r feathers. Dropped loot§a respects§r enchantments, such as looting. This will§c override§r data packs and§c disable§e rare drops§r.",
+  "gui.nostalgic_tweaks.config.gameplay.oldStyleBoggedDrops": "Old Style Bogged Skeleton Drops",
+  "gui.nostalgic_tweaks.config.gameplay.oldStyleBoggedDrops.info": "Bogged skeletons will§6 only§r drop§6 0-2§r bones and/or arrows. Dropped loot§a respects§r enchantments, such as looting. This will§c override§r data packs and§c disable§e rare drops§r.",
   "gui.nostalgic_tweaks.config.gameplay.oldStyleRabbitDrops": "Old Style Rabbit Drops",
   "gui.nostalgic_tweaks.config.gameplay.oldStyleRabbitDrops.info": "Rabbits will§6 only§r drop§6 0-1§r rabbit hide. Dropped loot§a respects§r enchantments, such as looting. This will§c override§r data packs and§c disable§e rare drops§r.",
   "gui.nostalgic_tweaks.config.gameplay.oldStyleStrayDrops": "Old Style Stray Skeleton Drops",

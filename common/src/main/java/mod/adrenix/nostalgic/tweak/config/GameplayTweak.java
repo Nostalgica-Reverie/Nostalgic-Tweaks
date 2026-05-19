@@ -81,6 +81,7 @@ public interface GameplayTweak
     TweakFlag OLD_STYLE_MOOSHROOM_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).build();
     TweakFlag OLD_STYLE_DROWNED_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).build();
     TweakFlag OLD_STYLE_RABBIT_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).build();
+    TweakFlag OLD_STYLE_BOGGED_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).newForUpdate().build();
     TweakFlag OLD_STYLE_STRAY_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).build();
     TweakFlag OLD_STYLE_HUSK_DROPS = TweakFlag.server(false, GameplayGroup.MOB_DROPS_MODERN).build();
 
