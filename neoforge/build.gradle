@@ -36,6 +36,9 @@ dependencies {
 
     // Apple Skin Support
     modCompileOnly "maven.modrinth:appleskin:${rootProject.neoforge_appleskin_version}"
+
+    // Raised Support
+    modCompileOnly "maven.modrinth:raised:${rootProject.neoforge_raised_version}"
 }
 
 processResources {
