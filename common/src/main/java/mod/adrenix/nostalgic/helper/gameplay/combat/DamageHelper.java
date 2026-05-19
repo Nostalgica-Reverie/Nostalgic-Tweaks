@@ -15,10 +15,10 @@ public abstract class DamageHelper
      */
     // @formatter:off
     private static final Map<Class<? extends TieredItem>, Function<TieredItem, Float>> OLD_DAMAGE_MAP = Map.of(
-        SwordItem.class, item -> item.getTier().getAttackDamageBonus() + 4.0F,
-        AxeItem.class, item -> item.getTier().getAttackDamageBonus() + 3.0F,
-        PickaxeItem.class, item -> item.getTier().getAttackDamageBonus() + 2.0F,
-        ShovelItem.class, item -> item.getTier().getAttackDamageBonus() + 1.0F,
+        SwordItem.class, item -> item.getTier().getAttackDamageBonus() + 6.0F,
+        AxeItem.class, item -> item.getTier().getAttackDamageBonus() + 2.0F,
+        PickaxeItem.class, item -> item.getTier().getAttackDamageBonus() + 1.0F,
+        ShovelItem.class, item -> item.getTier().getAttackDamageBonus() + 0.5F,
         HoeItem.class, item -> item.getTier().getAttackDamageBonus()
     );
     // @formatter:on
