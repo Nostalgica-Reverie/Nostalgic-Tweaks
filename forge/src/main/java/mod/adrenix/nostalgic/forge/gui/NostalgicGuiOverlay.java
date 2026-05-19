@@ -48,15 +48,34 @@ public enum NostalgicGuiOverlay
 
         RenderSystem.disableBlend();
     })),
-    STAMINA("stamina", VanillaGuiOverlay.EXPERIENCE_BAR.id(), ((forgeGui, graphics, partialTick, screenWidth, screenHeight) -> {
+    STAMINA_ARMOR("stamina_armor", NostalgicGuiOverlay.ARMOR.id(), ((forgeGui, graphics, partialTick, screenWidth, screenHeight) -> {
+        if (!StaminaRenderer.isVisible() || !CandyTweak.HIDE_HUNGER_BAR.get())
+            return;
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableDepthTest();
+
+        if (HudHelper.isArmorEmpty())
+            forgeGui.rightHeight -= 10;
+
+        StaminaRenderer.render(graphics, forgeGui.rightHeight);
+
+        forgeGui.rightHeight += 10;
+
+        RenderSystem.disableBlend();
+    })),
+    STAMINA_FOOD("stamina_food", VanillaGuiOverlay.FOOD_LEVEL.id(), ((forgeGui, graphics, partialTick, screenWidth, screenHeight) -> {
+        if (!StaminaRenderer.isVisible() || CandyTweak.HIDE_HUNGER_BAR.get())
+            return;
+
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
         StaminaRenderer.render(graphics, forgeGui.rightHeight);
 
-        if (StaminaRenderer.isVisible())
-            forgeGui.rightHeight += 10;
+        forgeGui.rightHeight += 10;
 
         RenderSystem.disableBlend();
     }));
