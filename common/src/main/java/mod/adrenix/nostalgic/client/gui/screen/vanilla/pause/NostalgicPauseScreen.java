@@ -18,6 +18,7 @@ public class NostalgicPauseScreen extends PauseScreen implements DynamicScreen<N
     private final UniqueArrayList<DynamicWidget<?, ?>> widgets;
     private final PauseWidgets pauseWidgets;
     private final PauseLayout layout;
+    private boolean isTitleHigh;
     private boolean isLayoutSet;
 
     /* Constructor */
@@ -47,6 +48,8 @@ public class NostalgicPauseScreen extends PauseScreen implements DynamicScreen<N
     @Override
     protected void init()
     {
+        this.isTitleHigh = this.layout == PauseLayout.ALPHA_BETA || this.layout == PauseLayout.ACHIEVE_LOWER;
+
         this.title = switch (this.layout)
         {
             case ALPHA_BETA, ACHIEVE_LOWER, ACHIEVE_UPPER, LAN -> Lang.Pause.GAME_MENU.get();
@@ -104,6 +107,9 @@ public class NostalgicPauseScreen extends PauseScreen implements DynamicScreen<N
         this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 4 - 20, 0xFFFFFF);
+
+        int titleY = this.isTitleHigh ? 40 : this.height / 4 - 20;
+
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, titleY, 0xFFFFFF);
     }
 }
