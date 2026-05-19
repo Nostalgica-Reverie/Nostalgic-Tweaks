@@ -908,6 +908,7 @@ public class ClientConfig implements ConfigMeta
         public boolean oldClassicWalkArms = AnimationTweak.OLD_CLASSIC_WALK_ARMS.register("oldClassicWalkArms");
         public boolean oldBackwardWalking = AnimationTweak.OLD_BACKWARD_WALKING.register("oldBackwardWalking");
         public boolean oldVerticalBobbing = AnimationTweak.OLD_VERTICAL_BOBBING.register("oldVerticalBobbing");
+        public int verticalBobbingIntensity = AnimationTweak.VERTICAL_BOBBING_INTENSITY.register("verticalBobbingIntensity");
         public boolean oldCreativeCrouch = AnimationTweak.OLD_CREATIVE_CROUCH.register("oldCreativeCrouch");
         public boolean oldRandomDamage = AnimationTweak.OLD_RANDOM_DAMAGE.register("oldRandomDamage");
         public boolean oldSneaking = AnimationTweak.OLD_SNEAKING.register("oldSneaking");

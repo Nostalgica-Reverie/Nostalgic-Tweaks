@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.mixin.duck.impl;
 
 import mod.adrenix.nostalgic.mixin.duck.SlotTracker;
+import mod.adrenix.nostalgic.tweak.config.AnimationTweak;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -99,13 +100,17 @@ public abstract class PlayerImpl extends LivingEntity implements SlotTracker
     {
         double deltaY = this.getDeltaMovement().y;
         float rotation = (float) (Math.atan(-deltaY * 0.20000000298023224D) * 15.0D);
+        float intensity = AnimationTweak.VERTICAL_BOBBING_INTENSITY.get() / 100.0F;
         boolean isGrounded = deltaY < -0.07 && deltaY > -0.08 && !this.getBlockStateOn().isAir();
 
         if (this.onGround() || this.getHealth() <= 0.0F || isGrounded)
+        {
             rotation = 0.0F;
+            intensity = 1.0F;
+        }
 
         float current = this.nt$getCameraPitch();
 
-        this.nt$setCameraPitch(current + ((rotation - current) * 0.8F));
+        this.nt$setCameraPitch(current + ((rotation - current) * (0.8F * intensity)));
     }
 }

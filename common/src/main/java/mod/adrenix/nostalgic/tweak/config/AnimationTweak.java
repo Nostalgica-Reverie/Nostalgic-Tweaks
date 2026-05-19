@@ -45,6 +45,7 @@ public interface AnimationTweak
     TweakFlag OLD_CLASSIC_WALK_ARMS = TweakFlag.client(false, AnimationGroup.PLAYER).build();
     TweakFlag OLD_BACKWARD_WALKING = TweakFlag.client(true, AnimationGroup.PLAYER).build();
     TweakFlag OLD_VERTICAL_BOBBING = TweakFlag.client(true, AnimationGroup.PLAYER).build();
+    TweakNumber<Integer> VERTICAL_BOBBING_INTENSITY = TweakNumber.client(100, AnimationGroup.PLAYER).slider(0, 100, SliderType.INTENSITY).newForUpdate().build();
     TweakFlag OLD_CREATIVE_CROUCH = TweakFlag.dynamic(true, AnimationGroup.PLAYER).build();
     TweakFlag OLD_SNEAKING = TweakFlag.client(true, AnimationGroup.PLAYER).build();
     TweakFlag OLD_RANDOM_DAMAGE = TweakFlag.client(true, AnimationGroup.PLAYER).build();
