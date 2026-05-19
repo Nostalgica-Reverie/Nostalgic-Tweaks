@@ -58,6 +58,9 @@ dependencies {
 
     // Embeddium Support
     modCompileOnly "maven.modrinth:embeddium:${rootProject.forge_embeddium_version}"
+
+    // Raised Support
+    modCompileOnly "maven.modrinth:raised:${rootProject.forge_raised_version}"
 }
 
 processResources {

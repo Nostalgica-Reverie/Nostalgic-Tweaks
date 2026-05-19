@@ -19,6 +19,7 @@ public enum ModTracker
     EXORDIUM("exordium"),
     OPTIFINE("optifine"),
     FLYWHEEL("flywheel"),
+    RAISED("raised"),
     IRIS("iris");
 
     /* Fields */
