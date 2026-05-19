@@ -1,5 +1,21 @@
 # Nostalgic Tweaks 1.21(.1) (NeoForge/Fabric) Changelog
 
+## 2.0.0-beta923
+
+**Note:** This is an in-dev build! More fixes will be coming for the next release.
+This update adds support for Sodium 0.8, fixes reported issues, and adds a few tweaks.
+
+- Added Sodium 0.8 support.
+- Added Raised mod support for old HUD tweaks.
+- Added `Play Music Continuously` sound music tweak.
+- Added `Continuous Delay` sound music tweak to define delay between continuous music.
+- Added `Ignored Old Damage Value Items` combat gameplay list tweak.
+- Fixed `Old Damage Values` tweak not properly representing old damage values.
+    - This change increases sword damage and reduces damage for all other tools.
+- Fixed the 'Game menu' pause screen text being the incorrect height on some old layouts.
+- Fixed the stamina bar being below the armor bar on NeoForge.
+- Potentially fixed rare issue where all game textures broke after the early loading screen.
+
 ## 2.0.0-beta922
 
 This update fixes reported issues.
