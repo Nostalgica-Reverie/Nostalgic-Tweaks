@@ -1603,7 +1603,7 @@
   "gui.nostalgic_tweaks.config.eyeCandy.disableModelDestructionParticles.info": "When a block is destroyed, the voxel shape of the block model determines how many particles are shown. This tweak§c disables§r that functionality. Each block will have the§e same amount§r of particles shown when destroyed.",
   "gui.nostalgic_tweaks.config.eyeCandy.disableModelDestructionParticles.search": "Influence, Size, Model, Voxel, Shape",
   "gui.nostalgic_tweaks.config.eyeCandy.disableEnderChestParticles": "Disable Ender Chest Particles",
-  "gui.nostalgic_tweaks.config.eyeCandy.disableEnderChestParticles.info": "Disable the particles that are spawn by ender chest blocks.",
+  "gui.nostalgic_tweaks.config.eyeCandy.disableEnderChestParticles.info": "Disable the particles that are spawned by ender chest blocks.",
   "gui.nostalgic_tweaks.config.eyeCandy.disableUnderwaterParticles": "Disable Underwater Particles",
   "gui.nostalgic_tweaks.config.eyeCandy.disableUnderwaterParticles.info": "Prevent water particulates from appearing while the player is underwater.",
   "gui.nostalgic_tweaks.config.eyeCandy.unoptimizedExplosionParticles": "Unoptimized Explosion Particles",
