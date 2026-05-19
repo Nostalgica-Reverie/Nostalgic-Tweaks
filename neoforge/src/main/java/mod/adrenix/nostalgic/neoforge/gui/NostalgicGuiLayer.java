@@ -53,7 +53,10 @@ public enum NostalgicGuiLayer
 
         RenderSystem.disableBlend();
     })),
-    STAMINA("stamina", VanillaGuiLayers.ARMOR_LEVEL, ((graphics, deltaTracker) -> {
+    STAMINA_ARMOR("stamina_armor", NostalgicGuiLayer.ARMOR.id(), ((graphics, deltaTracker) -> {
+        if (!StaminaRenderer.isVisible() || !CandyTweak.HIDE_HUNGER_BAR.get())
+            return;
+
         Minecraft minecraft = Minecraft.getInstance();
 
         RenderSystem.enableBlend();
@@ -65,8 +68,23 @@ public enum NostalgicGuiLayer
 
         StaminaRenderer.render(graphics, minecraft.gui.rightHeight);
 
-        if (StaminaRenderer.isVisible())
-            minecraft.gui.rightHeight += 10;
+        minecraft.gui.rightHeight += 10;
+
+        RenderSystem.disableBlend();
+    })),
+    STAMINA_FOOD("stamina_food", VanillaGuiLayers.FOOD_LEVEL, ((graphics, deltaTracker) -> {
+        if (!StaminaRenderer.isVisible() || CandyTweak.HIDE_HUNGER_BAR.get())
+            return;
+
+        Minecraft minecraft = Minecraft.getInstance();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableDepthTest();
+
+        StaminaRenderer.render(graphics, minecraft.gui.rightHeight);
+
+        minecraft.gui.rightHeight += 10;
 
         RenderSystem.disableBlend();
     }));
