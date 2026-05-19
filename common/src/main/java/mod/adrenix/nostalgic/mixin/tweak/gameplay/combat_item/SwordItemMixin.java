@@ -69,9 +69,11 @@ public abstract class SwordItemMixin extends TieredItem
     )
     private Multimap<Attribute, AttributeModifier> nt_combat_item$modifySwordItemDefaultAttributeModifiers(Multimap<Attribute, AttributeModifier> defaultModifiers, EquipmentSlot slot)
     {
-        if (GameplayTweak.OLD_DAMAGE_VALUES.get() && EquipmentSlot.MAINHAND == slot && this.nt$isModifierAllowed)
+        // @formatter:off
+        if (GameplayTweak.OLD_DAMAGE_VALUES.get() && EquipmentSlot.MAINHAND == slot && this.nt$isModifierAllowed && !GameplayTweak.IGNORED_OLD_DAMAGE_ITEMS.get().containsItem(this))
             return this.nt$defaultModifiers;
 
+        // @formatter:on
         return defaultModifiers;
     }
 }
