@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -83,19 +84,19 @@ public abstract class PlayerImpl extends LivingEntity implements SlotTracker
     }
 
     /**
-     * Updates camera pitching when the player moves up and down.
+     * Updates camera pitching after player bobbing is updated.
      */
     @Inject(
         method = "aiStep",
         at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/player/Inventory;tick()V"
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/player/Player;bob:F",
+            opcode = Opcodes.PUTFIELD,
+            shift = At.Shift.AFTER
         )
     )
     private void nt_camera_pitching$onPlayerAiStep(CallbackInfo callback)
     {
-        this.nt$setPrevCameraPitch(this.nt$getCameraPitch());
-
         double deltaY = this.getDeltaMovement().y;
         float rotation = (float) (Math.atan(-deltaY * 0.20000000298023224D) * 15.0D);
         boolean isGrounded = deltaY < -0.07 && deltaY > -0.08 && !this.getBlockStateOn().isAir();
