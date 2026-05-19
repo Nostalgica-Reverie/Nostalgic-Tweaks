@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mod.adrenix.nostalgic.helper.candy.hud.HudHelper;
 import mod.adrenix.nostalgic.helper.gameplay.stamina.StaminaRenderer;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import mod.adrenix.nostalgic.util.ModTracker;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.LocateResource;
 import mod.adrenix.nostalgic.util.common.data.NullableResult;
@@ -23,15 +24,25 @@ public enum NostalgicGuiLayer
 
         int supply = NullableResult.getOrElse(minecraft.player, 0, Player::getAirSupply);
         int maximum = NullableResult.getOrElse(minecraft.player, 0, Player::getMaxAirSupply);
+        int offsetLeft = GuiUtil.getGuiWidth() / 2 - 100;
 
         if (supply >= maximum)
             return;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            minecraft.gui.leftHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        HudHelper.renderAir(graphics, minecraft.gui.leftHeight, GuiUtil.getGuiWidth() / 2 - 100);
+        HudHelper.renderAir(graphics, minecraft.gui.leftHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            minecraft.gui.leftHeight += RaisedHandler.getHotbarY();
 
         minecraft.gui.leftHeight += 10;
 
@@ -43,11 +54,22 @@ public enum NostalgicGuiLayer
         if (!CandyTweak.HIDE_HUNGER_BAR.get() || minecraft.options.hideGui || (minecraft.gameMode != null && !minecraft.gameMode.canHurtPlayer()))
             return;
 
+        int offsetRight = GuiUtil.getGuiWidth() / 2 + 90;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            minecraft.gui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetRight += RaisedHandler.getHotbarX();
+        }
+
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        HudHelper.renderArmor(graphics, minecraft.gui.rightHeight, GuiUtil.getGuiWidth() / 2 + 90);
+        HudHelper.renderArmor(graphics, minecraft.gui.rightHeight, offsetRight);
+
+        if (ModTracker.RAISED.isInstalled())
+            minecraft.gui.rightHeight += RaisedHandler.getHotbarY();
 
         minecraft.gui.rightHeight += 10;
 
@@ -58,6 +80,13 @@ public enum NostalgicGuiLayer
             return;
 
         Minecraft minecraft = Minecraft.getInstance();
+        int offsetLeft = 0;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            minecraft.gui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -66,7 +95,10 @@ public enum NostalgicGuiLayer
         if (HudHelper.isArmorEmpty())
             minecraft.gui.rightHeight -= 10;
 
-        StaminaRenderer.render(graphics, minecraft.gui.rightHeight);
+        StaminaRenderer.render(graphics, minecraft.gui.rightHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            minecraft.gui.rightHeight += RaisedHandler.getHotbarY();
 
         minecraft.gui.rightHeight += 10;
 
@@ -77,12 +109,22 @@ public enum NostalgicGuiLayer
             return;
 
         Minecraft minecraft = Minecraft.getInstance();
+        int offsetLeft = 0;
+
+        if (ModTracker.RAISED.isInstalled())
+        {
+            minecraft.gui.rightHeight -= RaisedHandler.getHotbarY();
+            offsetLeft += RaisedHandler.getHotbarX();
+        }
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableDepthTest();
 
-        StaminaRenderer.render(graphics, minecraft.gui.rightHeight);
+        StaminaRenderer.render(graphics, minecraft.gui.rightHeight, offsetLeft);
+
+        if (ModTracker.RAISED.isInstalled())
+            minecraft.gui.rightHeight += RaisedHandler.getHotbarY();
 
         minecraft.gui.rightHeight += 10;
 
