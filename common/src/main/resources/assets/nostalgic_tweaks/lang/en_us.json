@@ -1012,7 +1012,7 @@
   "gui.nostalgic_tweaks.config.eyeCandy.fullBlockOutlines": "Full Block Hitbox Outlines",
   "gui.nostalgic_tweaks.config.eyeCandy.fullBlockOutlines.info": "Choose which blocks will render a full block hitbox outline. This is an§e aesthetic§r tweak and does§c not§r change the collision hitbox itself.",
   "gui.nostalgic_tweaks.config.eyeCandy.fullBlockCollisions": "Full Block Collisions",
-  "gui.nostalgic_tweaks.config.eyeCandy.fullBlockCollisions.info": "Choose which blocks will have full block collision voxel shape. When the §7@decode{tweak=eyeCandy.applyFullBlockCollisions}§r tweak is§a enabled§r, all blocks defined in this list can be collided with by your player. Blocks defined in this list will also have a§e visual§r full block hitbox outline.",
+  "gui.nostalgic_tweaks.config.eyeCandy.fullBlockCollisions.info": "Choose which blocks will have full block collision voxel shape. When the §7@decode{tweak=eyeCandy.applyFullBlockCollisions}§r tweak is§a enabled§r, all blocks defined in this list can be collided with by your player. Additionally, your player's hitbox targeting will use full block logic. Blocks defined in this list will also have a§e visual§r full block hitbox outline.",
   "gui.nostalgic_tweaks.config.eyeCandy.applyFullBlockCollisions": "Apply Full Block Collisions",
   "gui.nostalgic_tweaks.config.eyeCandy.applyFullBlockCollisions.info": "Allow players to use their own custom full block collision voxel shapes on the server. This will let players§e collide§r with their own personalized§a full-sized§r blocks.",
   "gui.nostalgic_tweaks.config.eyeCandy.blockOutlineColor": "Hitbox Outline Color",

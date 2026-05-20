@@ -23,13 +23,17 @@ public abstract class BlockStateBaseMixin
 
     /**
      * Setting a collision voxel shape to a full block allows players to stand on their custom full blocks properly.
-     * Because this changes a block's behavior, the client must get permission from the server to use this tweak.
+     * Additionally, this will also change the client's hit results when placing, breaking, or picking blocks. Because
+     * this changes a block's behavior, the client must get permission from the server to use this tweak.
      */
     @ModifyReturnValue(
-        method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
+        method = {
+            "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
+            "getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
+        },
         at = @At("RETURN")
     )
-    private VoxelShape nt_block_hitbox$modifyCollisionShape(VoxelShape voxelShape)
+    private VoxelShape nt_block_hitbox$modifyCollisionAndBlockShape(VoxelShape voxelShape)
     {
         if (NostalgicTweaks.isMixinEarly() || !CandyTweak.APPLY_FULL_BLOCK_COLLISIONS.get())
             return voxelShape;
