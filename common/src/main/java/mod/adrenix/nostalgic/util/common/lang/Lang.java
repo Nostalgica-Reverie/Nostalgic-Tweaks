@@ -57,6 +57,21 @@ public interface Lang
         Translation UNBOUND = new Translation("key.nostalgic_tweaks.unbound");
     }
 
+    /* Blocks */
+
+    /**
+     * Lang keys for names or messages that relate to the game's blocks.
+     */
+    interface Block
+    {
+        Translation BED_NIGHTMARE = from("bed.nightmare");
+
+        private static Translation from(@SuppressWarnings("SameParameterValue") String name)
+        {
+            return new Translation("block.nostalgic_tweaks." + name);
+        }
+    }
+
     /* Vanilla */
 
     /**

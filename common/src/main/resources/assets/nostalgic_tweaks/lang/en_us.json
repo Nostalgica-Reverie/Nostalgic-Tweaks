@@ -6,6 +6,8 @@
   "key.nostalgic_tweaks.next_song": "Next Song",
   "key.nostalgic_tweaks.unbound": "Unbound",
 
+  "block.nostalgic_tweaks.bed.nightmare": "A nearby monster found a way to your bed! Build a shelter to keep monsters out.",
+
   "gui.nostalgic_tweaks.support": "Donate §c♥§r",
   "gui.nostalgic_tweaks.title": "Nostalgic Tweaks",
   "gui.nostalgic_tweaks.empty": "",
@@ -1975,7 +1977,7 @@
   "gui.nostalgic_tweaks.config.gameplay.disableBedBounce": "Disable Bed Bounce",
   "gui.nostalgic_tweaks.config.gameplay.disableBedBounce.info": "Disable entities bouncing on beds and disable fall damage reduction when landing on beds.",
   "gui.nostalgic_tweaks.config.gameplay.oldNightmares": "Old Nightmares",
-  "gui.nostalgic_tweaks.config.gameplay.oldNightmares.info": "Bring back the old nightmare mechanic when a player tries to sleep. If there is no block light around the player, then the player will be awoken and a zombie or skeleton will spawn near the player.",
+  "gui.nostalgic_tweaks.config.gameplay.oldNightmares.info": "Bring back the old nightmare mechanic from Minecraft beta. When the player goes to sleep, monsters that can spawn within a 32x16x32 area around the player's bed will check if they can path find directly to the bed. If a monster can, it will wake up the player and the monster will appear next to the bed. Only zombies, skeletons, and spiders can wake up the player.",
   "gui.nostalgic_tweaks.config.gameplay.oldNightmares.search": "Bed, Monster, Skeleton, Zombie",
   "gui.nostalgic_tweaks.config.gameplay.disableSprint": "Prevent Sprinting",
   "gui.nostalgic_tweaks.config.gameplay.disableSprint.info": "Disables the ability for the player to sprint. This tweak is only applied in§6 survival§r mode.",
