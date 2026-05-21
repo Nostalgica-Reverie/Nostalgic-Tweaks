@@ -105,6 +105,9 @@ public class CaveSoundManager
      */
     private boolean isCaveLike(BlockPos blockPos)
     {
+        if (blockPos.getY() <= this.level.getMinBuildHeight())
+            return false;
+
         if (this.level.getBlockState(blockPos).getBlock() instanceof AirBlock)
         {
             int blockLight = this.level.getBrightness(LightLayer.BLOCK, blockPos);
