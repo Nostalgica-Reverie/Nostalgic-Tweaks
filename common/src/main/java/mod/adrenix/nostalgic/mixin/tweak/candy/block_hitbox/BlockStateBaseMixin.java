@@ -3,6 +3,7 @@ package mod.adrenix.nostalgic.mixin.tweak.candy.block_hitbox;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import mod.adrenix.nostalgic.util.client.GameUtil;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,19 +24,15 @@ public abstract class BlockStateBaseMixin
 
     /**
      * Setting a collision voxel shape to a full block allows players to stand on their custom full blocks properly.
-     * Additionally, this will also change the client's hit results when placing, breaking, or picking blocks. Because
-     * this changes a block's behavior, the client must get permission from the server to use this tweak.
+     * Because this changes a block's behavior, the client must get permission from the server to use this tweak.
      */
     @ModifyReturnValue(
-        method = {
-            "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
-            "getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
-        },
+        method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
         at = @At("RETURN")
     )
-    private VoxelShape nt_block_hitbox$modifyCollisionAndBlockShape(VoxelShape voxelShape)
+    private VoxelShape nt_block_hitbox$modifyCollisionShape(VoxelShape voxelShape)
     {
-        if (NostalgicTweaks.isMixinEarly() || !CandyTweak.APPLY_FULL_BLOCK_COLLISIONS.get())
+        if (NostalgicTweaks.isMixinEarly() || GameUtil.isOnIntegratedSeverThread() || !CandyTweak.APPLY_FULL_BLOCK_COLLISIONS.get())
             return voxelShape;
 
         if (CandyTweak.FULL_BLOCK_COLLISIONS.get().containsBlock(this.getBlock()))
