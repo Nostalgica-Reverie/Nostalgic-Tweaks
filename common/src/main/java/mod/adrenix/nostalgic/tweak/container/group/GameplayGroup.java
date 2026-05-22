@@ -23,6 +23,7 @@ public interface GameplayGroup
     Container MECHANICS_BLOCK_BED = Container.group(MECHANICS_BLOCK, "mechanics_block_bed").color(0xC25654).icon(Blocks.RED_BED).build();
     Container MECHANICS_BLOCK_TNT = Container.group(MECHANICS_BLOCK, "mechanics_block_tnt").color(0xE63D14).icon(Blocks.TNT).build();
     Container MECHANICS_BLOCK_CHEST = Container.group(MECHANICS_BLOCK, "mechanics_block_chest").color(0xFFB444).icon(Blocks.CHEST).build();
+    Container MECHANICS_BLOCK_SPONGE = Container.group(MECHANICS_BLOCK, "mechanics_block_sponge").color(0xE5E533).icon(Blocks.SPONGE).build();
     Container MECHANICS_FARMING = Container.group(MECHANICS, "mechanics_farming").color(0x69B038).icon(Items.WHEAT_SEEDS).build();
     Container MECHANICS_FISHING = Container.group(MECHANICS, "mechanics_fishing").color(0x896727).icon(Items.FISHING_ROD).build();
     Container MECHANICS_PLAYER = Container.group(MECHANICS, "mechanics_player").color(0xB6896C).icon(Items.PLAYER_HEAD).build();

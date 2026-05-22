@@ -108,4 +108,22 @@ public abstract class BlockUtil
     {
         return blockPos.getY() < level.getMinBuildHeight() + 5;
     }
+
+    /**
+     * Calculate the Chebyshev distance between two block positions.
+     *
+     * @param startPos The {@link BlockPos} representing the starting position.
+     * @param endPos   The {@link BlockPos} representing the ending position.
+     * @return The absolute straight line distance in 3D space from one point to another.
+     * @link <a href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev distance</a>
+     */
+    @PublicAPI
+    public static int getChebyshevDist(BlockPos startPos, BlockPos endPos)
+    {
+        int dx = Math.abs(startPos.getX() - endPos.getX());
+        int dy = Math.abs(startPos.getY() - endPos.getY());
+        int dz = Math.abs(startPos.getZ() - endPos.getZ());
+
+        return Math.max(dx, Math.max(dy, dz));
+    }
 }

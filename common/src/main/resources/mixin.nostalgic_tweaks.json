@@ -208,6 +208,9 @@
     "gameplay.monster_spawn.MobCategoryMixin",
     "gameplay.monster_spawn.MobMixin",
     "gameplay.monster_spawn.PiglinMixin",
-    "gameplay.monster_spawn.ZombieMixin"
+    "gameplay.monster_spawn.ZombieMixin",
+    "gameplay.sponge_block.BlockBehaviourMixin",
+    "gameplay.sponge_block.FlowingFluidMixin",
+    "gameplay.sponge_block.SpongeBlockMixin"
   ]
 }
