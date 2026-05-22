@@ -53,6 +53,7 @@ public class ServerConfig implements ConfigMeta
     public static class EyeCandy
     {
         public boolean hideAdvancementChats = CandyTweak.HIDE_ADVANCEMENT_CHATS.register("hideAdvancementChats");
+        public boolean applyFullHitboxTargeting = CandyTweak.APPLY_FULL_HITBOX_TARGETING.register("applyFullBlockTargeting");
         public boolean applyFullBlockCollisions = CandyTweak.APPLY_FULL_BLOCK_COLLISIONS.register("applyFullBlockCollisions");
         public Hotbar oldCreativeHotbar = CandyTweak.OLD_CREATIVE_HOTBAR.register("oldCreativeHotbar");
         public int itemMergeLimit = CandyTweak.ITEM_MERGE_LIMIT.register("itemMergeLimit");

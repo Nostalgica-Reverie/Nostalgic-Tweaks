@@ -193,6 +193,7 @@ public class ClientConfig implements ConfigMeta
 
         // Hitbox Outline
 
+        public boolean applyFullHitboxTargeting = CandyTweak.APPLY_FULL_HITBOX_TARGETING.register("applyFullHitboxTargeting");
         public boolean applyFullBlockCollisions = CandyTweak.APPLY_FULL_BLOCK_COLLISIONS.register("applyFullBlockCollisions");
         public ItemSet fullBlockCollisions = CandyTweak.FULL_BLOCK_COLLISIONS.register("fullBlockCollisions");
         public ItemSet fullBlockOutlines = CandyTweak.FULL_BLOCK_OUTLINES.register("fullBlockOutlines");
