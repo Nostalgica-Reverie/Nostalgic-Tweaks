@@ -1,13 +1,13 @@
+# State of Development
+This mod is still being worked on. Updates are slow to come out since myself and the other volunteer maintainers are super busy with personal matters. If you are a developer and are interested in helping us out with updates then please join the [Discord](https://discord.gg/Un7b9AWSsu) and let us know! The v2.0 update will be released for Minecraft 1.20.1 and 1.21.1. A rewrite of the mod (v3.0) will be made for whatever Minecraft version that modders consider to be the next LTS. I cannot provide any potential release dates at this time. Thanks for the patience!
+
 ## Nostalgica Reverie
 This mod is now a part of the [Nostalgica Reverie Organization](https://github.com/Nostalgica-Reverie). A collection of repositories for all mods and projects focused on blending old with new! If you're interested to see what we're up to, then stop by the organization's [Discord](https://discord.gg/Un7b9AWSsu)!
 
-# Mod Relicense
-As of August 15th, 2024, Nostalgic Tweaks is now under the LGPLv3 license. All versions starting at `v2.0.0-beta.905` and later will use this license. Mod developers are allowed to fork this project and distribute their changes. However, if you would rather join the development team, then please reach out to us at the mod's [Discord](https://discord.gg/Un7b9AWSsu) server.
-
 # Development Branches
-- 1.21.4 (Beta 9.1) **Coming Soon™**
-- [1.21.1 (Beta 9)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.21) **LTS**
-- [1.20.1 (Beta 9)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.1) **LTS**
+- 26.1.x (v3) **Coming Soon™**
+- [1.21.1 (v2)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.21) **LTS**
+- [1.20.1 (v2)](https://github.com/Adrenix/Nostalgic-Tweaks/tree/1.20.1) **LTS** (_Will be dropped when v3 development starts_)
 
 #### Changelogs
 See the changelog in a branch for versioned changes.
