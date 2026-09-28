@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -12,11 +12,17 @@ loom {
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 dependencies {
@@ -26,7 +32,7 @@ dependencies {
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 
     // Embeddium Support
     modCompileOnly "maven.modrinth:embeddium:${rootProject.neoforge_embeddium_version}"
@@ -67,7 +73,7 @@ shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
-    configurations = [project.configurations.shadowCommon]
+    configurations = [project.configurations.shadowBundle]
     archiveClassifier = "dev-shadow"
 }
 
@@ -83,15 +89,9 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
-jar {
-    archivesBaseName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-NeoForge"
-    archiveClassifier = "dev"
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
+base {
+    archivesName = "${rootProject.archives_base_name}-mc${rootProject.minecraft_max_version}-NeoForge"
+    jar.archiveClassifier = "dev"
 }
 
 publishing {

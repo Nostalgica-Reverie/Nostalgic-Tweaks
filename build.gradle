@@ -1,14 +1,28 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.17-SNAPSHOT" apply false
+    id "architectury-plugin" version "3.5-SNAPSHOT"
+    id 'com.gradleup.shadow' version '9.4.3' apply false
 }
 
 architectury {
-    minecraft = rootProject.minecraft_version
+    minecraft = project.minecraft_version
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
+    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'maven-publish'
+
+    repositories {
+        maven { url "https://api.modrinth.com/maven" }
+        maven { url "https://maven.parchmentmc.org/" }
+        maven { url "https://maven.terraformersmc.com/" }
+        maven { url "https://maven.neoforged.net/releases/" }
+    }
+
+    base {
+        archivesName = rootProject.archives_base_name
+    }
 
     loom {
         silentMojangMappingsLicense()
@@ -17,52 +31,40 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
 
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        // mappings loom.officialMojangMappings()
-
         mappings loom.layered() {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
         }
 
-        // The following line declares the yarn mappings you may select this one as well.
-        // mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-
         // Provides javax annotations.
         implementation("com.google.code.findbugs:jsr305:3.0.2")
-    }
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    base {
-        archivesName = rootProject.archives_base_name
-    }
-
-    version = rootProject.mod_version
-    group = rootProject.maven_group
-
-    repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-        maven { url "https://api.modrinth.com/maven" }
-        maven { url "https://maven.parchmentmc.org/" }
-        maven { url "https://maven.terraformersmc.com/" }
-        maven { url "https://maven.neoforged.net/releases/" }
-    }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 21
     }
 
     java {
         withSourcesJar()
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+        sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
     }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release = 21
+    }
+
+    publishing {
+        publications {
+            mavenjava(MavenPublication) {
+                artifactId = base.archivesName.get()
+                from components.java
+            }
+        }
+    }
+}
+
+allprojects {
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 }
