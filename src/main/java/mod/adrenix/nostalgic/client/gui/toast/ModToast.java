@@ -122,9 +122,9 @@
 //     * @return A {@link Component} message.
 //     */
 //    private Component getMessage(ModConnection connection) {
-//        String client = ChatFormatting.GOLD + NostalgicTweaks.getTinyVersion();
-//        String server = ChatFormatting.GOLD + connection.getVersion();
-//        String loader = ChatFormatting.LIGHT_PURPLE + connection.getLoader();
+//        String client = TextColor.GOLD + NostalgicTweaks.getTinyVersion();
+//        String server = TextColor.GOLD + connection.getVersion();
+//        String loader = TextColor.LIGHT_PURPLE + connection.getLoader();
 //
 //        return switch (this.id) {
 //            case WELCOME -> Lang.Toast.WELCOME_MESSAGE.get(client);

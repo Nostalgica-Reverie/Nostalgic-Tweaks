@@ -11,7 +11,7 @@ public interface ButtonRenderer<Builder extends AbstractButtonMaker<Builder, But
      * this into the factory's background renderer function will prevent the background from displaying, leaving only
      * the icon (if present) and the button's title text.
      */
-    ButtonRenderer<ButtonBuilder, ButtonWidget> EMPTY = (button, graphics, mouseX, mouseY, partialTick) -> {
+    ButtonRenderer<ButtonBuilder, ButtonWidget> EMPTY = (button, graphics) -> {
     };
 
     /* Static */
@@ -19,11 +19,8 @@ public interface ButtonRenderer<Builder extends AbstractButtonMaker<Builder, But
     /**
      * Performs this operation on the given arguments.
      *
-     * @param button      The {@link Button} being rendered.
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse.
-     * @param mouseY      The y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param button   The {@link Button} being rendered.
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
-    void accept(Button button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick);
+    void accept(Button button, GuiGraphicsExtractor graphics);
 }

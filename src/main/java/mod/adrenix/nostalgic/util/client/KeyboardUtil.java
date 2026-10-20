@@ -158,7 +158,7 @@ public abstract class KeyboardUtil {
      */
     @PublicAPI
     public static boolean isDown(int key) {
-        return InputConstants.isKeyDown(GuiUtil.getWindow(), key);
+        return InputConstants.isKeyDown(key);
     }
 
     /**

@@ -72,13 +72,16 @@ public abstract class EditorOverlay {
     /**
      * Button background rendering for the section chooser buttons.
      */
-    private static void renderLeftTransparent(ButtonWidget button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private static void renderLeftTransparent(ButtonWidget button, GuiGraphicsExtractor graphics) {
         boolean isReading = button.maybeHas(HelpCategory.getFocused().orElse(null)).isPresent();
 
         Color line = button.isHoveredOrFocused() || isReading ? Color.LIGHT_BLUE : Color.TRANSPARENT;
         Color fill = button.isHoveredOrFocused() || isReading ? Color.AZURE_WHITE.fromAlpha(0.2D) : Color.TRANSPARENT;
 
         if (isReading) {
+            int mouseX = graphics.mouseX();
+            int mouseY = graphics.mouseY();
+
             fill = button.isMouseOver(mouseX, mouseY) ? fill.brighten(0.2D) : fill.brighten(0.1D);
             line = button.isMouseOver(mouseX, mouseY) ? line.brighten(0.2D) : line.brighten(0.1D);
         }
@@ -139,7 +142,7 @@ public abstract class EditorOverlay {
 
         ButtonWidget.create(Lang.Logo.QUIT_DISCARD).icon(Icons.RED_TRASH_CAN).onPress(() -> {
             overlay.close();
-            Minecraft.getInstance().setScreen(screen.getParentScreen());
+            Minecraft.getInstance().gui.setScreen(screen.getParentScreen());
         }).build(grid::addCell);
 
         ButtonWidget.create(Lang.Affirm.QUIT_CANCEL)

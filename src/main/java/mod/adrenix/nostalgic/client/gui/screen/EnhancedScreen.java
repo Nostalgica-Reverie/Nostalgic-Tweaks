@@ -214,8 +214,8 @@ public abstract class EnhancedScreen<T extends EnhancedScreen<T, W>, W extends W
      * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        DynamicWidget.render(this.widgets, graphics);
     }
 
     /**
@@ -223,6 +223,6 @@ public abstract class EnhancedScreen<T extends EnhancedScreen<T, W>, W extends W
      */
     @Override
     public void onClose() {
-        this.minecraft.setScreen(this.parentScreen);
+        this.minecraft.gui.setScreen(this.parentScreen);
     }
 }

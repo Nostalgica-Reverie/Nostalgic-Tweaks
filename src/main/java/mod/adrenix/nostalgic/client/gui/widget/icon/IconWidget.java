@@ -11,9 +11,8 @@ import mod.adrenix.nostalgic.util.common.asset.TextureLocation;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import org.joml.Matrix3x2f;
@@ -221,13 +220,10 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
      * Render instructions for the widget.
      *
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      * @param brightness  The brightness of the icon.
      */
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, float brightness) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, float brightness) {
+        super.extractRenderState(graphics);
 
         if (this.isEmpty() || this.isInvisible())
             return;
@@ -262,8 +258,8 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        this.extractRenderState(graphics, mouseX, mouseY, partialTick, 1.0F);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        this.extractRenderState(graphics, 1.0F);
     }
 
     /**
@@ -278,7 +274,7 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
         int x = this.x;
         int y = this.y;
 
-        float normalBrightness = Mth.clamp(brightness, 0.0F, 1.0F);
+        float normalBrightness = Math.clamp(brightness, 0.0F, 1.0F);
         int color = ARGB.colorFromFloat(1.0F, normalBrightness, normalBrightness, normalBrightness);
 
         if (icon.getTextureLocation().isPresent()) {

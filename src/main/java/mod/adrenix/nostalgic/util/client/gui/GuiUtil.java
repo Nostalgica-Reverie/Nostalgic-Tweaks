@@ -13,12 +13,14 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.InputQuirks;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLKeyboard;
+import org.lwjgl.sdl.SDLKeycode;
+import org.lwjgl.sdl.SDLScancode;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +73,7 @@ public abstract class GuiUtil {
      */
     @PublicAPI
     public static Optional<Screen> getScreen() {
-        Screen screen = Minecraft.getInstance().screen;
+        Screen screen = Minecraft.getInstance().gui.screen();
 
         if (screen == null)
             return Optional.empty();
@@ -225,7 +227,7 @@ public abstract class GuiUtil {
      */
     @PublicAPI
     public static boolean isKeyDown(int key) {
-        return InputConstants.isKeyDown(getWindow(), key);
+        return InputConstants.isKeyDown(key);
     }
 
     /**
@@ -235,10 +237,13 @@ public abstract class GuiUtil {
      */
     @PublicAPI
     public static boolean hasControlDown() {
+        //TODO: is this even good practice?
+        int mods = SDLKeyboard.SDL_GetModState();
+
         if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY) {
-            return isKeyDown(GLFW.GLFW_KEY_LEFT_SUPER) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SUPER);
+            return (mods & SDLKeycode.SDL_KMOD_GUI) != 0;
         } else {
-            return isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
+            return (mods & SDLKeycode.SDL_KMOD_CTRL) != 0;
         }
     }
 
@@ -249,7 +254,8 @@ public abstract class GuiUtil {
      */
     @PublicAPI
     public static boolean hasShiftDown() {
-        return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+        int mods = SDLKeyboard.SDL_GetModState();
+        return (mods & SDLKeycode.SDL_KMOD_SHIFT) != 0;
     }
 
     /**
@@ -259,7 +265,8 @@ public abstract class GuiUtil {
      */
     @PublicAPI
     public static boolean hasAltDown() {
-        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
+        int mods = SDLKeyboard.SDL_GetModState();
+        return (mods & SDLKeycode.SDL_KMOD_ALT) != 0;
     }
 
     /* --- Components */

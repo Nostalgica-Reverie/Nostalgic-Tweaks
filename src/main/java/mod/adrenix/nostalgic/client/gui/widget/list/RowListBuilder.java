@@ -13,7 +13,6 @@ import mod.adrenix.nostalgic.util.common.function.FloatSupplier;
 import mod.adrenix.nostalgic.util.common.lang.Translation;
 import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -290,7 +289,7 @@ public class RowListBuilder extends DynamicBuilder<RowListBuilder, RowList>
      */
     @PublicAPI
     public RowListBuilder highlight(double alpha, Animation animation, Color color) {
-        this.rowHighlightAlpha = Mth.clamp(alpha, 0.0D, 1.0D);
+        this.rowHighlightAlpha = Math.clamp(alpha, 0.0D, 1.0D);
         this.rowHighlightAnimation = animation;
         this.rowHighlightColor = color;
 
@@ -319,7 +318,7 @@ public class RowListBuilder extends DynamicBuilder<RowListBuilder, RowList>
     @PublicAPI
     public RowListBuilder overrideHighlights(BooleanSupplier when, IntSupplier amount) {
         this.useOverrideHighlights = when;
-        this.overrideHighlightOpacity = () -> Mth.clamp(amount.getAsInt(), 0, 100);
+        this.overrideHighlightOpacity = () -> Math.clamp(amount.getAsInt(), 0, 100);
 
         return this;
     }
@@ -463,7 +462,7 @@ public class RowListBuilder extends DynamicBuilder<RowListBuilder, RowList>
      */
     @PublicAPI
     public RowListBuilder backgroundOpacity(IntSupplier opacity) {
-        this.backgroundOpacity = () -> Mth.clamp(opacity.getAsInt() / 100.0F, 0.0F, 1.0F);
+        this.backgroundOpacity = () -> Math.clamp(opacity.getAsInt() / 100.0F, 0.0F, 1.0F);
         this.renderBackgroundOpacity = true;
         this.useMenuBackground = false;
 

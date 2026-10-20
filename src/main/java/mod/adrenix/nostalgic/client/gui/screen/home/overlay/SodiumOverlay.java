@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.screen.home.overlay;
 
+import com.mojang.blaze3d.Blaze3D;
 import mod.adrenix.nostalgic.client.gui.overlay.Overlay;
 import mod.adrenix.nostalgic.client.gui.overlay.types.info.MessageOverlay;
 import mod.adrenix.nostalgic.client.gui.overlay.types.info.MessageType;
@@ -117,7 +118,7 @@ public abstract class SodiumOverlay {
         Path properties = NostalgicServices.PLATFORM.getConfigFolder().resolve("sodium-mixins.properties");
 
         if (Files.exists(properties))
-            Util.getPlatform().openPath(properties);
+            Blaze3D.openPath(properties);
         else {
             MessageOverlay.create(MessageType.ERROR, Lang.Home.SODIUM_MISSING_FILE_HEADER, Lang.Home.SODIUM_MISSING_FILE_BODY)
                     .addButton(ButtonTemplate.openFolder(NostalgicServices.PLATFORM.getConfigFolder()))

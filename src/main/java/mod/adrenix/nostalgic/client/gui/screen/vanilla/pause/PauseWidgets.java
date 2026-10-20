@@ -8,8 +8,7 @@ import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 //import mod.adrenix.nostalgic.util.client.network.NetUtil;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.ShareToLanScreen;
+import net.minecraft.client.gui.screens.WorldOptionsScreen;
 import net.minecraft.client.gui.screens.achievement.StatsScreen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
@@ -94,7 +93,7 @@ public class PauseWidgets implements WidgetManager {
         if (this.minecraft == null)
             return;
 
-        this.minecraft.setScreen(null);
+        this.minecraft.gui.setScreen(null);
         this.minecraft.mouseHandler.grabMouse();
     }
 
@@ -111,7 +110,7 @@ public class PauseWidgets implements WidgetManager {
      */
     private void gotoOptions() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new OptionsScreen(this.pauseScreen, this.minecraft.options, this.minecraft.level != null));
+            this.minecraft.gui.setScreen(new OptionsScreen(this.pauseScreen, this.minecraft.options));
     }
 
     /**
@@ -119,7 +118,7 @@ public class PauseWidgets implements WidgetManager {
      */
     private void gotoAdvancements() {
         if (this.minecraft != null && this.minecraft.player != null)
-            this.minecraft.setScreen(new AdvancementsScreen(this.minecraft.player.connection.getAdvancements()));
+            this.minecraft.gui.setScreen(new AdvancementsScreen(this.minecraft.player.connection.getAdvancements()));
     }
 
     /**
@@ -127,7 +126,7 @@ public class PauseWidgets implements WidgetManager {
      */
     private void gotoStats() {
         if (this.minecraft != null && this.minecraft.player != null)
-            this.minecraft.setScreen(new StatsScreen(this.pauseScreen, this.minecraft.player.getStats()));
+            this.minecraft.gui.setScreen(new StatsScreen(this.pauseScreen, this.minecraft.player.getStats()));
     }
 
     /**
@@ -135,7 +134,7 @@ public class PauseWidgets implements WidgetManager {
      */
     private void gotoLan() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new ShareToLanScreen(this.pauseScreen));
+            this.minecraft.gui.setScreen(new WorldOptionsScreen(this.pauseScreen, this.minecraft.level));
     }
 
     /**
@@ -143,7 +142,7 @@ public class PauseWidgets implements WidgetManager {
      */
     private void gotoMods() {
         if (this.minecraft != null && GuiUtil.modListScreen != null)
-            this.minecraft.setScreen(GuiUtil.modListScreen.apply(this.pauseScreen));
+            this.minecraft.gui.setScreen(GuiUtil.modListScreen.apply(this.pauseScreen));
     }
 
     /**

@@ -9,6 +9,7 @@ import mod.adrenix.nostalgic.util.common.color.HexUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.FormattedCharSequence;
 
 import java.util.ArrayList;
@@ -88,10 +89,10 @@ public class ColorInput extends AbstractInput<ColorInputBuilder, ColorInput> {
 
         for (int i = beginIndex; i < format.length() + beginIndex; i++) {
             Style style = switch (i) {
-                case 1, 2 -> Style.EMPTY.withColor(ChatFormatting.RED);
-                case 3, 4 -> Style.EMPTY.withColor(ChatFormatting.GREEN);
-                case 5, 6 -> Style.EMPTY.withColor(ChatFormatting.BLUE);
-                case 7, 8 -> Style.EMPTY.withColor(ChatFormatting.WHITE);
+                case 1, 2 -> Style.EMPTY.withColor(TextColor.RED);
+                case 3, 4 -> Style.EMPTY.withColor(TextColor.GREEN);
+                case 5, 6 -> Style.EMPTY.withColor(TextColor.BLUE);
+                case 7, 8 -> Style.EMPTY.withColor(TextColor.WHITE);
                 default -> Style.EMPTY;
             };
 
@@ -127,11 +128,8 @@ public class ColorInput extends AbstractInput<ColorInputBuilder, ColorInput> {
      *
      * @param widget      The {@link BlankWidget} with position data for the sample.
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderSample(BlankWidget widget, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderSample(BlankWidget widget, GuiGraphicsExtractor graphics) {
         if (!this.builder.displayColorBox)
             return;
 

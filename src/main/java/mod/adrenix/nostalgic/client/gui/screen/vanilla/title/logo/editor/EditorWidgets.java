@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.screen.vanilla.title.logo.editor;
 
+import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.platform.InputConstants;
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.overlay.types.color.ColorPicker;
@@ -38,18 +39,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
-import net.minecraft.util.Util;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -626,43 +626,57 @@ public class EditorWidgets implements WidgetManager {
     private void copyCanvasToFile() {
         final FallingBlockData data = this.data.get().copy();
 
-        CompletableFuture.runAsync(() -> {
-            Path defaultFile = PathUtil.getLogoPath().resolve(FallingBlockConfig.COPY_NAME);
-            String writeLocation = FileDialog.getJsonLocation("Copy Pixel Canvas", defaultFile, DialogType.SAVE_FILE);
+        Path defaultFile = PathUtil.getLogoPath().resolve(FallingBlockConfig.COPY_NAME);
+        FileDialog.saveFileDialog(
+            Minecraft.getInstance().getWindow(),
+            "Copy Pixel Canvas",
+            defaultFile,
+            List.of(new FileDialog.Filter("*.json", "JSON files (*.json)")),
+            (hasResult, writeLocation) -> {
+                if (!hasResult)
+                    return;
 
-            if (writeLocation != null) {
                 FallingBlockConfig.write(data, Path.of(writeLocation).toFile());
                 NostalgicTweaks.LOGGER.info("[Falling Blocks] Successfully copied pixel canvas to config file at %s", writeLocation);
             }
-        });
+        );
     }
 
     /**
      * Uploads a falling blocks config file saved on disk to the pixel canvas.
      */
     private void uploadFileToCanvas() {
-        CompletableFuture.supplyAsync(() -> {
-            FallingBlockData data = new FallingBlockData();
+        Path defaultFile = PathUtil.getLogoPath().resolve(" ");
+        FileDialog.openFileDialog(
+            Minecraft.getInstance().getWindow(),
+            "Upload Falling Block Config",
+            defaultFile,
+            List.of(new FileDialog.Filter("*.json", "JSON files (*.json)")),
+            false,
+            (hasResult, paths) -> {
+                if (!hasResult)
+                    return;
 
-            Path defaultFile = PathUtil.getLogoPath().resolve(" ");
-            String readLocation = FileDialog.getJsonLocation("Upload Falling Block Config", defaultFile, DialogType.OPEN_FILE);
+                FallingBlockData data = new FallingBlockData();
+                String readLocation = paths.getFirst();
 
-            if (readLocation != null)
-                FallingBlockConfig.upload(Path.of(readLocation).toFile(), data);
+                try {
+                    FallingBlockConfig.upload(Path.of(readLocation).toFile(), data);
+                } catch (Throwable throwable) {
+                    EditorOverlay.couldNotReadConfig();
+                    NostalgicTweaks.LOGGER.error("[Falling Blocks] An error occurred when trying to read uploaded file\n%s", throwable);
+                    data = null;
+                }
 
-            return data;
-        }).whenCompleteAsync((data, throwable) -> Minecraft.getInstance().execute(() -> {
-            if (throwable != null) {
-                EditorOverlay.couldNotReadConfig();
-                NostalgicTweaks.LOGGER.error("[Falling Blocks] An error occurred when trying to read uploaded file\n%s", throwable);
-            } else if (data != null && !data.blocks.isEmpty()) {
-                this.makeHistory();
-                this.blocks.get().clear();
-                this.blocks.get().addAll(data.blocks);
-                this.scaleSlider.setValue(data.scale);
-                this.editorScreen.replayAnimation();
+                if (data != null && !data.blocks.isEmpty()) {
+                    this.makeHistory();
+                    this.blocks.get().clear();
+                    this.blocks.get().addAll(data.blocks);
+                    this.scaleSlider.setValue(data.scale);
+                    this.editorScreen.replayAnimation();
+                }
             }
-        }));
+        );
     }
 
     /**
@@ -921,7 +935,7 @@ public class EditorWidgets implements WidgetManager {
             }
             case InputConstants.KEY_O -> {
                 if (event.hasControlDown()) {
-                    Util.getPlatform().openFile(PathUtil.getLogoPath().toFile());
+                    Blaze3D.openPath(PathUtil.getLogoPath());
                     yield true;
                 }
 
@@ -1012,7 +1026,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Renders a border shadow for the pixel canvas.
      */
-    private void borderShadow(BlankWidget widget, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void borderShadow(BlankWidget widget, GuiGraphicsExtractor graphics) {
         int x0 = widget.getX();
         int y0 = widget.getY();
         int x1 = widget.getEndX();
@@ -1027,7 +1041,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Renders a custom translucent background color for the shadow tool editor button.
      */
-    private void shadowToolBackground(ButtonWidget button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void shadowToolBackground(ButtonWidget button, GuiGraphicsExtractor graphics) {
         boolean isActive = button.isHoveredOrFocused();
 
         Color outline = isActive ? Color.CADET_GRAY.fromAlpha(0.2D).brighten(0.2D) : Color.CADET_GRAY.fromAlpha(0.2D);
@@ -1045,7 +1059,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Button background rendering for the pixel editing tools.
      */
-    private void editorToolsBackground(ButtonWidget button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void editorToolsBackground(ButtonWidget button, GuiGraphicsExtractor graphics) {
         Color line = button.has(CanvasTools.get()) ? Color.ORANGE : Color.TRANSPARENT;
         Color fill = button.has(CanvasTools.get()) ? Color.COPPER_RED.fromAlpha(0.4D) : Color.CADET_GRAY.fromAlpha(0.2D);
 
@@ -1059,7 +1073,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Button background rendering for the pixel drawing tools.
      */
-    private void regularToolsBackground(ButtonWidget button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void regularToolsBackground(ButtonWidget button, GuiGraphicsExtractor graphics) {
         Color fill = Color.CADET_GRAY.fromAlpha(0.2D);
 
         if (button.isHoveredOrFocused())
@@ -1071,7 +1085,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Embed background rendering for embeds above the pixel canvas.
      */
-    private void aboveEmbedController(Embed embed, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void aboveEmbedController(Embed embed, GuiGraphicsExtractor graphics) {
         graphics.verticalLine(embed.getX() - 1, embed.getY() - 1, embed.getEndY(), Color.SILVER_CHALICE.get());
         graphics.verticalLine(embed.getEndX(), embed.getY() - 1, embed.getEndY(), Color.SILVER_CHALICE.get());
         graphics.horizontalLine(embed.getX(), embed.getY() - 1, embed.getEndX(), Color.SILVER_CHALICE.get());
@@ -1080,7 +1094,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Embed background rendering for embeds below the pixel canvas.
      */
-    private void bottomEmbedController(Embed embed, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void bottomEmbedController(Embed embed, GuiGraphicsExtractor graphics) {
         graphics.verticalLine(embed.getX() - 1, embed.getY(), embed.getEndY() + 1, Color.SILVER_CHALICE.get());
         graphics.verticalLine(embed.getEndX(), embed.getY(), embed.getEndY() + 1, Color.SILVER_CHALICE.get());
         graphics.horizontalLine(embed.getX(), embed.getEndY(), embed.getEndX(), Color.SILVER_CHALICE.get());
@@ -1089,7 +1103,7 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Scaling slider background rendering.
      */
-    private void sliderBackground(SliderWidget slider, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void sliderBackground(SliderWidget slider, GuiGraphicsExtractor graphics) {
         graphics.fill(slider.getX(), slider.getY(), slider.getEndX(), slider.getEndY(), Color.OLIVE_BLACK.get());
         graphics.fill(slider.getX() + 2, slider.getY() + 5, slider.getEndX() - 2, slider.getY() + 5, Color.SILVER_CHALICE.get()); //TODO float is gone, investigate this
         graphics.verticalLine(slider.getX() - 1, slider.getY() - 1, slider.getEndY(), Color.SILVER_CHALICE.get());
@@ -1100,12 +1114,12 @@ public class EditorWidgets implements WidgetManager {
     /**
      * Scaling slider handle rendering.
      */
-    private void sliderHandle(SliderWidget slider, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void sliderHandle(SliderWidget slider, GuiGraphicsExtractor graphics) {
         Color color = slider.isHoveredOrFocused() ? Color.MAYA_BLUE : Color.WHITE;
 
         int handleWidth = slider.getHandleWidth();
-        int x0 = Mth.clamp(slider.getHandleX(), slider.getX() + 2, slider.getEndX() - 2 - handleWidth);
-        int x1 = Mth.clamp(slider.getHandleX() + handleWidth, slider.getX() + 2 + handleWidth, slider.getEndX() - 2);
+        int x0 = Math.clamp(slider.getHandleX(), slider.getX() + 2, slider.getEndX() - 2 - handleWidth);
+        int x1 = Math.clamp(slider.getHandleX() + handleWidth, slider.getX() + 2 + handleWidth, slider.getEndX() - 2);
         int y0 = slider.getY() + 1;
         int y1 = slider.getEndY() - 1;
 
@@ -1465,7 +1479,7 @@ public class EditorWidgets implements WidgetManager {
         /**
          * Renderer helper method for rendering the contents of this pixel using the {@link ButtonWidget}.
          */
-        private void render(ButtonWidget base, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        private void render(ButtonWidget base, GuiGraphicsExtractor graphics) {
             FallingBlockData.Block data = this.moveData.orElse(this.getData().orElse(null));
 
             ButtonWidget active = !this.moving ? base : EditorWidgets.this.getPixelAt(this.moveX, this.moveY)

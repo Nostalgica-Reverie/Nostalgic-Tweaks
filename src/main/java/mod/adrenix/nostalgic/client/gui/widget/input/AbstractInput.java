@@ -148,7 +148,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      * @param icon An {@link IconWidget} instance.
      */
     protected void setIconSize(IconWidget icon) {
-        icon.setSize(Mth.clamp(icon.getHeight(), 0, this.getHeight() - 2));
+        icon.setSize(Math.clamp(icon.getHeight(), 0, this.getHeight() - 2));
     }
 
     /**
@@ -284,7 +284,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      * @param cursorPosition The new cursor position.
      */
     public void setCursorPosition(int cursorPosition) {
-        this.cursorPos = Mth.clamp(cursorPosition, this.minCursorPos, this.input.length());
+        this.cursorPos = Math.clamp(cursorPosition, this.minCursorPos, this.input.length());
         this.scrollTo(this.cursorPos);
     }
 
@@ -572,7 +572,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
         else if (position <= this.displayPos)
             this.displayPos -= this.displayPos - position;
 
-        this.displayPos = Mth.clamp(this.displayPos, 0, this.input.length());
+        this.displayPos = Math.clamp(this.displayPos, 0, this.input.length());
     }
 
     /**
@@ -582,7 +582,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      * @param position The new highlight position.
      */
     public void setHighlightPos(int position) {
-        this.highlightPos = Mth.clamp(position, this.minCursorPos, this.input.length());
+        this.highlightPos = Math.clamp(position, this.minCursorPos, this.input.length());
         this.scrollTo(this.highlightPos);
     }
 
@@ -891,11 +891,8 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      *
      * @param printer     The {@link BlankWidget} text printer instance.
      * @param graphics    The current {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse.
-     * @param mouseY      The y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderText(BlankWidget printer, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderText(BlankWidget printer, GuiGraphicsExtractor graphics) {
         int beginIndex = this.cursorPos - this.displayPos;
         Color color = this.isFocused() ? this.getBuilder().textColor : this.getBuilder().textUnfocusedColor;
         String text = GuiUtil.font().plainSubstrByWidth(this.input.substring(this.displayPos), this.getPrinterWidth());
@@ -904,7 +901,7 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
         int startX = printer.getX();
         int startY = printer.getY();
         int textEndX = startX;
-        int highlightPos = Mth.clamp(this.highlightPos - this.displayPos, 0, text.length());
+        int highlightPos = Math.clamp(this.highlightPos - this.displayPos, 0, text.length());
         String suggestion = null;
         String snippet = null;
         String ghost = null;
@@ -1042,8 +1039,8 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
@@ -1053,10 +1050,10 @@ public abstract class AbstractInput<Builder extends AbstractInputMaker<Builder, 
         this.icon.apply(this.internal::remove);
         this.icon.pushCache();
         this.icon.pos(this.getIconX(), this.getIconY());
-        this.icon.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        this.icon.extractRenderState(graphics);
         this.icon.popCache();
 
-        DynamicWidget.render(this.internal, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.render(this.internal, graphics);
 
         this.icon.apply(this.internal::add);
 

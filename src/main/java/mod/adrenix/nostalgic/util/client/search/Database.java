@@ -2,7 +2,6 @@ package mod.adrenix.nostalgic.util.client.search;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.LanguageInfo;
-import net.minecraft.util.Mth;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,7 +25,7 @@ abstract class Database<T> implements LevenshteinDatabase<T> {
 
     @Override
     public void setThreshold(double threshold) {
-        this.threshold = Mth.clamp(threshold, 0.0D, 1.0D);
+        this.threshold = Math.clamp(threshold, 0.0D, 1.0D);
     }
 
     @Override

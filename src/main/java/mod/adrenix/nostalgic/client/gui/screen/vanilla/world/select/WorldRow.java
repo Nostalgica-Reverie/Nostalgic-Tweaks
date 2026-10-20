@@ -13,7 +13,7 @@ import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -158,11 +158,8 @@ class WorldRow extends AbstractRow<WorldRowMaker, WorldRow> {
      *
      * @param widget      A {@link BlankWidget} instance.
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private void renderIcon(BlankWidget widget, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderIcon(BlankWidget widget, GuiGraphicsExtractor graphics) {
         if (true/*CandyTweak.ADD_WORLD_THUMBNAIL.get()*/) //TODO
             graphics.blit(RenderPipelines.GUI_TEXTURED, this.favicon.textureLocation(), widget.getX(), widget.getY(), 0.0F, 0.0F, 32, 32, 32, 32);
     }
@@ -172,11 +169,8 @@ class WorldRow extends AbstractRow<WorldRowMaker, WorldRow> {
      *
      * @param row         A {@link WorldRow} instance.
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private void renderBox(WorldRow row, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderBox(WorldRow row, GuiGraphicsExtractor graphics) {
         if (!row.equals(this.selected.get()))
             return;
 

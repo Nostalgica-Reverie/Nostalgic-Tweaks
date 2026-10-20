@@ -78,7 +78,7 @@ class SupporterRow {
 
             builder = BlankWidget.create()
                     .size(8)
-                    .renderer((widget, graphics, mouseX, mouseY, partialTick) ->
+                    .renderer((widget, graphics) ->
                             PlayerFaceExtractor.extractRenderState(graphics, renderInfo.get().playerSkin(),
                                     widget.getX(), widget.getY(), 8));
         } else {
@@ -190,7 +190,7 @@ class SupporterRow {
                 .rightOf(text, 2)
                 .alignVerticalTo(text)
                 .tooltip(Lang.Home.MOD_CREATOR, 45, 500L, TimeUnit.MILLISECONDS)
-                .renderer((widget, graphics, mouseX, mouseY, partialTick) -> {
+                .renderer((widget, graphics) -> {
                     GearSpinner.getInstance().extractRenderState(graphics, 0.019F, widget.getX(), widget.getY() - 1);
 
                     String splash = "N.T";
@@ -311,7 +311,7 @@ class SupporterRow {
                     .size(3, 1)
                     .posX(posX)
                     .posY(posY)
-                    .renderer((widget, graphics, mouseX, mouseY, partialTick) -> {
+                    .renderer((widget, graphics) -> {
                         if (animation.isFinished())
                             animation.reset();
 
@@ -362,7 +362,7 @@ class SupporterRow {
             IntSupplier posX = () -> (int) (randX.get() * this.rowList.getRowWidth()) + this.face.getX() - 4;
             IntSupplier posY = () -> (int) (randY.get() * this.row.getHeight()) + this.face.getY() - 2;
 
-            BlankWidget.create().size(1).pos(posX, posY).renderer((widget, graphics, mouseX, mouseY, partialTick) -> {
+            BlankWidget.create().size(1).pos(posX, posY).renderer((widget, graphics) -> {
                 if (animation.isFinished()) {
                     if (animation.wentBackward())
                         animation.play();

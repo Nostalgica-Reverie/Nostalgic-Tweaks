@@ -55,11 +55,8 @@ public class ColorSlider extends AbstractSlider<ColorSliderBuilder, ColorSlider>
      *
      * @param slider      The {@link ColorSlider} instance.
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderHandle(ColorSlider slider, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderHandle(ColorSlider slider, GuiGraphicsExtractor graphics) {
         int outline = this.isFocused() ? Color.LIGHT_BLUE.get() : 0xFF555555;
         int handle = this.isHoveredOrFocused() ? 0xFFCCCCCC : 0xFFAAAAAA;
 
@@ -72,11 +69,8 @@ public class ColorSlider extends AbstractSlider<ColorSliderBuilder, ColorSlider>
      *
      * @param slider      The {@link ColorSlider} instance.
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderBackground(ColorSlider slider, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderBackground(ColorSlider slider, GuiGraphicsExtractor graphics) {
         graphics.pose().pushMatrix();
         graphics.pose().translate(this.x + 1.0F, this.y + 1.0F);
 

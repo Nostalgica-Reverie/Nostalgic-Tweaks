@@ -141,7 +141,7 @@ public class LerpTimer {
      */
     @PublicAPI
     public double delta() {
-        return Mth.clamp((float) (Util.getMillis() - this.changedTime) / this.lengthInMillis, 0.0F, 1.0F);
+        return Math.clamp((float) (Util.getMillis() - this.changedTime) / this.lengthInMillis, 0.0F, 1.0F);
     }
 
     /**

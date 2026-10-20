@@ -10,7 +10,7 @@ public interface BlankRenderer {
     /**
      * Empty renderer function.
      */
-    BlankRenderer EMPTY = (widget, graphics, mouseX, mouseY, partialTick) -> {
+    BlankRenderer EMPTY = (_, _) -> {
     };
 
     /* Static */
@@ -20,9 +20,6 @@ public interface BlankRenderer {
      *
      * @param widget      The {@link BlankWidget} being rendered.
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse.
-     * @param mouseY      The y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    void accept(BlankWidget widget, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick);
+    void accept(BlankWidget widget, GuiGraphicsExtractor graphics);
 }

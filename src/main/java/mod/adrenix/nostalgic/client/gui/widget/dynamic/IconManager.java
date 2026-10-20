@@ -254,11 +254,8 @@ public class IconManager<Widget extends DynamicWidget<?, Widget>> {
      * Handler method for rendering the current icon.
      *
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-position of the mouse.
-     * @param mouseY      The y-position of the mouse.
-     * @param partialTick The normalized progress made between two ticks [0.0F, 1.0F].
      */
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         float brightness = 1.0F;
 
         if (this.getHover().isEmpty())
@@ -267,6 +264,6 @@ public class IconManager<Widget extends DynamicWidget<?, Widget>> {
         if (this.getDisabled().isEmpty())
             brightness = getDarkenAmount(this.widget, brightness);
 
-        this.get().extractRenderState(graphics, mouseX, mouseY, partialTick, brightness);
+        this.get().extractRenderState(graphics, brightness);
     }
 }

@@ -30,6 +30,7 @@ import mod.adrenix.nostalgic.util.common.timer.FlagTimer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.TextColor;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -77,7 +78,7 @@ public class HomeWidgets implements WidgetManager {
                 .below(config, sectionMargin)
                 .useTextWidth()
                 .alignLeft(sectionOffset)
-                .onPress(() -> Minecraft.getInstance().setScreen(new PacksListScreen(this.homeScreen)))
+                .onPress(() -> Minecraft.getInstance().gui.setScreen(new PacksListScreen(this.homeScreen)))
                 .backgroundRenderer(this::renderLeftTransparent)
                 .build(this.homeScreen::addWidget);
 
@@ -252,7 +253,7 @@ public class HomeWidgets implements WidgetManager {
 
         TextWidget.create("Made by Adrenix\n" + "Version: v" + version + (beta.isEmpty() ? "" : "-" + beta))
                 .onPress(LinkUtil.onPress(LinkLocation.GITHUB))
-                .color(Color.fromFormatting(ChatFormatting.GRAY))
+                .color(Color.fromFormatting(TextColor.GRAY))
                 .useTextWidth()
                 .centerAligned()
                 .centerInScreenX()
@@ -292,11 +293,8 @@ public class HomeWidgets implements WidgetManager {
      *
      * @param button      A {@link ButtonWidget} instance.
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The current x-position of the mouse.
-     * @param mouseY      The current y-position of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F-1.0F].
      */
-    private void renderLeftTransparent(ButtonWidget button, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderLeftTransparent(ButtonWidget button, GuiGraphicsExtractor graphics) {
         final Color bar = Color.BLACK.fromAlpha(0.0F);
         final Color fill = Color.BLACK.fromAlpha(0.6F);
 

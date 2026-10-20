@@ -28,6 +28,6 @@ pluginManagement {
 }
 
 include("fabric")
-include("neoforge")
+//include("neoforge")
 
 rootProject.name = "Nostalgic-Tweaks"

@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
-import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.Collection;
@@ -82,7 +81,7 @@ public class CornerManager {
         if (corner == Corner.TOP_RIGHT) {
             LocalPlayer player = Minecraft.getInstance().player;
             Collection<MobEffectInstance> effects = NullableResult.getOrElse(player, new HashSet<>(), LocalPlayer::getActiveEffects);
-            boolean areEffectsHidden = Minecraft.getInstance().screen.showsActiveEffects();
+            boolean areEffectsHidden = Minecraft.getInstance().gui.screen().showsActiveEffects();
 
             if (!effects.isEmpty() && !areEffectsHidden) {
                 boolean hasBeneficial = effects.stream()
@@ -101,8 +100,8 @@ public class CornerManager {
         if (corner == Corner.TOP_CENTER)
             x = (int) DrawText.centerX(0, GuiUtil.getGuiWidth(), text);
 
-        x = Mth.clamp(x, 0, GuiUtil.getGuiWidth() - GuiUtil.font().width(text));
-        y = Mth.clamp(y, 0, GuiUtil.getGuiHeight() - GuiUtil.textHeight());
+        x = Math.clamp(x, 0, GuiUtil.getGuiWidth() - GuiUtil.font().width(text));
+        y = Math.clamp(y, 0, GuiUtil.getGuiHeight() - GuiUtil.textHeight());
 
         DrawText.begin(graphics, text).pos(x, y).setShadow(dropShadow).draw();
     }

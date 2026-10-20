@@ -5,7 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.Mth;
+import net.minecraft.network.chat.TextColor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -187,10 +187,10 @@ public class Color {
      * @see Color#get
      */
     public Color(int r, int g, int b, int a) {
-        r = Mth.clamp(r, 0, 255);
-        g = Mth.clamp(g, 0, 255);
-        b = Mth.clamp(b, 0, 255);
-        a = Mth.clamp(a, 0, 255);
+        r = Math.clamp(r, 0, 255);
+        g = Math.clamp(g, 0, 255);
+        b = Math.clamp(b, 0, 255);
+        a = Math.clamp(a, 0, 255);
 
         this.color = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF));
     }
@@ -225,7 +225,7 @@ public class Color {
      * @see Color#get
      */
     public Color(int r, int g, int b, double alpha) {
-        this(r, g, b, (int) (Mth.clamp(alpha, 0.0D, 1.0D) * 255));
+        this(r, g, b, (int) (Math.clamp(alpha, 0.0D, 1.0D) * 255));
     }
 
     /* Fields */
@@ -264,7 +264,7 @@ public class Color {
      * @param alpha A double that is in the range [0.0-1.0]. This will be clamped if out of range.
      */
     public Color(int rgb, double alpha) {
-        this((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, (int) (Mth.clamp(alpha, 0.0F, 1.0F) * 255.0F));
+        this((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, (int) (Math.clamp(alpha, 0.0F, 1.0F) * 255.0F));
     }
 
     /* Constructors */
@@ -311,7 +311,7 @@ public class Color {
      * @param alpha A normalized alpha percentage that is in the range [0.0-1.0].
      */
     public Color(Color color, double alpha) {
-        this(color.getRed(), color.getGreen(), color.getBlue(), (int) (Mth.clamp(alpha, 0.0D, 1.0D) * 255));
+        this(color.getRed(), color.getGreen(), color.getBlue(), (int) (Math.clamp(alpha, 0.0D, 1.0D) * 255));
     }
 
     /**
@@ -361,7 +361,7 @@ public class Color {
      * @param alpha A normalized alpha percentage that is in the range [0.0-1.0].
      */
     public Color(int[] rgb, double alpha) {
-        this(rgb[0], rgb[1], rgb[2], (int) (Mth.clamp(alpha, 0.0D, 1.0D) * 255));
+        this(rgb[0], rgb[1], rgb[2], (int) (Math.clamp(alpha, 0.0D, 1.0D) * 255));
     }
 
     /**
@@ -384,8 +384,8 @@ public class Color {
      * enumeration does not have a color.
      */
     @PublicAPI
-    public static Color fromFormatting(ChatFormatting formatting) {
-        return formatting.getColor() == null ? Color.WHITE : new Color(formatting.getColor());
+    public static Color fromFormatting(TextColor formatting) {
+        return formatting == null ? Color.WHITE : new Color(formatting.getValue());
     }
 
     /**
@@ -461,9 +461,9 @@ public class Color {
      */
     @PublicAPI
     public static int HSBtoRGB(float hue, float saturation, float brightness) {
-        hue = Mth.clamp(hue, 0.0F, 1.0F);
-        saturation = Mth.clamp(saturation, 0.0F, 1.0F);
-        brightness = Mth.clamp(brightness, 0.0F, 1.0F);
+        hue = Math.clamp(hue, 0.0F, 1.0F);
+        saturation = Math.clamp(saturation, 0.0F, 1.0F);
+        brightness = Math.clamp(brightness, 0.0F, 1.0F);
 
         int r = 0;
         int g = 0;
@@ -540,9 +540,9 @@ public class Color {
      */
     @PublicAPI
     public static float[] RGBtoHSB(int r, int g, int b, float[] hsbValues) {
-        r = Mth.clamp(r, 0, 255);
-        g = Mth.clamp(g, 0, 255);
-        b = Mth.clamp(b, 0, 255);
+        r = Math.clamp(r, 0, 255);
+        g = Math.clamp(g, 0, 255);
+        b = Math.clamp(b, 0, 255);
 
         float hue;
         float saturation;
@@ -697,7 +697,7 @@ public class Color {
      */
     @PublicAPI
     public Color fromAlpha(int alpha) {
-        return this.fromAlpha(Mth.clamp(alpha, 0, 255) / 255.0D);
+        return this.fromAlpha(Math.clamp(alpha, 0, 255) / 255.0D);
     }
 
     /**
@@ -966,7 +966,7 @@ public class Color {
      */
     @PublicAPI
     public Color brighten(double amount) {
-        amount = Mth.clamp(1.0D - amount, 0.0D, 1.0D);
+        amount = Math.clamp(1.0D - amount, 0.0D, 1.0D);
 
         int r = this.getRed();
         int g = this.getGreen();
@@ -1029,7 +1029,7 @@ public class Color {
      */
     @PublicAPI
     public Color darken(double amount) {
-        amount = Mth.clamp(1.0F - amount, 0.0F, 1.0F);
+        amount = Math.clamp(1.0F - amount, 0.0F, 1.0F);
         int r = Math.max((int) (this.getRed() * amount), 0);
         int g = Math.max((int) (this.getGreen() * amount), 0);
         int b = Math.max((int) (this.getBlue() * amount), 0);

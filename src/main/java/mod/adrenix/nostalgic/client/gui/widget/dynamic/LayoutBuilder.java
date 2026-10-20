@@ -3,7 +3,6 @@ package mod.adrenix.nostalgic.client.gui.widget.dynamic;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.function.FloatSupplier;
 import mod.adrenix.nostalgic.util.common.function.ToFloatFunction;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -282,7 +281,7 @@ public interface LayoutBuilder<Builder extends DynamicBuilder<Builder, Widget>, 
      */
     @PublicAPI
     default Builder widthOfScreen(ToFloatFunction<Widget> ofAmount) {
-        ToFloatFunction<Widget> clamp = widget -> Mth.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
+        ToFloatFunction<Widget> clamp = widget -> Math.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
 
         this.self().addFunction(new DynamicLayout.Width.OfScreen<>(this.self(), clamp));
 
@@ -322,7 +321,7 @@ public interface LayoutBuilder<Builder extends DynamicBuilder<Builder, Widget>, 
         if (ofWidget == null)
             return this.self();
 
-        ToFloatFunction<Widget> clamp = widget -> Mth.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
+        ToFloatFunction<Widget> clamp = widget -> Math.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
 
         this.self().addFunction(new DynamicLayout.Width.OfWidget<>(this.self(), ofWidget, clamp));
 
@@ -496,7 +495,7 @@ public interface LayoutBuilder<Builder extends DynamicBuilder<Builder, Widget>, 
      */
     @PublicAPI
     default Builder heightOfScreen(ToFloatFunction<Widget> ofAmount) {
-        ToFloatFunction<Widget> clamp = widget -> Mth.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
+        ToFloatFunction<Widget> clamp = widget -> Math.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
 
         this.self().addFunction(new DynamicLayout.Height.OfScreen<>(this.self(), clamp));
 
@@ -536,7 +535,7 @@ public interface LayoutBuilder<Builder extends DynamicBuilder<Builder, Widget>, 
         if (ofWidget == null)
             return this.self();
 
-        ToFloatFunction<Widget> clamp = widget -> Mth.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
+        ToFloatFunction<Widget> clamp = widget -> Math.clamp(ofAmount.applyAsFloat(widget), 0.0F, 1.0F);
 
         this.self().addFunction(new DynamicLayout.Height.OfWidget<>(this.self(), ofWidget, clamp));
 

@@ -124,14 +124,14 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
 
         for (Renderable widget : this.renderables) {
             if (widget instanceof SpriteIconButton iconButton && iconButton.getX() == this.width / 2 - 124)
-                iconButton.visible = true;//!CandyTweak.REMOVE_TITLE_LANGUAGE_BUTTON.get(); //TODO
+                iconButton.setVisible(true);//!CandyTweak.REMOVE_TITLE_LANGUAGE_BUTTON.get(); //TODO
             else if (widget instanceof SpriteIconButton iconButton && iconButton.getX() == this.width / 2 + 104)
-                iconButton.visible = true;//!CandyTweak.REMOVE_TITLE_ACCESSIBILITY_BUTTON.get(); //TODO
+                iconButton.setVisible(true);//!CandyTweak.REMOVE_TITLE_ACCESSIBILITY_BUTTON.get(); //TODO
             else if (widget instanceof Button button) {
                 boolean isRealms = button.getMessage().getString().equals(Lang.Vanilla.MENU_ONLINE.getString());
                 boolean isRemovable = true;//CandyTweak.REMOVE_TITLE_REALMS_BUTTON.get(); //TODO
 
-                button.visible = !isRealms || !isRemovable;
+                button.setVisible(!isRealms || !isRemovable);
             }
         }
     }
@@ -176,7 +176,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
         if (this.minecraft == null)
             return false;
         else if (event.key() == InputConstants.KEY_M)
-            this.minecraft.setScreen(new NostalgicTitleScreen());
+            this.minecraft.gui.setScreen(new NostalgicTitleScreen());
 
         return super.keyPressed(event);
     }
@@ -185,7 +185,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         if (this.getLayout() != TitleLayout.MODERN && !this.isLayoutSet) {
             if (false/*CandyTweak.REMOVE_EXTRA_TITLE_BUTTONS.get()*/) { //TODO
                 this.clearWidgets();
@@ -201,9 +201,9 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
             else
                 GuiUtil.extractDirtBackground(graphics);
         } else
-            this.extractPanorama(graphics, PartialTick.realtime());
+            this.extractPanorama(graphics);
 
-        if (this.minecraft == null || this.minecraft.getOverlay() != null)
+        if (this.minecraft == null || this.minecraft.gui.overlay() != null)
             return;
 
         if (FallingBlockConfig.LOGO_CHANGED.ifEnabledThenDisable() || FallingBlockText.LOGO_CHANGED.ifEnabledThenDisable())
@@ -241,7 +241,7 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
         String minecraft = GameUtil.getVersion();//CandyTweak.TITLE_VERSION_TEXT.parse(GameUtil.getVersion());
 
         if (Minecraft.checkModStatus().shouldReportAsModified()/*!CandyTweak.REMOVE_TITLE_MOD_LOADER_TEXT.get()*/) //TODO
-            minecraft = minecraft + "/" + this.minecraft.getVersionType() + Lang.Vanilla.MENU_MODDED.getString();
+            minecraft += Lang.Vanilla.MENU_MODDED.getString();
 
         int versionColor = /*CandyTweak.OLD_TITLE_BACKGROUND.get() && !minecraft.contains("§") ? 5263440 :*/ 0xFFFFFFFF; //TODO
         int height =/* CandyTweak.TITLE_BOTTOM_LEFT_TEXT.get() ? this.height - 10 :*/ 2; //TODO
@@ -266,14 +266,14 @@ public class NostalgicTitleScreen extends TitleScreen implements DynamicScreen<N
         }
 
         if (this.getLayout() != TitleLayout.MODERN)
-            DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);
+            DynamicWidget.render(this.widgets, graphics);
         else
-            this.renderables.forEach(renderable -> renderable.extractRenderState(graphics, mouseX, mouseY, partialTick));
+            this.renderables.forEach(renderable -> renderable.extractRenderState(graphics));
 
         //TODO
 //        RenderSystem.enableDepthTest();
 
         if (this.titleAccess.nt$getRealmsNotificationsEnabled() && this.getLayout() == TitleLayout.MODERN)
-            this.titleAccess.nt$getRealmsNotificationsScreen().extractRenderState(graphics, mouseX, mouseY, partialTick);
+            this.titleAccess.nt$getRealmsNotificationsScreen().extractRenderState(graphics);
     }
 }

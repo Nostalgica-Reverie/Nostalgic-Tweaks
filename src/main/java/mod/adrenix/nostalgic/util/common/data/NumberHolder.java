@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.common.data;
 
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 
 /**
  * Create a new {@link Holder} for a {@link Number}.
@@ -65,7 +64,7 @@ public class NumberHolder<T extends Number> extends Holder<T> {
      */
     @PublicAPI
     public void setAndClamp(T number, T min, T max) {
-        this.setSafely(Mth.clamp(number.doubleValue(), min.doubleValue(), max.doubleValue()));
+        this.setSafely(Math.clamp(number.doubleValue(), min.doubleValue(), max.doubleValue()));
     }
 
     /**

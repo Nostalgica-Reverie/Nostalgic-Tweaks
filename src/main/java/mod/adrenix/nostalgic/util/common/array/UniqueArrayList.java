@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.common.array;
 
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class UniqueArrayList<E> extends ArrayList<E> {
     public E set(int index, E element) {
         this.remove(element);
 
-        return super.set(Mth.clamp(index, 0, this.size() - 1), element);
+        return super.set(Math.clamp(index, 0, this.size() - 1), element);
     }
 
     /**
@@ -75,7 +74,7 @@ public class UniqueArrayList<E> extends ArrayList<E> {
     public void add(int index, E element) {
         this.remove(element);
 
-        super.add(Mth.clamp(index, 0, this.size()), element);
+        super.add(Math.clamp(index, 0, this.size()), element);
     }
 
     /**
@@ -95,7 +94,7 @@ public class UniqueArrayList<E> extends ArrayList<E> {
     public boolean addAll(int index, Collection<? extends E> collection) {
         this.removeAll(collection);
 
-        return super.addAll(Mth.clamp(index, 0, this.size()), collection);
+        return super.addAll(Math.clamp(index, 0, this.size()), collection);
     }
 
     /* Utility */

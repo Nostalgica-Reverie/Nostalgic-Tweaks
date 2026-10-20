@@ -1,7 +1,5 @@
 package mod.adrenix.nostalgic.services;
 
-import mod.adrenix.nostalgic.NostalgicTweaks;
-
 import java.util.ServiceLoader;
 
 public class NostalgicServices {

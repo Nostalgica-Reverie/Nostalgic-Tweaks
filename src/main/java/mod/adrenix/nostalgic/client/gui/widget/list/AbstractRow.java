@@ -406,32 +406,29 @@ public abstract class AbstractRow<Builder extends AbstractRowMaker<Builder, Row>
      * Render any (when row is hidden) instructions.
      *
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderHidden(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderHidden(GuiGraphicsExtractor graphics) {
         if (this.getBuilder().hiddenRenderer != null)
-            this.getBuilder().hiddenRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().hiddenRenderer.accept(this.self(), graphics);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
 
         if (this.getBuilder().preRenderer != null)
-            this.getBuilder().preRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().preRenderer.accept(this.self(), graphics);
 
-        DynamicWidget.renderWithoutSync(this.widgets, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.widgets, graphics);
 
         if (this.getBuilder().postRenderer != null)
-            this.getBuilder().postRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().postRenderer.accept(this.self(), graphics);
 
         this.renderDebug(graphics);
     }

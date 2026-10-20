@@ -27,11 +27,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -905,8 +904,8 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
@@ -920,7 +919,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
         int scrollAmount = (int) Math.round(this.getScrollAmount());
 
         if (this.getBuilder().backgroundRenderer != RowListRenderer.EMPTY)
-            this.getBuilder().backgroundRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().backgroundRenderer.accept(this, graphics);
         else {
             boolean isLevelAbsent = Minecraft.getInstance().level == null;
 
@@ -943,12 +942,9 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
 
             if (this.getBuilder().useMenuBackground) {
                 Identifier background = isLevelAbsent ? TextureLocation.MENU_LIST_BACKGROUND : TextureLocation.LEVEL_MENU_LIST_BACKGROUND;
-                Identifier header = isLevelAbsent ? Screen.HEADER_SEPARATOR : Screen.INWORLD_HEADER_SEPARATOR;
-                Identifier footer = isLevelAbsent ? Screen.FOOTER_SEPARATOR : Screen.INWORLD_FOOTER_SEPARATOR;
 
                 graphics.blit(RenderPipelines.GUI_TEXTURED, background, x0, y0, x1, y1 + scrollAmount, width, height, 32, 32);
-                graphics.blit(RenderPipelines.GUI_TEXTURED, header, x0, y0 - 2, 0.0F, 0.0F, width, 2, 32, 2);
-                graphics.blit(RenderPipelines.GUI_TEXTURED, footer, x0, y1, 0.0F, 0.0F, width, 2, 32, 2);
+                Screen.extractListSeparators(graphics, x0, y0, y1, width, 2, isLevelAbsent);
             }
         }
 
@@ -961,7 +957,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
             }
         }
 
-        this.updateAndRenderRows(graphics, mouseX, mouseY, partialTick);
+        this.updateAndRenderRows(graphics);
 
         if (this.getBuilder().useScissorRendering)
             graphics.disableScissor();
@@ -981,10 +977,10 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
             graphics.fillGradient(x0, y1 - 4, x1, y1, Color.BLACK.fromAlpha(0).get(), Color.BLACK.get());
         }
 
-        DynamicWidget.renderWithoutSync(this.internal, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.internal, graphics);
 
         if (this.getBuilder().postRenderer != RowListRenderer.EMPTY)
-            this.getBuilder().postRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().postRenderer.accept(this, graphics);
 
         if (this.scrollbar.isInvisible() && this.getScrollAmount() > 0.0D)
             this.setScrollAmount(0.0D);
@@ -1018,21 +1014,18 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
      *
      * @param row         The {@link AbstractRow} to render.
      * @param graphics    The {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The current x-coordinate of the mouse.
-     * @param mouseY      The current y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private void renderRow(AbstractRow<?, ?> row, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderRow(AbstractRow<?, ?> row, GuiGraphicsExtractor graphics) {
         this.setOverrideFocus(row);
         this.renderSeparator(row, graphics);
 
         if (row.isOutside()) {
-            row.renderHidden(graphics, mouseX, mouseY, partialTick);
+            row.renderHidden(graphics);
             return;
         } else
-            this.renderRowHighlight(row, graphics, mouseX, mouseY);
+            this.renderRowHighlight(row, graphics);
 
-        row.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        row.extractRenderState(graphics);
 
         if (row.isWidgetFocused() && this.getBuilder().showSelectionBorder)
             graphics.outline(row.getX(), row.getY(), row.getWidth(), row.getHeight(), Color.FRENCH_SKY_BLUE.get());
@@ -1043,10 +1036,8 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
      *
      * @param row      The {@link AbstractRow} to highlight.
      * @param graphics The {@link GuiGraphicsExtractor} instance.
-     * @param mouseX   The current x-coordinate of the mouse.
-     * @param mouseY   The current y-coordinate of the mouse.
      */
-    private void renderRowHighlight(AbstractRow<?, ?> row, GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+    private void renderRowHighlight(AbstractRow<?, ?> row, GuiGraphicsExtractor graphics) {
         Optional<Animation> rowAnimator = row.getHighlightAnimation();
         Animation listAnimator = this.getBuilder().rowHighlightAnimation;
 
@@ -1065,19 +1056,19 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
         if (animator == null)
             return;
 
-        if (row.isMouseOver(mouseX, mouseY) || isFocused)
+        if (row.isMouseOver(graphics.mouseX(), graphics.mouseY()) || isFocused)
             animator.play();
         else
             animator.rewind();
 
         Color color = rowAnimator.isPresent() ? row.getHighlightColor() : this.getBuilder().rowHighlightColor;
         double transparency = rowAnimator.isPresent() ? row.getHighlightAlpha() : this.getBuilder().rowHighlightAlpha;
-        double override = row.isMouseOver(mouseX, mouseY) ? 1.0D : 0.0D;
+        double override = row.isMouseOver(graphics.mouseX(), graphics.mouseY()) ? 1.0D : 0.0D;
         double normalized = this.getBuilder().overrideHighlightOpacity.getAsInt() / 100.0D;
         double opacity = this.getBuilder().useOverrideHighlights.getAsBoolean() ? normalized : transparency;
         double fade = 0.5F;//ModTweak.DISPLAY_ROW_HIGHLIGHT_FADE.fromCache() ? animator.getValue() : override; //TODO
 
-        float alpha = (float) Mth.clamp(opacity * fade, 0.0D, 1.0D);
+        float alpha = (float) Math.clamp(opacity * fade, 0.0D, 1.0D);
         Color unfocused = new Color(color, alpha);
         Color focused = new Color(0.53F, 0.68F, 1.0F, alpha);
         Color fill = isFocused ? focused : unfocused;
@@ -1100,13 +1091,10 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
      * Update the position for each row and render them with the new changes.
      *
      * @param graphics    The {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The current x-coordinate of the mouse.
-     * @param mouseY      The current y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private void updateAndRenderRows(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void updateAndRenderRows(GuiGraphicsExtractor graphics) {
         this.setPositionForRows();
         DynamicWidget.sync(this.internal);
-        this.visibleRows.forEach(row -> this.renderRow(row, graphics, mouseX, mouseY, partialTick));
+        this.visibleRows.forEach(row -> this.renderRow(row, graphics));
     }
 }

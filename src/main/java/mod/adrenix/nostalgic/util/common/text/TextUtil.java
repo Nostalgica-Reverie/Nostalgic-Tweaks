@@ -5,7 +5,6 @@ import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.data.Holder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -60,7 +59,7 @@ public abstract class TextUtil {
         return Pattern.compile(regex)
                 .matcher(from)
                 .results()
-                .map(match -> match.group(Mth.clamp(groupIndex, 0, match.groupCount())))
+                .map(match -> match.group(Math.clamp(groupIndex, 0, match.groupCount())))
                 .findFirst()
                 .orElse("");
     }

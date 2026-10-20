@@ -80,7 +80,7 @@ public class NostalgicPauseScreen extends PauseScreen implements DynamicScreen<N
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         if (!this.isLayoutSet) {
             if (true/*CandyTweak.REMOVE_EXTRA_PAUSE_BUTTONS.get()*/) { //TODO
                 this.clearWidgets();
@@ -90,7 +90,7 @@ public class NostalgicPauseScreen extends PauseScreen implements DynamicScreen<N
             this.isLayoutSet = true;
         }
 
-        DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.render(this.widgets, graphics);
         graphics.centeredText(this.font, this.title, this.width / 2, this.height / 4 - 20, 0xFFFFFFFF);
     }
 }

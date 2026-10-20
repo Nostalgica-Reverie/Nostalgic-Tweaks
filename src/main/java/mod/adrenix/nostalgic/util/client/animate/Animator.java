@@ -147,10 +147,10 @@ public class Animator implements Animation {
             this.tickProgress++;
         }
 
-        this.tickProgress = Mth.clamp(this.tickProgress, 0.0D, this.durationInTicks);
+        this.tickProgress = Math.clamp(this.tickProgress, 0.0D, this.durationInTicks);
 
         this.lastValue = this.currentValue;
-        this.currentValue = Mth.clamp(this.animator.apply(this.tickProgress / this.durationInTicks), this.minValue, this.maxValue);
+        this.currentValue = Math.clamp(this.animator.apply(this.tickProgress / this.durationInTicks), this.minValue, this.maxValue);
     }
 
     @Override
@@ -161,8 +161,8 @@ public class Animator implements Animation {
     @Override
     public void setTickProgress(float progress) {
         this.lastValue = 0.0D;
-        this.tickProgress = (int) Math.round(this.durationInTicks * Mth.clamp(progress, 0.0F, 1.0F));
-        this.currentValue = Mth.clamp(this.animator.apply(this.tickProgress / this.durationInTicks), this.minValue, this.maxValue);
+        this.tickProgress = (int) Math.round(this.durationInTicks * Math.clamp(progress, 0.0F, 1.0F));
+        this.currentValue = Math.clamp(this.animator.apply(this.tickProgress / this.durationInTicks), this.minValue, this.maxValue);
     }
 
     @Override

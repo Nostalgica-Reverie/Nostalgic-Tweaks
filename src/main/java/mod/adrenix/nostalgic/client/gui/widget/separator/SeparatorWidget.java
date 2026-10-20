@@ -31,8 +31,8 @@ public class SeparatorWidget extends DynamicWidget<SeparatorBuilder, SeparatorWi
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;

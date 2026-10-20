@@ -1,8 +1,8 @@
-# Nostalgic Tweaks - 26.1.x Development Branch
+# Nostalgic Tweaks - FUTURE LTS Development Branch
 
 ### NeoForge & Fabric
 
-This is the 26.1.x development branch for Nostalgic Tweaks. 3.0.0 is a complete rewrite for the mod.
+This is the FUTURE LTS development branch for Nostalgic Tweaks. 3.0.0 is a complete rewrite for the mod.
 
 ### Current In-Development Version
 
@@ -16,5 +16,5 @@ v3.0.0
 
 ## Nostalgic Tweaks API For Developers
 
-Mod API is not available for 26.1.x (3.0.0). If you have suggestions for what the mod API should look like, then please
+Mod API is not available for FUTURE LTS (3.0.0). If you have suggestions for what the mod API should look like, then please
 share your ideas!

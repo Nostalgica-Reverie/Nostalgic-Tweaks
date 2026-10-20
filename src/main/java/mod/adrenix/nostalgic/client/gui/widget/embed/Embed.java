@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.embed;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import mod.adrenix.nostalgic.client.gui.tooltip.TooltipManager;
 import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.dynamic.*;
@@ -867,7 +868,7 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
      */
     @PublicAPI
     public boolean isWidgetClicked(MouseButtonEvent event) {
-        if (this.isInvisible() || event.button() != 0)
+        if (this.isInvisible() || event.button() != InputConstants.MOUSE_BUTTON_LEFT)
             return false;
 
         boolean isMouseOverScrollbar = this.widgets.scrollbars.stream()
@@ -892,7 +893,7 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
         if (this.isInvisible())
             return false;
 
-        return event.button() == 0 && MathUtil.isWithinBox(event.x(), event.y(), this.x, this.y, this.width, this.height);
+        return event.button() == InputConstants.MOUSE_BUTTON_LEFT && MathUtil.isWithinBox(event.x(), event.y(), this.x, this.y, this.width, this.height);
     }
 
     /**
@@ -1220,20 +1221,17 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
      * Handler method for rendering this embed.
      *
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         if (this.isInvisible())
             return;
 
         this.renderBackground(graphics);
-        this.renderWidgets(graphics, mouseX, mouseY, partialTick);
+        this.renderWidgets(graphics);
 
         if (this.getBuilder().borderRenderer != null)
-            this.getBuilder().borderRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().borderRenderer.accept(this, graphics);
     }
 
     /**
@@ -1273,11 +1271,8 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
      * Handler method for rendering the embed's subscribed widgets.
      *
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    protected void renderWidgets(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderWidgets(GuiGraphicsExtractor graphics) {
         if (this.verticalScrollbar.isInvisible() && this.verticalScrollbar.getScrollAmount() > 0.0D)
             this.verticalScrollbar.setScrollAmount(0.0D);
 
@@ -1301,18 +1296,18 @@ public class Embed extends DynamicWidget<EmbedBuilder, Embed>
         );
 
         if (this.getBuilder().preRenderer != null)
-            this.getBuilder().preRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().preRenderer.accept(this, graphics);
 
-        DynamicWidget.renderWithoutSync(this.widgets.scissored, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.widgets.scissored, graphics);
 
         if (this.getBuilder().postRenderer != null)
-            this.getBuilder().postRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.getBuilder().postRenderer.accept(this, graphics);
 
         graphics.disableScissor();
 
-        DynamicWidget.renderWithoutSync(this.widgets.projected, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.widgets.projected, graphics);
         graphics.pose().pushMatrix();
-        DynamicWidget.render(this.widgets.internal, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.render(this.widgets.internal, graphics);
 
         if (this.areScrollbarsVisible()) {
             int sX = this.getInsideEndX() - this.scrollbarSize;

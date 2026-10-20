@@ -2,7 +2,6 @@ package mod.adrenix.nostalgic.util.common.timer;
 
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 
 import java.util.concurrent.TimeUnit;
@@ -110,7 +109,7 @@ public class SimpleTimer {
         if (this.waitFirst)
             return 1.0D;
 
-        return Mth.clamp((double) (Util.getMillis() - this.timeSinceLast) / this.timeInterval, 0.0D, 1.0D);
+        return Math.clamp((double) (Util.getMillis() - this.timeSinceLast) / this.timeInterval, 0.0D, 1.0D);
     }
 
     /**

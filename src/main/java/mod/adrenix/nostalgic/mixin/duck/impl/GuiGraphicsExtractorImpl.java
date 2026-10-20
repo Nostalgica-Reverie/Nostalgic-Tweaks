@@ -6,7 +6,7 @@ import mod.adrenix.nostalgic.util.client.renderer.state.HorizontalColoredRectang
 import mod.adrenix.nostalgic.util.common.color.Gradient;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;

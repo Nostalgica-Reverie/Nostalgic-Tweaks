@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.client.animate;
 
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +16,7 @@ public interface Animate {
      */
     @PublicAPI
     static Animation linear(long duration, TimeUnit timeUnit) {
-        return new Animator(v -> Mth.clamp(v, 0.0D, 1.0D), duration, timeUnit);
+        return new Animator(v -> Math.clamp(v, 0.0D, 1.0D), duration, timeUnit);
     }
 
     /**

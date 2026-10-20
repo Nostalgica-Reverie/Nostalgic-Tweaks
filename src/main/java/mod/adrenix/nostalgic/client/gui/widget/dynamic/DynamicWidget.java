@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.dynamic;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.cursor.CursorType;
 import mod.adrenix.nostalgic.NostalgicTweaks;
 import mod.adrenix.nostalgic.client.gui.MouseManager;
@@ -110,16 +111,13 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     /**
      * Sync and render the given collection of widgets.
      *
-     * @param widgets     A {@link Collection} of {@link DynamicWidget}.
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param widgets  A {@link Collection} of {@link DynamicWidget}.
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
     @PublicAPI
-    public static void render(Collection<? extends DynamicWidget<?, ?>> widgets, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public static void render(Collection<? extends DynamicWidget<?, ?>> widgets, GuiGraphicsExtractor graphics) {
         sync(widgets);
-        renderWithoutSync(widgets, graphics, mouseX, mouseY, partialTick);
+        renderWithoutSync(widgets, graphics);
     }
 
     /* Constructor */
@@ -127,15 +125,12 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
     /**
      * Render without syncing the given collection of widgets.
      *
-     * @param widgets     A {@link Collection} of {@link DynamicWidget}.
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param widgets  A {@link Collection} of {@link DynamicWidget}.
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
     @PublicAPI
-    public static void renderWithoutSync(Collection<? extends DynamicWidget<?, ?>> widgets, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        RenderPass.apply(widgets, DynamicWidget::getRenderPass, widget -> widget.extractRenderState(graphics, mouseX, mouseY, partialTick));
+    public static void renderWithoutSync(Collection<? extends DynamicWidget<?, ?>> widgets, GuiGraphicsExtractor graphics) {
+        RenderPass.apply(widgets, DynamicWidget::getRenderPass, widget -> widget.extractRenderState(graphics));
     }
 
     /* Methods */
@@ -398,7 +393,7 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      * @return Whether the mouse click context is valid for this widget.
      */
     protected boolean isValidClick(MouseButtonEvent event) {
-        return event.button() == 0 && this.isValidPoint(event.x(), event.y());
+        return event.button() == InputConstants.MOUSE_BUTTON_LEFT && this.isValidPoint(event.x(), event.y());
     }
 
     /**
@@ -1119,14 +1114,11 @@ public abstract class DynamicWidget<Builder extends DynamicBuilder<Builder, Widg
      * Render instructions for the widget.
      *
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         //TODO, is this a good place to put the cursor changers?
-        if (this.isMouseOver(mouseX, mouseY)) {
+        if (this.isMouseOver(graphics.mouseX(), graphics.mouseY())) {
             //TODO: fix the mouse held logic. for some reason it only works sometimes,
             //  and I don't know why.
             if (this.mouseHeld && this.heldCursor != null) {

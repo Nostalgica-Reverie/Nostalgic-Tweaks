@@ -9,7 +9,6 @@ import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.function.BooleanSupplier;
-import net.minecraft.util.Mth;
 
 public abstract class AbstractRowMaker<Builder extends AbstractRowMaker<Builder, Row>, Row extends AbstractRow<Builder, Row>>
         extends DynamicBuilder<Builder, Row> implements ActiveBuilder<Builder, Row>, VisibleBuilder<Builder, Row> {
@@ -84,7 +83,7 @@ public abstract class AbstractRowMaker<Builder extends AbstractRowMaker<Builder,
      */
     @PublicAPI
     public Builder highlight(double highlightAlpha, Animation highlightAnimation) {
-        this.highlightAlpha = Mth.clamp(highlightAlpha, 0.0D, 1.0D);
+        this.highlightAlpha = Math.clamp(highlightAlpha, 0.0D, 1.0D);
         this.highlightAnimation = highlightAnimation;
 
         return this.self();

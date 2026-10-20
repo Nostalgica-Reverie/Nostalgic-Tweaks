@@ -127,7 +127,7 @@ class SelectWorldWidgets implements WidgetManager {
             NostalgicTweaks.LOGGER.error("Failed to access level (%s)\n%s", levelId, exception);
         } catch (ContentValidationException exception) {
             NostalgicTweaks.LOGGER.error("%s", exception.getMessage());
-            this.minecraft.setScreen(NoticeWithLinkScreen.createWorldSymlinkWarningScreen(() -> this.minecraft.setScreen(this.selectWorldScreen)));
+            this.minecraft.gui.setScreen(NoticeWithLinkScreen.createWorldSymlinkWarningScreen(() -> this.minecraft.gui.setScreen(this.selectWorldScreen)));
         }
 
         return null;
@@ -182,7 +182,7 @@ class SelectWorldWidgets implements WidgetManager {
         if (world != null)
             world.joinWorld();
         else
-            CreateWorldScreen.openFresh(this.minecraft, () -> this.minecraft.setScreen(this.selectWorldScreen)); //TODO, reloadWorldList()
+            CreateWorldScreen.openFresh(this.minecraft, () -> this.minecraft.gui.setScreen(this.selectWorldScreen)); //TODO, reloadWorldList()
     }
 
     /**
@@ -361,7 +361,7 @@ class SelectWorldWidgets implements WidgetManager {
         ButtonWidget.create(Lang.Vanilla.WORLD_CREATE)
                 .rightOf(play, 8)
                 .width(BETA_LARGE_BUTTON)
-                .onPress(() -> CreateWorldScreen.openFresh(this.minecraft, () -> this.minecraft.setScreen(this.selectWorldScreen))) //TODO, refreshWorldList()
+                .onPress(() -> CreateWorldScreen.openFresh(this.minecraft, () -> this.minecraft.gui.setScreen(this.selectWorldScreen))) //TODO, refreshWorldList()
                 .build(this.selectWorldScreen::addWidget);
 
         ButtonWidget.create(Lang.Vanilla.GUI_CANCEL)

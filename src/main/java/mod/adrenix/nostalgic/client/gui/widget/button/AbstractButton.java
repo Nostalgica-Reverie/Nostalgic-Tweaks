@@ -382,12 +382,9 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
      * Renders the button's text and icon. This method is equipped with scissoring logic so that the text always stays
      * within the button.
      *
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-position of the mouse.
-     * @param mouseY      The y-position of the mouse.
-     * @param partialTick The normalized progress made between two ticks [0.0F, 1.0F].
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
-    protected void renderTextAndIcon(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderTextAndIcon(GuiGraphicsExtractor graphics) {
         this.iconManager.pushCache();
 
         boolean isDefaultBackground = this.builder.backgroundRenderer == null;
@@ -416,7 +413,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
             if (!this.scrollingText)
                 this.iconManager.get().pos(this.iconX, this.iconY);
 
-            this.iconManager.get().extractRenderState(graphics, mouseX, mouseY, partialTick);
+            this.iconManager.get().extractRenderState(graphics);
         }
 
         int extraWidth = Math.abs(startX + textWidth - endX - margin);
@@ -451,7 +448,7 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
                 DrawText.begin(graphics, this.getTitle()).pos(startX, this.textY).color(this.getTextColor()).draw();
         }
 
-        this.iconManager.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        this.iconManager.extractRenderState(graphics);
         this.iconManager.popCache();
     }
 
@@ -485,17 +482,17 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
 
         if (this.builder.renderer != null) {
-            this.builder.renderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.renderer.accept(this.self(), graphics);
 
             if (this.builder.postRenderer != null)
-                this.builder.postRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+                this.builder.postRenderer.accept(this.self(), graphics);
 
             this.renderDebug(graphics);
 
@@ -503,15 +500,15 @@ public abstract class AbstractButton<Builder extends AbstractButtonMaker<Builder
         }
 
         if (this.builder.backgroundRenderer != null)
-            this.builder.backgroundRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.backgroundRenderer.accept(this.self(), graphics);
         else
             WidgetBackground.BUTTON.render(this, graphics);
 
         this.renderTimerHighlight(graphics);
-        this.renderTextAndIcon(graphics, mouseX, mouseY, partialTick);
+        this.renderTextAndIcon(graphics);
 
         if (this.builder.postRenderer != null)
-            this.builder.postRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.postRenderer.accept(this.self(), graphics);
 
         this.renderDebug(graphics);
     }

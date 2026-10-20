@@ -10,7 +10,7 @@ public interface RowListRenderer {
     /**
      * Empty renderer function.
      */
-    RowListRenderer EMPTY = (rowList, graphics, mouseX, mouseY, partialTick) -> {
+    RowListRenderer EMPTY = (rowList, graphics) -> {
     };
 
     /* Static */
@@ -18,11 +18,8 @@ public interface RowListRenderer {
     /**
      * Performs this operation on the given arguments.
      *
-     * @param rowList     The {@link RowList} being rendered.
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse.
-     * @param mouseY      The y-coordinate of the mouse.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param rowList  The {@link RowList} being rendered.
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
-    void accept(RowList rowList, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick);
+    void accept(RowList rowList, GuiGraphicsExtractor graphics);
 }

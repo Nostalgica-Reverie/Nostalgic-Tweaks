@@ -12,6 +12,7 @@ import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import mod.adrenix.nostalgic.util.common.text.TextUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -60,22 +61,22 @@ class PickerPalette {
 
         // @formatter:off
 
-        ButtonWidget darkRed = this.getPaletteColorFactory(ChatFormatting.DARK_RED).build();
-        ButtonWidget red = this.getPaletteColorFactory(ChatFormatting.RED).rightOf(darkRed, padding).build();
-        ButtonWidget gold = this.getPaletteColorFactory(ChatFormatting.GOLD).rightOf(red, padding).build();
-        ButtonWidget yellow = this.getPaletteColorFactory(ChatFormatting.YELLOW).rightOf(gold, padding).build();
-        ButtonWidget darkGreen = this.getPaletteColorFactory(ChatFormatting.DARK_GREEN).rightOf(yellow, padding).build();
-        ButtonWidget green = this.getPaletteColorFactory(ChatFormatting.GREEN).rightOf(darkGreen, padding).build();
-        ButtonWidget aqua = this.getPaletteColorFactory(ChatFormatting.AQUA).rightOf(green, padding).build();
-        ButtonWidget darkAqua = this.getPaletteColorFactory(ChatFormatting.DARK_AQUA).rightOf(aqua, padding).build();
-        ButtonWidget darkBlue = this.getPaletteColorFactory(ChatFormatting.DARK_BLUE).below(darkRed, padding).build();
-        ButtonWidget blue = this.getPaletteColorFactory(ChatFormatting.BLUE).rightOf(darkBlue, padding).build();
-        ButtonWidget lightPurple = this.getPaletteColorFactory(ChatFormatting.LIGHT_PURPLE).rightOf(blue, padding).build();
-        ButtonWidget darkPurple = this.getPaletteColorFactory(ChatFormatting.DARK_PURPLE).rightOf(lightPurple, padding).build();
-        ButtonWidget white = this.getPaletteColorFactory(ChatFormatting.WHITE).rightOf(darkPurple, padding).build();
-        ButtonWidget gray = this.getPaletteColorFactory(ChatFormatting.GRAY).rightOf(white, padding).build();
-        ButtonWidget darkGray = this.getPaletteColorFactory(ChatFormatting.DARK_GRAY).rightOf(gray, padding).build();
-        ButtonWidget black = this.getPaletteColorFactory(ChatFormatting.BLACK).rightOf(darkGray, padding).build();
+        ButtonWidget darkRed = this.getPaletteColorFactory(TextColor.DARK_RED).build();
+        ButtonWidget red = this.getPaletteColorFactory(TextColor.RED).rightOf(darkRed, padding).build();
+        ButtonWidget gold = this.getPaletteColorFactory(TextColor.GOLD).rightOf(red, padding).build();
+        ButtonWidget yellow = this.getPaletteColorFactory(TextColor.YELLOW).rightOf(gold, padding).build();
+        ButtonWidget darkGreen = this.getPaletteColorFactory(TextColor.DARK_GREEN).rightOf(yellow, padding).build();
+        ButtonWidget green = this.getPaletteColorFactory(TextColor.GREEN).rightOf(darkGreen, padding).build();
+        ButtonWidget aqua = this.getPaletteColorFactory(TextColor.AQUA).rightOf(green, padding).build();
+        ButtonWidget darkAqua = this.getPaletteColorFactory(TextColor.DARK_AQUA).rightOf(aqua, padding).build();
+        ButtonWidget darkBlue = this.getPaletteColorFactory(TextColor.DARK_BLUE).below(darkRed, padding).build();
+        ButtonWidget blue = this.getPaletteColorFactory(TextColor.BLUE).rightOf(darkBlue, padding).build();
+        ButtonWidget lightPurple = this.getPaletteColorFactory(TextColor.LIGHT_PURPLE).rightOf(blue, padding).build();
+        ButtonWidget darkPurple = this.getPaletteColorFactory(TextColor.DARK_PURPLE).rightOf(lightPurple, padding).build();
+        ButtonWidget white = this.getPaletteColorFactory(TextColor.WHITE).rightOf(darkPurple, padding).build();
+        ButtonWidget gray = this.getPaletteColorFactory(TextColor.GRAY).rightOf(white, padding).build();
+        ButtonWidget darkGray = this.getPaletteColorFactory(TextColor.DARK_GRAY).rightOf(gray, padding).build();
+        ButtonWidget black = this.getPaletteColorFactory(TextColor.BLACK).rightOf(darkGray, padding).build();
 
         // @formatter:on
 
@@ -177,14 +178,14 @@ class PickerPalette {
         return ButtonWidget.create()
                 .size(size)
                 .onPress(() -> this.picker.color.set(color))
-                .renderer((button, graphics, mouseX, mouseY, partialTick) -> {
+                .renderer((button, graphics) -> {
                     graphics.pose().pushMatrix();
                     graphics.pose().translate(button.getX(), button.getY());
 
                     boolean isHighlighted = button.isFocused() || this.picker.color.equals(color);
                     int border = isHighlighted ? Color.LIGHT_BLUE.get() : Color.GRAY.get();
 
-                    if (button.isMouseOver(mouseX, mouseY))
+                    if (button.isMouseOver(graphics.mouseX(), graphics.mouseY()))
                         border = Color.WHITE.get();
 
                     graphics.outline(0, 0, size, size, border);
@@ -214,9 +215,9 @@ class PickerPalette {
      * @param formatting A vanilla chat formatting enumeration.
      * @return A button factory that can be chained onto for further customization.
      */
-    private ButtonBuilder getPaletteColorFactory(ChatFormatting formatting) {
+    private ButtonBuilder getPaletteColorFactory(TextColor formatting) {
         return this.getColorSquareFactory(Color.fromFormatting(formatting))
-                .tooltip(Component.literal(TextUtil.toTitleCase(formatting.getName())), 750L, TimeUnit.MILLISECONDS);
+                .tooltip(Component.literal(TextUtil.toTitleCase(formatting.serialize())), 750L, TimeUnit.MILLISECONDS);
     }
 
     /**

@@ -13,7 +13,7 @@ import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
@@ -135,7 +135,7 @@ public class HomeScreen extends EnhancedScreen<HomeScreen, HomeWidgets> {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
 //        this.extractBlurredBackground(graphics);
 
         if (this.minecraft.level == null)
@@ -145,7 +145,7 @@ public class HomeScreen extends EnhancedScreen<HomeScreen, HomeWidgets> {
 
         this.renderTextures(graphics);
 
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics);
     }
 
     /**

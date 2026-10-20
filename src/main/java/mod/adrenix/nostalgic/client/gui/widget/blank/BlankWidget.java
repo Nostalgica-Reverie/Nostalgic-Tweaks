@@ -49,13 +49,13 @@ public class BlankWidget extends DynamicWidget<BlankBuilder, BlankWidget> {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
 
-        this.getBuilder().renderer.accept(this, graphics, mouseX, mouseY, partialTick);
+        this.getBuilder().renderer.accept(this, graphics);
         this.renderDebug(graphics);
     }
 }

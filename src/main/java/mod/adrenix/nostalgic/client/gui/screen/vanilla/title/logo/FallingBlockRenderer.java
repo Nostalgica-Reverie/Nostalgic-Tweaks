@@ -184,9 +184,9 @@
 //            float b = 1.0F;
 //
 //            if (quad.isTinted()) {
-//                r = Mth.clamp(red, 0.0F, 1.0F);
-//                g = Mth.clamp(green, 0.0F, 1.0F);
-//                b = Mth.clamp(blue, 0.0F, 1.0F);
+//                r = Math.clamp(red, 0.0F, 1.0F);
+//                g = Math.clamp(green, 0.0F, 1.0F);
+//                b = Math.clamp(blue, 0.0F, 1.0F);
 //            }
 //
 //            consumer.putBulkData(pose, quad, r, g, b, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
@@ -353,7 +353,7 @@
 //
 //                    if (pass == 0) {
 //                        scale = z * 0.04F + 1.0F;
-//                        alpha = Mth.clamp(1.0F / scale, 0.0F, 0.7F);
+//                        alpha = Math.clamp(1.0F / scale, 0.0F, 0.7F);
 //                        z = 0.0F;
 //                    }
 //

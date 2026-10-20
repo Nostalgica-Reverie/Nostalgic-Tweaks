@@ -102,7 +102,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         if (this.minecraft.level == null)
             NTPanorama.extractRenderState(graphics);
 
@@ -125,7 +125,7 @@ public class FallingBlockEditorScreen extends EnhancedScreen<FallingBlockEditorS
         GuiUtil.extractDirtBackground(graphics);
         graphics.disableScissor();
 
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics);
     }
 
     /**

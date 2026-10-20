@@ -107,7 +107,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      * @param amount A new scroll amount.
      */
     private void setAnimationScrollAmount(double amount) {
-        this.scrollAmount = Mth.clamp(amount, 0.0D, this.getMaxScrollAmount());
+        this.scrollAmount = Math.clamp(amount, 0.0D, this.getMaxScrollAmount());
 
         if (MathUtil.tolerance(this.scrollAmount, this.scrollTo, 0.01D))
             this.scrollAmount = this.scrollTo;
@@ -121,7 +121,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      */
     @PublicAPI
     public void clamp() {
-        this.scrollAmount = Mth.clamp(this.scrollAmount, 0.0D, this.getMaxScrollAmount());
+        this.scrollAmount = Math.clamp(this.scrollAmount, 0.0D, this.getMaxScrollAmount());
     }
 
     /**
@@ -141,7 +141,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
     @PublicAPI
     public void setSmoothScrollAmount(double amount) {
         this.lastScrollTo = this.getScrollAmount();
-        this.scrollTo = Mth.clamp(amount, 0.0D, this.getMaxScrollAmount());
+        this.scrollTo = Math.clamp(amount, 0.0D, this.getMaxScrollAmount());
 
         this.getBuilder().animation.reset();
         this.getBuilder().animation.play();
@@ -164,7 +164,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      */
     @PublicAPI
     public void setScrollAmount(double amount) {
-        this.scrollAmount = Mth.clamp(amount, 0.0D, this.getMaxScrollAmount());
+        this.scrollAmount = Math.clamp(amount, 0.0D, this.getMaxScrollAmount());
         this.scrollTo = this.scrollAmount;
 
         this.getBuilder().onScroll.accept(this);
@@ -186,7 +186,7 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
         int base = this.isVertical() ? this.height : this.width;
         int value = (int) Math.round(Math.pow(base, 2) / this.content.getSize());
 
-        return Mth.clamp(value, this.getBuilder().minSize, this.isVertical() ? this.height : this.width);
+        return Math.clamp(value, this.getBuilder().minSize, this.isVertical() ? this.height : this.width);
     }
 
     /**
@@ -300,10 +300,10 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
                 return false;
         }
 
-        double averageScrollAmount = Mth.clamp(this.getBuilder().averageScrollAmount.getAsDouble(), 6.8D, 12.0D);
+        double averageScrollAmount = Math.clamp(this.getBuilder().averageScrollAmount.getAsDouble(), 6.8D, 12.0D);
 
         if (this.isSmoothScrolling()) {
-            this.scrollTo = Mth.clamp(this.scrollTo - deltaY * averageScrollAmount, 0.0D, this.getMaxScrollAmount());
+            this.scrollTo = Math.clamp(this.scrollTo - deltaY * averageScrollAmount, 0.0D, this.getMaxScrollAmount());
             this.smoothScroll = true;
 
             if (this.getBuilder().animation.isNotFinished())
@@ -355,10 +355,10 @@ public class Scrollbar extends DynamicWidget<ScrollbarBuilder, Scrollbar> {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        partialTick = PartialTick.realtime();
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        float partialTick = PartialTick.realtime();
 
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;

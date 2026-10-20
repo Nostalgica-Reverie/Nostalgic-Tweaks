@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.common;
 
 import mod.adrenix.nostalgic.NostalgicTweaks;
-import net.minecraft.util.Mth;
 
 /**
  * Simple wrapper utility that reduces the overhead of creating a new thread.
@@ -67,6 +66,6 @@ public abstract class ThreadMaker {
             }
         }
 
-        return Mth.clamp(Runtime.getRuntime().availableProcessors() - 1, 1, maxThreads);
+        return Math.clamp(Runtime.getRuntime().availableProcessors() - 1, 1, maxThreads);
     }
 }

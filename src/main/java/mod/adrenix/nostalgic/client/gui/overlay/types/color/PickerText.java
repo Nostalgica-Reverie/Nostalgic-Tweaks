@@ -5,6 +5,7 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 
 class PickerText {
     /* Fields */
@@ -59,19 +60,19 @@ class PickerText {
 
         this.red.getBuilder()
                 .width(this.picker.group.rgb::getInsideWidth)
-                .color(Color.fromFormatting(ChatFormatting.RED))
+                .color(Color.fromFormatting(TextColor.RED))
                 .centerAligned();
 
         this.green.getBuilder()
                 .below(this.picker.slider.red, ColorPicker.PADDING)
                 .width(this.picker.group.rgb::getInsideWidth)
-                .color(Color.fromFormatting(ChatFormatting.GREEN))
+                .color(Color.fromFormatting(TextColor.GREEN))
                 .centerAligned();
 
         this.blue.getBuilder()
                 .below(this.picker.slider.green, ColorPicker.PADDING)
                 .width(this.picker.group.rgb::getInsideWidth)
-                .color(Color.fromFormatting(ChatFormatting.BLUE))
+                .color(Color.fromFormatting(TextColor.BLUE))
                 .centerAligned();
 
         this.opacity.getBuilder()

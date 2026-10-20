@@ -209,8 +209,8 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
@@ -219,7 +219,7 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
             graphics.fill(this.x, this.y, this.getEndX(), this.getEndY(), this.builder.backgroundColor.get());
 
         if (this.isBordered())
-            this.renderBorder(graphics, mouseX, mouseY, partialTick);
+            this.renderBorder(graphics);
         else if (this.builder.outline) {
             Color color = this.builder.outlineColor;
             int thickness = this.builder.outlineThickness;
@@ -231,7 +231,7 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
 
             if (this.builder.icon.isPresent()) {
                 this.icon.pos(textX, textY);
-                this.icon.extractRenderState(graphics, mouseX, mouseY, partialTick);
+                this.icon.extractRenderState(graphics);
 
                 textX = this.icon.getEndX() + 4;
             }
@@ -246,11 +246,8 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
      * Renders the border around this group widget.
      *
      * @param graphics    The {@link GuiGraphicsExtractor} object used for rendering.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
-    private void renderBorder(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderBorder(GuiGraphicsExtractor graphics) {
         graphics.pose().pushMatrix();
         graphics.pose().translate(this.x, this.y);
 
@@ -269,7 +266,7 @@ public class Group extends DynamicWidget<GroupBuilder, Group> implements Relativ
 
             if (this.builder.icon.isPresent()) {
                 this.icon.pos(atText, 0);
-                this.icon.extractRenderState(graphics, mouseX, mouseY, partialTick);
+                this.icon.extractRenderState(graphics);
 
                 int iconOffset = this.icon.getWidth() + 4;
                 atText += iconOffset;

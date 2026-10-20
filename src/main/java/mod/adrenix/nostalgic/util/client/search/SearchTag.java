@@ -17,14 +17,14 @@
 // * be returned.
 // */
 //public enum SearchTag {
-//    NEW(Tweak::isNew, ChatFormatting.RED, false),
-//    OLD(Tweak::isOld, ChatFormatting.GRAY, false),
-//    CLIENT(Tweak::isClient, ChatFormatting.AQUA, false),
-//    SERVER(Tweak::isServer, ChatFormatting.YELLOW, false),
-//    DYNAMIC(Tweak::isDynamic, ChatFormatting.DARK_PURPLE, false),
-//    CONFLICT(Tweak::isConflictOrFail, ChatFormatting.DARK_RED, true),
-//    RESET(Tweak::isCacheNotDefault, ChatFormatting.GOLD, true),
-//    SAVE(Tweak::isAnyCacheSavable, ChatFormatting.GREEN, true);
+//    NEW(Tweak::isNew, TextColor.RED, false),
+//    OLD(Tweak::isOld, TextColor.GRAY, false),
+//    CLIENT(Tweak::isClient, TextColor.AQUA, false),
+//    SERVER(Tweak::isServer, TextColor.YELLOW, false),
+//    DYNAMIC(Tweak::isDynamic, TextColor.DARK_PURPLE, false),
+//    CONFLICT(Tweak::isConflictOrFail, TextColor.DARK_RED, true),
+//    RESET(Tweak::isCacheNotDefault, TextColor.GOLD, true),
+//    SAVE(Tweak::isAnyCacheSavable, TextColor.GREEN, true);
 //
 //    /* Fields */
 //

@@ -48,7 +48,7 @@ public class PacksListScreen extends EnhancedScreen<PacksListScreen, PacksListWi
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
 //        this.extractBlurredBackground(graphics);
 
         if (this.minecraft.level == null)
@@ -56,6 +56,6 @@ public class PacksListScreen extends EnhancedScreen<PacksListScreen, PacksListWi
         else
             graphics.fillGradient(0, 0, this.width, this.height, 0xC0101010, 0xD0101010);
 
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics);
     }
 }

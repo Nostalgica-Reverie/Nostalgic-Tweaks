@@ -13,7 +13,7 @@ public abstract class GuiEventListeners {
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             EventResult<Screen> reroute = GuiEventCallbacks.rerouteScreen(screen);
             if (reroute.cancelled()) {
-                client.setScreen(reroute.value());
+                client.gui.setScreen(reroute.value());
                 return;
             }
 

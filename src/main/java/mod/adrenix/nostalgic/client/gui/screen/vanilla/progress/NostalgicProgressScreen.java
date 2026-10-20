@@ -2,7 +2,6 @@ package mod.adrenix.nostalgic.client.gui.screen.vanilla.progress;
 
 import mod.adrenix.nostalgic.mixin.access.ProgressScreenAccess;
 //import mod.adrenix.nostalgic.tweak.config.CandyTweak;
-import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -153,13 +152,13 @@ public class NostalgicProgressScreen extends ProgressScreen implements ProgressL
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         if (this.minecraft == null)
             return;
 
         if (this.stop || this.progressScreen.nt$stop()) {
             if (this.progressScreen.nt$clearScreenAfterStop())
-                this.minecraft.setScreen(null);
+                this.minecraft.gui.setScreen(null);
 
             return;
         }

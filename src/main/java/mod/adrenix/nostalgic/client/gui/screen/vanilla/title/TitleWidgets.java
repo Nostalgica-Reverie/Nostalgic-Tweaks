@@ -1,6 +1,7 @@
 package mod.adrenix.nostalgic.client.gui.screen.vanilla.title;
 
 import mod.adrenix.nostalgic.client.gui.screen.WidgetManager;
+import mod.adrenix.nostalgic.client.gui.screen.home.HomeScreen;
 import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.button.ButtonWidget;
 //import mod.adrenix.nostalgic.tweak.config.CandyTweak;
@@ -91,7 +92,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoSelectWorld() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new SelectWorldScreen(this.titleScreen));
+            this.minecraft.gui.setScreen(new SelectWorldScreen(this.titleScreen));
     }
 
     /**
@@ -99,7 +100,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoMultiplayer() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new JoinMultiplayerScreen(this.titleScreen));
+            this.minecraft.gui.setScreen(new JoinMultiplayerScreen(this.titleScreen));
     }
 
     /**
@@ -107,7 +108,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoOptions() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new OptionsScreen(this.titleScreen, this.minecraft.options, this.minecraft.level != null));
+            this.minecraft.gui.setScreen(new OptionsScreen(this.titleScreen, this.minecraft.options));
     }
 
     /**
@@ -115,7 +116,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoMods() {
         if (this.minecraft != null && GuiUtil.modListScreen != null)
-            this.minecraft.setScreen(GuiUtil.modListScreen.apply(this.titleScreen));
+            this.minecraft.gui.setScreen(GuiUtil.modListScreen.apply(this.titleScreen));
     }
 
     /**
@@ -128,7 +129,7 @@ class TitleWidgets implements WidgetManager {
             return;
 
         this.minecraft.options.updateResourcePacks(packRepository);
-        this.minecraft.setScreen(this.titleScreen);
+        this.minecraft.gui.setScreen(this.titleScreen);
     }
 
     /**
@@ -136,7 +137,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoResourcePacks() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new PackSelectionScreen(this.minecraft.getResourcePackRepository(), this::updatePackList, this.minecraft.getResourcePackDirectory(), Lang.Vanilla.RESOURCE_PACK_TITLE.get()));
+            this.minecraft.gui.setScreen(new HomeScreen(null, false));
     }
 
     /**
@@ -144,7 +145,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoLanguage() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(new LanguageSelectScreen(this.titleScreen, this.minecraft.options, this.minecraft.getLanguageManager()));
+            this.minecraft.gui.setScreen(new LanguageSelectScreen(this.titleScreen, this.minecraft.options, this.minecraft.getLanguageManager()));
     }
 
     /**

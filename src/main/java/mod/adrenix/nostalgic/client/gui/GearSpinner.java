@@ -3,7 +3,7 @@ package mod.adrenix.nostalgic.client.gui;
 import mod.adrenix.nostalgic.util.common.LocateResource;
 import mod.adrenix.nostalgic.util.common.timer.SimpleTimer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;

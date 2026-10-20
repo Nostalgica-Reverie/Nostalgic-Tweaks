@@ -20,7 +20,6 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.FormattedCharSink;
-import net.minecraft.util.Mth;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -249,7 +248,7 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
 
             double override = this.isFocused() ? 1.0D : 0.0D;
             double value = this.getBuilder().highlightIf.getAsBoolean() ? animation.getValue() : override;
-            double alpha = Mth.clamp((float) value, 0.0F, 1.0F);
+            double alpha = Math.clamp((float) value, 0.0F, 1.0F);
 
             // The game adjusts font colors so that they aren't fully transparent - this accounts for that
             if (alpha > (4.0D / 255.0D))
@@ -427,8 +426,8 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
@@ -436,10 +435,10 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
         if (this.getBuilder().backgroundColor != null && this.getBuilder().backgroundIf.getAsBoolean())
             graphics.fill(this.getX(), this.getY(), this.getEndX(), this.getEndY(), this.getBuilder().backgroundColor.get());
 
-        this.renderText(graphics, mouseX, mouseY, partialTick, false);
+        this.renderText(graphics, false);
 
         if (this.getBuilder().highlighter != null)
-            this.renderText(graphics, mouseX, mouseY, partialTick, true);
+            this.renderText(graphics, true);
         this.renderDebug(graphics);
     }
 
@@ -447,12 +446,9 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
      * Handler method that prevents background rendering of a text widget.
      *
      * @param graphics        A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX          The x-position of the mouse.
-     * @param mouseY          The y-position of the mouse.
-     * @param partialTick     The normalized progress between two ticks [0.0F, 1.0F].
      * @param isHighlightPass Whether this is a highlighter render pass.
      */
-    private void renderText(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, boolean isHighlightPass) {
+    private void renderText(GuiGraphicsExtractor graphics, boolean isHighlightPass) {
         if (this.isUnderlined())
             this.addFormatting(ChatFormatting.UNDERLINE);
 
@@ -478,7 +474,7 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
                 int firstLineX = (int) this.getCenteredLine(this.text.getLines().getFirst(), 0);
 
                 this.iconManager.pos(firstLineX - Math.round(this.getIconWidth() / this.getSquareScale()), 0);
-                this.iconManager.extractRenderState(graphics, mouseX, mouseY, partialTick);
+                this.iconManager.extractRenderState(graphics);
             }
 
             graphics.pose().popMatrix();
@@ -488,7 +484,7 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
             graphics.pose().scale(this.getSquareScale(), this.getSquareScale());
 
             this.iconManager.pos(0, 0);
-            this.iconManager.extractRenderState(graphics, mouseX, mouseY, partialTick);
+            this.iconManager.extractRenderState(graphics);
 
             graphics.pose().popMatrix();
             graphics.pose().pushMatrix();

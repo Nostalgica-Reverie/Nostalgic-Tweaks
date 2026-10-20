@@ -16,7 +16,6 @@ import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.ClassUtil;
 import mod.adrenix.nostalgic.event.EventResult;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.*;
@@ -35,7 +34,7 @@ public abstract class GuiEventCallbacks {
         if (screen == null)
             return EventResult.pass();
 
-        Screen parentScreen = Minecraft.getInstance().screen;
+        Screen parentScreen = Minecraft.getInstance().gui.screen();
 
         if (screen.getClass() == TitleScreen.class) {
             if (true/*CandyTweak.OVERRIDE_TITLE_SCREEN.get()*/) //TODO
@@ -118,12 +117,9 @@ public abstract class GuiEventCallbacks {
      *
      * @param screen       The current {@link Screen}.
      * @param graphics     The {@link GuiGraphicsExtractor} instance.
-     * @param mouseX       The x-coordinate of the mouse.
-     * @param mouseY       The y-coordinate of the mouse.
-     * @param tickProgress The delta time for the current frame.
      */
-    public static void setMousePosition(Screen screen, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float tickProgress) {
-        MouseManager.setPosition(mouseX, mouseY);
+    public static void setMousePosition(Screen screen, GuiGraphicsExtractor graphics) {
+        MouseManager.setPosition(graphics.mouseX(), graphics.mouseY());
     }
 
     /**
@@ -131,11 +127,8 @@ public abstract class GuiEventCallbacks {
      *
      * @param screen       The current {@link Screen}.
      * @param graphics     The {@link GuiGraphicsExtractor} instance.
-     * @param mouseX       The x-coordinate of the mouse.
-     * @param mouseY       The y-coordinate of the mouse.
-     * @param tickProgress The delta time for the current frame.
      */
-    public static void renderModGraphics(Screen screen, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float tickProgress) {
+    public static void renderModGraphics(Screen screen, GuiGraphicsExtractor graphics) {
         Tooltip.render(screen, graphics);
 
         if (screen instanceof DynamicScreen<?> || screen instanceof Overlay)

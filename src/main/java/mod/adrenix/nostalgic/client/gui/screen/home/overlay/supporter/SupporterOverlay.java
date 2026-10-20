@@ -10,14 +10,12 @@ import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.LinkLocation;
 import mod.adrenix.nostalgic.util.common.ThreadMaker;
 import mod.adrenix.nostalgic.util.common.asset.Icons;
-import mod.adrenix.nostalgic.util.common.asset.ModAsset;
 import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStreamReader;

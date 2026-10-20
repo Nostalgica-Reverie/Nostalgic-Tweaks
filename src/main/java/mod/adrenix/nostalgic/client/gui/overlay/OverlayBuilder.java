@@ -12,7 +12,6 @@ import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
@@ -375,8 +374,8 @@ public class OverlayBuilder {
     public OverlayBuilder resizeUsingPercentage(DoubleSupplier percentage, int maximum) {
         this.resizeUsingPercentage = true;
 
-        this.resizeWidthPercentage = () -> Mth.clamp(percentage.getAsDouble(), 0.1D, 1.0D);
-        this.resizeHeightPercentage = () -> Mth.clamp(percentage.getAsDouble(), 0.1D, 1.0D);
+        this.resizeWidthPercentage = () -> Math.clamp(percentage.getAsDouble(), 0.1D, 1.0D);
+        this.resizeHeightPercentage = () -> Math.clamp(percentage.getAsDouble(), 0.1D, 1.0D);
 
         this.resizeWidthMaximum = maximum;
         this.resizeHeightMaximum = maximum;
@@ -430,7 +429,7 @@ public class OverlayBuilder {
     @PublicAPI
     public OverlayBuilder resizeWidthUsingPercentage(DoubleSupplier percentage, int maximum) {
         this.resizeUsingPercentage = true;
-        this.resizeWidthPercentage = () -> Mth.clamp(percentage.getAsDouble(), 0.0D, 1.0D);
+        this.resizeWidthPercentage = () -> Math.clamp(percentage.getAsDouble(), 0.0D, 1.0D);
         this.resizeWidthMaximum = maximum;
 
         return this;
@@ -470,7 +469,7 @@ public class OverlayBuilder {
     @PublicAPI
     public OverlayBuilder resizeHeightUsingPercentage(DoubleSupplier percentage, int maximum) {
         this.resizeUsingPercentage = true;
-        this.resizeHeightPercentage = () -> Mth.clamp(percentage.getAsDouble(), 0.0D, 1.0D);
+        this.resizeHeightPercentage = () -> Math.clamp(percentage.getAsDouble(), 0.0D, 1.0D);
         this.resizeHeightMaximum = maximum;
 
         return this;

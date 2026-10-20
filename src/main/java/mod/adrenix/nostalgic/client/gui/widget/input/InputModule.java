@@ -116,7 +116,7 @@ public class InputModule<Builder extends AbstractInputMaker<Builder, Input>, Inp
         return this.trash;
     }
 
-    private void renderOutline(Overlay overlay, GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderOutline(Overlay overlay, GuiGraphicsExtractor graphics) {
         Color color = this.widget.getBorderColor();
         int x0 = overlay.getX();
         int y0 = overlay.getY();

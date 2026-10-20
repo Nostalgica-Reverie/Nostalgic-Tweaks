@@ -214,7 +214,7 @@ public class NostalgicSelectWorldScreen extends SelectWorldScreen implements Dyn
     @Override
     public void onClose() {
         if (this.minecraft != null)
-            this.minecraft.setScreen(this.parentScreen);
+            this.minecraft.gui.setScreen(this.parentScreen);
     }
 
     /**
@@ -232,7 +232,7 @@ public class NostalgicSelectWorldScreen extends SelectWorldScreen implements Dyn
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         WorldSelectionListAccess worldListAccess = (WorldSelectionListAccess) this.selectionList;
         List<LevelSummary> worldList = worldListAccess.nt$pollLevelsIgnoreErrors();
 
@@ -259,7 +259,7 @@ public class NostalgicSelectWorldScreen extends SelectWorldScreen implements Dyn
             if (this.getLayout() == Generic.ALPHA && maxAlphaListIndex > 1)
                 title = title + " (" + page + ")";
 
-            DynamicWidget.render(this.widgets, graphics, mouseX, mouseY, partialTick);
+            DynamicWidget.render(this.widgets, graphics);
             DrawText.begin(graphics, title).pos(this.width / 2, y).center().draw();
         }
     }

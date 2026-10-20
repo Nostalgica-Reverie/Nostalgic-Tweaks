@@ -374,7 +374,7 @@ public abstract class MathUtil {
      */
     @PublicAPI
     public static float moveClampTowards(float current, float target, float delta, float min, float max) {
-        return Mth.clamp(moveTowards(current, target, delta), min, max);
+        return Math.clamp(moveTowards(current, target, delta), min, max);
     }
 
     /**
@@ -382,7 +382,7 @@ public abstract class MathUtil {
      */
     @PublicAPI
     public static double moveClampTowards(double current, double target, double delta, double min, double max) {
-        return Mth.clamp(moveTowards(current, target, delta), min, max);
+        return Math.clamp(moveTowards(current, target, delta), min, max);
     }
 
     /**

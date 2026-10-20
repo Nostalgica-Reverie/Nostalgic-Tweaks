@@ -63,7 +63,7 @@ public abstract class WarningBanner {
         BlankWidget background = BlankWidget.create()
                 .extendWidthToScreenEnd(0)
                 .extendHeightTo(separator, 0)
-                .renderer((widget, graphics, mouseX, mouseY, partialTick) -> {
+                .renderer((widget, graphics) -> {
                     if (!ACTIVE.get())
                         return;
 

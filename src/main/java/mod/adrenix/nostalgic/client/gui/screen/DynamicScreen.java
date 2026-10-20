@@ -131,7 +131,7 @@ public interface DynamicScreen<T extends Screen> extends WidgetHolder, ParentHol
 
                 this.self().setFocused(widget);
 
-                if (event.button() == 0)
+                if (event.button() == InputConstants.MOUSE_BUTTON_LEFT)
                     this.self().setDragging(true);
 
                 isWidgetClicked = true;

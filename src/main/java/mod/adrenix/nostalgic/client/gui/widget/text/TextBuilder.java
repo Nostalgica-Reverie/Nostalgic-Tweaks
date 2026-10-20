@@ -10,6 +10,7 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.function.BooleanSupplier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -265,8 +266,8 @@ public class TextBuilder extends DynamicBuilder<TextBuilder, TextWidget>
      * @param formatting A vanilla chat color formatting enumeration.
      */
     @PublicAPI
-    public TextBuilder color(ChatFormatting formatting) {
-        return this.color(Optional.ofNullable(formatting.getColor()).orElse(Color.WHITE.get()));
+    public TextBuilder color(TextColor formatting) {
+        return this.color(Optional.of(formatting.getValue()).orElse(Color.WHITE.get()));
     }
 
     /**
@@ -298,8 +299,8 @@ public class TextBuilder extends DynamicBuilder<TextBuilder, TextWidget>
      * @param formatting A vanilla chat color formatting enumeration.
      */
     @PublicAPI
-    public TextBuilder background(ChatFormatting formatting) {
-        return this.color(Optional.ofNullable(formatting.getColor()).orElse(Color.WHITE.get()));
+    public TextBuilder background(TextColor formatting) {
+        return this.color(Optional.of(formatting.getValue()).orElse(Color.WHITE.get()));
     }
 
     /**

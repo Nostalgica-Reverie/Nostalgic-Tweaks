@@ -15,8 +15,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -116,7 +117,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      */
     protected void setNormalizedValue(double value) {
         double last = this.value;
-        this.value = Mth.clamp(value, 0.0D, 1.0D);
+        this.value = Math.clamp(value, 0.0D, 1.0D);
 
         if (this.value != last) {
             this.applyValue();
@@ -211,12 +212,13 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        boolean isValidButton = event.button() == 0 || event.button() == 2;
+        boolean isValidButton = event.button() == InputConstants.MOUSE_BUTTON_LEFT ||
+                event.button() == InputConstants.MOUSE_BUTTON_RIGHT;
 
         if (this.isValidPoint(event.x(), event.y()) && isValidButton) {
             this.setFocused();
 
-            if (event.button() == 2)
+            if (event.button() == InputConstants.MOUSE_BUTTON_RIGHT)
                 return true;
         }
 
@@ -409,19 +411,19 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
+        super.extractRenderState(graphics);
 
         if (this.isInvisible())
             return;
 
         if (this.builder.backgroundRenderer != null)
-            this.builder.backgroundRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.backgroundRenderer.accept(this.self(), graphics);
         else
             WidgetBackground.SLIDER.render(this, graphics);
 
         if (this.builder.handleRenderer != null)
-            this.builder.handleRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.handleRenderer.accept(this.self(), graphics);
         else {
             float colorBase = this.getHandleShaderColor();
             int color = ARGB.colorFromFloat(1.0F, colorBase, colorBase, colorBase);
@@ -430,7 +432,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
         }
 
         if (this.builder.effectsRenderer != null)
-            this.builder.effectsRenderer.accept(this.self(), graphics, mouseX, mouseY, partialTick);
+            this.builder.effectsRenderer.accept(this.self(), graphics);
 
         this.renderText(graphics);
     }

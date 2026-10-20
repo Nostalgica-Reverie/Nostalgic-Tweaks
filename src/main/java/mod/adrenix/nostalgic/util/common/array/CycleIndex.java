@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.common.array;
 
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 
 public class CycleIndex {
     /* Fields */
@@ -27,7 +26,7 @@ public class CycleIndex {
     public CycleIndex(int minIndex, int maxIndex, int startIndex, boolean resetAtEnd) {
         this.minIndex = minIndex;
         this.maxIndex = maxIndex;
-        this.startIndex = Mth.clamp(startIndex, minIndex, maxIndex);
+        this.startIndex = Math.clamp(startIndex, minIndex, maxIndex);
         this.currentIndex = this.startIndex;
         this.lastIndex = this.currentIndex;
         this.resetAtEnd = resetAtEnd;
@@ -167,7 +166,7 @@ public class CycleIndex {
      */
     @PublicAPI
     public void setStartIndex(int index) {
-        this.startIndex = Mth.clamp(index, this.minIndex, this.maxIndex);
+        this.startIndex = Math.clamp(index, this.minIndex, this.maxIndex);
     }
 
     /**

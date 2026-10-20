@@ -33,7 +33,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -189,7 +189,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
                 .rightOf(iconWidget, 3)
                 .extendWidthTo(this.isInformative() ? infoWidget : closeWidget, 3)
                 .height(GuiUtil.textHeight() + 2)
-                .posY(() -> this.getY())
+                .posY(this::getY)
                 .build(List.of(this.widgets.all::add, this.widgets.internal::add));
 
         TextWidget.create(this.builder.title)
@@ -890,12 +890,8 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
     @Override
     public void resize(int width, int height) {
         if (this.parentScreen != null) {
-            Minecraft.getInstance().screen = this.parentScreen;
-
             this.parentScreen.resize(width, height);
         }
-
-        Minecraft.getInstance().screen = this;
 
         super.resize(width, height);
 
@@ -1281,45 +1277,39 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      * Handler method for rendering this overlay.
      *
      * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         // Update position
         this.setPositionFromSuppliers();
 
         // Render parents
         if (this.parentScreen != null) {
-            Minecraft.getInstance().screen = this.parentScreen;
-            MouseManager.setPosition(-1, -1);
-
-            this.parentScreen.extractRenderState(graphics, -1, -1, partialTick);
-
-            MouseManager.setPosition(mouseX, mouseY);
-            Minecraft.getInstance().screen = this;
+            this.parentScreen.extractBackground(graphics);
+            graphics.nextStratum();
+            this.parentScreen.extractRenderState(graphics);
+            graphics.nextStratum();
         }
 
         // Update gui offset
         graphics.pose().pushMatrix();
 
         // Render background
-        this.extractBackground(graphics, mouseX, mouseY, partialTick);
+        this.extractBackground(graphics);
 
         // Render first pass
         if (this.builder.firstRenderer != null)
-            this.builder.firstRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.builder.firstRenderer.accept(this, graphics);
 
         // Render border
         this.renderBorder(graphics);
 
         // Render widgets
-        this.renderWidgets(graphics, mouseX, mouseY, partialTick);
+        this.renderWidgets(graphics);
 
         // Render last pass
         if (this.builder.lastRenderer != null)
-            this.builder.lastRenderer.accept(this, graphics, mouseX, mouseY, partialTick);
+            this.builder.lastRenderer.accept(this, graphics);
 
         // Pop offset
         graphics.pose().popMatrix();
@@ -1328,13 +1318,10 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
     /**
      * Handler method for extracting this overlay's background.
      *
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
     @Override
-    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractBackground(GuiGraphicsExtractor graphics) {
         int winWidth = GuiUtil.getGuiWidth();
         int winHeight = GuiUtil.getGuiHeight();
 
@@ -1389,12 +1376,9 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
     /**
      * Handler method for rendering the overlay's subscribed widgets.
      *
-     * @param graphics    A {@link GuiGraphicsExtractor} instance.
-     * @param mouseX      The x-coordinate of the mouse cursor.
-     * @param mouseY      The y-coordinate of the mouse cursor.
-     * @param partialTick The normalized progress between two ticks [0.0F, 1.0F].
+     * @param graphics A {@link GuiGraphicsExtractor} instance.
      */
-    private void renderWidgets(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    private void renderWidgets(GuiGraphicsExtractor graphics) {
         if (this.verticalScrollbar.isInvisible() && this.verticalScrollbar.getScrollAmount() > 0.0D)
             this.verticalScrollbar.setScrollAmount(0.0D);
 
@@ -1416,11 +1400,11 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
                 this.scissor.startX().applyAsInt(this), this.scissor.startY().applyAsInt(this),
                 this.scissor.endX().applyAsInt(this), this.scissor.endY().applyAsInt(this)
         );
-        DynamicWidget.renderWithoutSync(this.widgets.scissored, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.widgets.scissored, graphics);
         graphics.disableScissor();
 
-        DynamicWidget.renderWithoutSync(this.widgets.projected, graphics, mouseX, mouseY, partialTick);
-        DynamicWidget.render(this.widgets.internal, graphics, mouseX, mouseY, partialTick);
+        DynamicWidget.renderWithoutSync(this.widgets.projected, graphics);
+        DynamicWidget.render(this.widgets.internal, graphics);
 
         DynamicWidget.applyCache(this.widgets.external);
         DynamicWidget.applyCache(this.widgets.relatives);
@@ -1663,11 +1647,11 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     @PublicAPI
     public Overlay open() {
-        if (Minecraft.getInstance().screen == this)
+        if (Minecraft.getInstance().gui.screen() == this)
             return this;
 
-        this.parentScreen = Minecraft.getInstance().screen;
-        Minecraft.getInstance().setScreen(this);
+        this.parentScreen = Minecraft.getInstance().gui.screen();
+        Minecraft.getInstance().gui.setScreen(this);
 
         this.updateSize();
 
@@ -1684,7 +1668,8 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
         if (this.builder.onClose != null)
             this.builder.onClose.run();
 
-        Minecraft.getInstance().screen = this.parentScreen;
+        //TODO: is this correct? FriendsOverlayScreen seems to do this, and it works fine
+        Minecraft.getInstance().gui.setScreen(this.parentScreen);
     }
 
     /**
@@ -1692,7 +1677,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
      */
     @PublicAPI
     public void openOrClose() {
-        if (Minecraft.getInstance().screen == this)
+        if (Minecraft.getInstance().gui.screen() == this)
             this.close();
         else
             this.open();

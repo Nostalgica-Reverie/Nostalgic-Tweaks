@@ -36,7 +36,7 @@ public class NostalgicLoadingScreen extends LevelLoadingScreen {
      * {@inheritDoc}
      */
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics) {
         ProgressBarExtractor.drawHeaderText(graphics, this.header, this.width);
         ProgressBarExtractor.drawStageText(graphics, this.stage, this.width);
         ProgressBarExtractor.extractProgressWithChunks(graphics, ((LevelLoadingScreenAccess)this).getLoadTracker());

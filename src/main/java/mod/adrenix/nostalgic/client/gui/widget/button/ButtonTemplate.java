@@ -1,5 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.widget.button;
 
+import com.mojang.blaze3d.Blaze3D;
 import mod.adrenix.nostalgic.client.gui.overlay.types.color.ColorPicker;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
@@ -35,7 +36,7 @@ public abstract class ButtonTemplate {
                 .icon(Icons.COLOR_PICKER)
                 .tooltip(Lang.Colorize.OPEN, 30, 500L, TimeUnit.MILLISECONDS)
                 .onPress(() -> ColorPicker.create(color.get(), onClose).opaque(isOpaque).open())
-                .postRenderer((button, graphics, mouseX, mouseY, partialTick) -> {
+                .postRenderer((button, graphics) -> {
                     int iconX = button.getIconManager().get().getX();
                     int iconY = button.getIconManager().get().getY();
                     Color fill = color.get();
@@ -161,6 +162,6 @@ public abstract class ButtonTemplate {
     public static ButtonBuilder openFolder(Path path) {
         return ButtonWidget.create(Lang.Button.OPEN_FOLDER)
                 .icon(Icons.FOLDER)
-                .onPress(() -> Util.getPlatform().openFile(path.toFile()));
+                .onPress(() -> Blaze3D.openPath(path));
     }
 }

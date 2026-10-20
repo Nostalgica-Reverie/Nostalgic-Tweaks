@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.common.color;
 
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
-import net.minecraft.util.Mth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -95,10 +94,10 @@ public abstract class HexUtil {
      */
     @PublicAPI
     public static int parseInt(float[] rgba) {
-        int r = (int) (Mth.clamp(rgba[0], 0.0F, 1.0F) * 255.0F);
-        int g = (int) (Mth.clamp(rgba[1], 0.0F, 1.0F) * 255.0F);
-        int b = (int) (Mth.clamp(rgba[2], 0.0F, 1.0F) * 255.0F);
-        int a = (int) (Mth.clamp(rgba[3], 0.0F, 1.0F) * 255.0F);
+        int r = (int) (Math.clamp(rgba[0], 0.0F, 1.0F) * 255.0F);
+        int g = (int) (Math.clamp(rgba[1], 0.0F, 1.0F) * 255.0F);
+        int b = (int) (Math.clamp(rgba[2], 0.0F, 1.0F) * 255.0F);
+        int a = (int) (Math.clamp(rgba[3], 0.0F, 1.0F) * 255.0F);
 
         return a << 24 | r << 16 | g << 8 | b;
     }
