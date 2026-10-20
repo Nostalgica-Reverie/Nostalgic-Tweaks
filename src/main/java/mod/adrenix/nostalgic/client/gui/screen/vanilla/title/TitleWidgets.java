@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.client.gui.screen.vanilla.title;
 
 import mod.adrenix.nostalgic.client.gui.screen.WidgetManager;
-import mod.adrenix.nostalgic.client.gui.screen.home.HomeScreen;
 import mod.adrenix.nostalgic.client.gui.widget.blank.BlankWidget;
 import mod.adrenix.nostalgic.client.gui.widget.button.ButtonWidget;
 //import mod.adrenix.nostalgic.tweak.config.CandyTweak;
@@ -137,7 +136,7 @@ class TitleWidgets implements WidgetManager {
      */
     private void gotoResourcePacks() {
         if (this.minecraft != null)
-            this.minecraft.gui.setScreen(new HomeScreen(null, false));
+            this.minecraft.gui.setScreen(new PackSelectionScreen(this.minecraft.getResourcePackRepository(), this::updatePackList, this.minecraft.getResourcePackDirectory(), Lang.Vanilla.RESOURCE_PACK_TITLE.get()));
     }
 
     /**
