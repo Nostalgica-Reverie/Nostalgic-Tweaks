@@ -20,7 +20,6 @@ import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.sdl.SDLKeyboard;
 import org.lwjgl.sdl.SDLKeycode;
-import org.lwjgl.sdl.SDLScancode;
 
 import java.util.List;
 import java.util.Optional;

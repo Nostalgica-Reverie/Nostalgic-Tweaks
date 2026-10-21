@@ -16,7 +16,6 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.Util;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

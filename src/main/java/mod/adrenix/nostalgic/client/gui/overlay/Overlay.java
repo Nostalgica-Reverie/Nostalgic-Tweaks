@@ -1285,10 +1285,14 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
 
         // Render parents
         if (this.parentScreen != null) {
+            MouseManager.setPosition(-1, -1);
+
             this.parentScreen.extractBackground(graphics);
             graphics.nextStratum();
-            this.parentScreen.extractRenderState(graphics);
+            graphics.extractWithoutMouse(() -> this.parentScreen.extractRenderState(graphics));
             graphics.nextStratum();
+
+            MouseManager.setPosition(graphics.mouseX(), graphics.mouseY());
         }
 
         // Update gui offset
@@ -1651,6 +1655,10 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
             return this;
 
         this.parentScreen = Minecraft.getInstance().gui.screen();
+        if (this.parentScreen != null) {
+            this.parentScreen.clearFocus();
+        }
+
         Minecraft.getInstance().gui.setScreen(this);
 
         this.updateSize();

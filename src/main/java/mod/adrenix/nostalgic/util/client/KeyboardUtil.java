@@ -1,7 +1,6 @@
 package mod.adrenix.nostalgic.util.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.lang.Translation;
 import net.minecraft.client.KeyMapping;

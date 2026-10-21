@@ -9,7 +9,6 @@ import mod.adrenix.nostalgic.mixin.access.TitleScreenAccess;
 import mod.adrenix.nostalgic.tweak.enums.TitleLayout;
 import mod.adrenix.nostalgic.util.client.GameUtil;
 import mod.adrenix.nostalgic.util.client.gui.GuiUtil;
-import mod.adrenix.nostalgic.util.client.timer.PartialTick;
 import mod.adrenix.nostalgic.util.common.array.UniqueArrayList;
 import mod.adrenix.nostalgic.util.common.data.FlagHolder;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
