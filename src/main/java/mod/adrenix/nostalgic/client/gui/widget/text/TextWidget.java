@@ -139,7 +139,8 @@ public class TextWidget extends DynamicWidget<TextBuilder, TextWidget> {
         FormattedText format = cleaned.copy().withStyle(this.formatting.toArray(ChatFormatting[]::new));
 
         if (this.getBuilder().useTextWidth) {
-            int maxLineWidth = format.getString().lines().mapToInt(this::getTextWidth).max().orElse(0);
+            int maxLineWidth = format.getString(Component.STRING_SIZE_LIMIT)
+                    .lines().mapToInt(this::getTextWidth).max().orElse(0);
             int maxIconWidth = this.getIconWidth();
             int maxWidth = maxLineWidth + maxIconWidth;
 

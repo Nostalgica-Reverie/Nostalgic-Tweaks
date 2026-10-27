@@ -36,9 +36,9 @@ import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import mod.adrenix.nostalgic.util.common.world.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -1506,7 +1506,7 @@ public class EditorWidgets implements WidgetManager {
                 if (data.hasSound() && notes.isPresent()) {
                     graphics.pose().pushMatrix();
                     graphics.pose().scale(0.5F, 0.5F);
-                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, notes.get(), active.getX(), active.getY(), Icons.MUSIC_SINGLE.getWidth(), Icons.MUSIC_SINGLE.getHeight());
+                    graphics.blitSprite(GuiPipeline.TEXTURED, notes.get(), active.getX(), active.getY(), Icons.MUSIC_SINGLE.getWidth(), Icons.MUSIC_SINGLE.getHeight());
                     graphics.pose().popMatrix();
                 }
             }

@@ -4,8 +4,8 @@ import mod.adrenix.nostalgic.client.gui.widget.dynamic.DynamicWidget;
 import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.asset.GameSprite;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 /**
@@ -72,7 +72,7 @@ public record WidgetBackground(Identifier background, Identifier highlighted, Id
      */
     @PublicAPI
     public void extractRenderState(GuiGraphicsExtractor graphics, Identifier sprite, int x, int y, int width, int height) {
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height);
+        graphics.blitSprite(GuiPipeline.TEXTURED, sprite, x, y, width, height);
     }
 
     /**

@@ -28,12 +28,12 @@ import mod.adrenix.nostalgic.util.common.math.DynamicRectangle;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -1364,7 +1364,7 @@ public class Overlay extends Screen implements RelativeLayout, WidgetHolder, Par
         if (this.borderless())
             return;
 
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ModSprite.OVERLAY, this.x, this.y, this.width, this.height);
+        graphics.blitSprite(GuiPipeline.TEXTURED, ModSprite.OVERLAY, this.x, this.y, this.width, this.height);
     }
 
     /**

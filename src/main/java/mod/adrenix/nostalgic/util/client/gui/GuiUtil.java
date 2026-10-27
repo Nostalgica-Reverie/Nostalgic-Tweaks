@@ -11,9 +11,9 @@ import mod.adrenix.nostalgic.util.common.text.TextUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.InputQuirks;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -146,7 +146,7 @@ public abstract class GuiUtil {
         int height = getScreenHeight();
 
         graphics.blit(
-                RenderPipelines.GUI_TEXTURED,
+                GuiPipeline.TEXTURED,
                 TextureLocation.DIRT_BACKGROUND,
                 0, 0,
                 0.0F, 0.0F,

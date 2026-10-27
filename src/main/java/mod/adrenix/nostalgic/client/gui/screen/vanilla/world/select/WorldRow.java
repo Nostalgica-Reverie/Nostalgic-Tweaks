@@ -11,9 +11,9 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.data.NullableHolder;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -161,7 +161,7 @@ class WorldRow extends AbstractRow<WorldRowMaker, WorldRow> {
      */
     private void renderIcon(BlankWidget widget, GuiGraphicsExtractor graphics) {
         if (true/*CandyTweak.ADD_WORLD_THUMBNAIL.get()*/) //TODO
-            graphics.blit(RenderPipelines.GUI_TEXTURED, this.favicon.textureLocation(), widget.getX(), widget.getY(), 0.0F, 0.0F, 32, 32, 32, 32);
+            graphics.blit(GuiPipeline.TEXTURED, this.favicon.textureLocation(), widget.getX(), widget.getY(), 0.0F, 0.0F, 32, 32, 32, 32);
     }
 
     /**

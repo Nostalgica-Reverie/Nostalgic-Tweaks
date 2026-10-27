@@ -13,9 +13,9 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.timer.SimpleTimer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
@@ -427,7 +427,7 @@ public abstract class AbstractSlider<Builder extends AbstractSliderMaker<Builder
             float colorBase = this.getHandleShaderColor();
             int color = ARGB.colorFromFloat(1.0F, colorBase, colorBase, colorBase);
 
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getHandleSprite(), this.getHandleX(), this.y, 8, 20, color);
+            graphics.blitSprite(GuiPipeline.TEXTURED, this.getHandleSprite(), this.getHandleX(), this.y, 8, 20, color);
         }
 
         if (this.builder.effectsRenderer != null)

@@ -20,6 +20,7 @@ import mod.adrenix.nostalgic.util.common.math.Rectangle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
@@ -27,7 +28,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
@@ -928,7 +928,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
                 if (!this.getBuilder().renderBackgroundOpacity)
                     color = ARGB.colorFromFloat(1.0F, 0.125F, 0.125F, 0.125F);
 
-                graphics.blit(RenderPipelines.GUI_TEXTURED, TextureLocation.DIRT_BACKGROUND, x0, y0, 32, 32, x1, y1 + scrollAmount, width, height, color);
+                graphics.blit(GuiPipeline.TEXTURED, TextureLocation.DIRT_BACKGROUND, x0, y0, 32, 32, x1, y1 + scrollAmount, width, height, color);
             }
 
             if (this.getBuilder().renderBackgroundOpacity) {
@@ -943,7 +943,7 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
             if (this.getBuilder().useMenuBackground) {
                 Identifier background = isLevelAbsent ? TextureLocation.MENU_LIST_BACKGROUND : TextureLocation.LEVEL_MENU_LIST_BACKGROUND;
 
-                graphics.blit(RenderPipelines.GUI_TEXTURED, background, x0, y0, x1, y1 + scrollAmount, width, height, 32, 32);
+                graphics.blit(GuiPipeline.TEXTURED, background, x0, y0, x1, y1 + scrollAmount, width, height, 32, 32);
                 Screen.extractListSeparators(graphics, x0, y0, y1, width, 2, isLevelAbsent);
             }
         }
@@ -968,8 +968,8 @@ public class RowList extends DynamicWidget<RowListBuilder, RowList> implements C
             int screenHeight = GuiUtil.getScreenHeight();
 
             int color = ARGB.colorFromFloat(1.0F, shadow, shadow, shadow);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TextureLocation.DIRT_BACKGROUND, 0, 0, 0.0F, 0.0F, screenWidth, y0, 32, 32, color);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TextureLocation.DIRT_BACKGROUND, 0, y1, 0.0F, 0.0F, screenWidth, screenHeight - y1, 32, 32, color);
+            graphics.blit(GuiPipeline.TEXTURED, TextureLocation.DIRT_BACKGROUND, 0, 0, 0.0F, 0.0F, screenWidth, y0, 32, 32, color);
+            graphics.blit(GuiPipeline.TEXTURED, TextureLocation.DIRT_BACKGROUND, 0, y1, 0.0F, 0.0F, screenWidth, screenHeight - y1, 32, 32, color);
         }
 
         if (this.getBuilder().renderTopAndBottomShadow || this.getBuilder().renderTopAndBottomDirt) {

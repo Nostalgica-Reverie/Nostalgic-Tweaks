@@ -1,7 +1,7 @@
 package mod.adrenix.nostalgic.util.client.renderer.state;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2fc;
 
 public record HorizontalColoredRectangleRenderState(
-        RenderPipeline pipeline,
+        GuiPipeline pipeline,
         TextureSetup textureSetup,
         Matrix3x2fc pose,
         int x0, int y0,
@@ -19,7 +19,7 @@ public record HorizontalColoredRectangleRenderState(
         @Nullable ScreenRectangle bounds
 ) implements GuiElementRenderState {
     public HorizontalColoredRectangleRenderState(
-            RenderPipeline pipeline,
+            GuiPipeline pipeline,
             TextureSetup textureSetup,
             Matrix3x2fc pose,
             int x0, int y0,

@@ -3,7 +3,7 @@ package mod.adrenix.nostalgic.client.gui;
 import mod.adrenix.nostalgic.util.common.LocateResource;
 import mod.adrenix.nostalgic.util.common.timer.SimpleTimer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class GearSpinner {
         graphics.pose().pushMatrix();
         graphics.pose().translate(x, y);
         graphics.pose().scale(scale, scale);
-        graphics.blit(RenderPipelines.GUI_TEXTURED, GEAR_IMAGES.get(this.frame), 0, 0, 0, 0, 512, 512, 512, 512);
+        graphics.blit(GuiPipeline.TEXTURED, GEAR_IMAGES.get(this.frame), 0, 0, 0, 0, 512, 512, 512, 512);
         graphics.pose().popMatrix();
 
         if (this.timer.hasElapsed())

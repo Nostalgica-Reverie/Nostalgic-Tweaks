@@ -1,12 +1,11 @@
 package mod.adrenix.nostalgic.mixin.duck.impl;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import mod.adrenix.nostalgic.mixin.duck.RenderUtil;
 import mod.adrenix.nostalgic.util.client.renderer.state.HorizontalColoredRectangleRenderState;
 import mod.adrenix.nostalgic.util.common.color.Gradient;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
@@ -52,13 +51,13 @@ public abstract class GuiGraphicsExtractorImpl implements RenderUtil {
 
     @Override
     public void nt$fillHorizontalGradient(int x0, int y0, int x1, int y1, int colorFrom, int colorTo) {
-        this.nt$innerFillHorizontal(RenderPipelines.GUI, TextureSetup.noTexture(), x0, y0, x1, y1, colorFrom, colorTo);
+        this.nt$innerFillHorizontal(GuiPipeline.DEFAULT, TextureSetup.noTexture(), x0, y0, x1, y1, colorFrom, colorTo);
     }
 
     @SuppressWarnings("SameParameterValue")
     @Unique
     private void nt$innerFillHorizontal(
-        RenderPipeline renderPipeline,
+        GuiPipeline renderPipeline,
         TextureSetup textureSetup,
         int x0, int y0,
         int x1, int y1,

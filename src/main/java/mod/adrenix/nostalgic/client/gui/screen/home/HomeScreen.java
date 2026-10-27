@@ -11,9 +11,9 @@ import mod.adrenix.nostalgic.util.common.color.Color;
 import mod.adrenix.nostalgic.util.common.lang.Lang;
 import mod.adrenix.nostalgic.util.common.math.MathUtil;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
@@ -189,7 +189,7 @@ public class HomeScreen extends EnhancedScreen<HomeScreen, HomeWidgets> {
         graphics.pose().pushMatrix();
         graphics.pose().translate(titleX, titleY);
         graphics.pose().scale(titleScale, titleScale);
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TITLE_LOCATION.location(), 0, 0, 0.0F, 0.0F, width, height, width, height);
+        graphics.blit(GuiPipeline.TEXTURED, TITLE_LOCATION.location(), 0, 0, 0.0F, 0.0F, width, height, width, height);
         graphics.pose().popMatrix();
 
         graphics.pose().pushMatrix();

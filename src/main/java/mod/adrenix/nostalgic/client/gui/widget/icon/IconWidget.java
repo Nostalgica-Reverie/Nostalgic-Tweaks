@@ -9,9 +9,9 @@ import mod.adrenix.nostalgic.util.common.annotation.PublicAPI;
 import mod.adrenix.nostalgic.util.common.asset.TextureIcon;
 import mod.adrenix.nostalgic.util.common.asset.TextureLocation;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
@@ -282,7 +282,7 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             graphics.pose().pushMatrix();
             graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
+            graphics.blit(GuiPipeline.TEXTURED, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
 
             //TODO: maybe deduplicate this, and clean it up, also unsure about values >2
             if (brightness > 1.0F) {
@@ -290,7 +290,7 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
                 float fraction = brightness - base;
 
                 color = ARGB.colorFromFloat(1.0F, fraction, fraction, fraction);
-                graphics.blit(RenderPipelines.GUI_NAUSEA_OVERLAY, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
+                graphics.blit(GuiPipeline.NAUSEA_OVERLAY, location.location(), 0, 0, 0.0F, 0.0F, location.width(), location.height(), location.width(), location.height(), color);
             }
 
             graphics.pose().popMatrix();
@@ -307,7 +307,7 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
             graphics.pose().pushMatrix();
             graphics.pose().translate(x, y);
             graphics.pose().scale(scale, scale);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon.getSpriteLocation().get(), 0, 0, width, height, color);
+            graphics.blitSprite(GuiPipeline.TEXTURED, icon.getSpriteLocation().get(), 0, 0, width, height, color);
 
             //TODO: maybe deduplicate this, and clean it up, also unsure about values >2
             if (brightness > 1.0F) {
@@ -315,7 +315,7 @@ public class IconWidget extends DynamicWidget<IconFactory, IconWidget> {
                 float fraction = brightness - base;
 
                 color = ARGB.colorFromFloat(1.0F, fraction, fraction, fraction);
-                graphics.blitSprite(RenderPipelines.GUI_NAUSEA_OVERLAY, icon.getSpriteLocation().get(), 0, 0, width, height, color);
+                graphics.blitSprite(GuiPipeline.NAUSEA_OVERLAY, icon.getSpriteLocation().get(), 0, 0, width, height, color);
             }
 
             graphics.pose().popMatrix();
