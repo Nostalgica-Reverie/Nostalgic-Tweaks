@@ -202,7 +202,8 @@ public abstract class GuiUtil {
     @PublicAPI
     public static int getMouseX() {
         Minecraft minecraft = Minecraft.getInstance();
-        double scaledWidth = minecraft.mouseHandler.xpos() * (double) getGuiWidth();
+        Window window = minecraft.getWindow();
+        double scaledWidth = minecraft.mouseHandler.getScaledXPos(window) * (double) getGuiWidth();
 
         return (int) (scaledWidth / (double) minecraft.getWindow().getScreenWidth());
     }
@@ -213,7 +214,8 @@ public abstract class GuiUtil {
     @PublicAPI
     public static int getMouseY() {
         Minecraft minecraft = Minecraft.getInstance();
-        double scaledHeight = minecraft.mouseHandler.ypos() * (double) getGuiHeight();
+        Window window = minecraft.getWindow();
+        double scaledHeight = minecraft.mouseHandler.getScaledYPos(window) * (double) getGuiHeight();
 
         return (int) (scaledHeight / (double) minecraft.getWindow().getScreenHeight());
     }

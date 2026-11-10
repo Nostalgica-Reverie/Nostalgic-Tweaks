@@ -57,7 +57,7 @@ public record WidgetBackground(Identifier background, Identifier highlighted, Id
      * @return A sprite {@link Identifier} instance.
      */
     public Identifier get(AbstractWidget widget) {
-        return this.get(widget.isActive(), widget.isHoveredOrFocused());
+        return this.get(widget.isActive(), widget.isHovered() || widget.isFocused());
     }
 
     /**
